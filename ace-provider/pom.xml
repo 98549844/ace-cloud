@@ -9,7 +9,7 @@
         <version>1.0</version>
     </parent>
 
-    <artifactId>aceProvider</artifactId>
+    <artifactId>ace-provider</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

@@ -10,8 +10,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>mybatisGenerator</module>
-        <module>aceProvider</module>
+        <module>mybatis-generator</module>
+        <module>ace-provider</module>
     </modules>
 
     <properties>
