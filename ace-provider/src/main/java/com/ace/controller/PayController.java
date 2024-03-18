@@ -94,9 +94,14 @@ public class PayController {
     @Value("${server.port}")
     private String port;
 
+    //从sonsul拿资料
     @GetMapping(value = "/pay/get/info")
-    public String getInfoByConsul(@Value("${atguigu.info}") String atguiguInfo) {
-        return "atguiguInfo: " + atguiguInfo + "\t" + "port: " + port;
+    public ResultData<String> getInfoByConsul(@Value("${ace-cloud.info}") String info) {
+        String result = "ace-cloud.info: " + info + "    port: " + port;
+        System.out.println(result);
+
+        //todo consul 持久化问题未搞掂
+        return ResultData.success(result);
     }
 
 
