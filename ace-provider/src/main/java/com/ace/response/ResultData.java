@@ -1,4 +1,4 @@
-package com.ace.entities;
+package com.ace.response;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -33,7 +33,7 @@ public class ResultData<T>
         return resultData;
     }
 
-    public static <T> ResultData<T> fail(String code,String message)
+    public static <T> ResultData<T> error(String code,String message)
     {
         ResultData resultData = new ResultData();
 

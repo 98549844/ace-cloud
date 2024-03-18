@@ -1,10 +1,11 @@
-package com.ace.entities;
+package com.ace.response;
 
 import lombok.Getter;
 
 import java.util.Arrays;
 
 /**
+ * 举值 构造 历遍
  * @auther zzyy
  * @create 2023-12-22 15:45
  */

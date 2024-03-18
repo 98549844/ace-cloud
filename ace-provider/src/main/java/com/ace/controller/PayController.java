@@ -2,8 +2,8 @@ package com.ace.controller;
 
 import com.ace.entities.Pay;
 import com.ace.entities.PayDto;
-import com.ace.entities.ResultData;
-import com.ace.entities.ReturnCodeEnum;
+import com.ace.response.ResultData;
+import com.ace.response.ReturnCodeEnum;
 import com.ace.service.PayService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -86,7 +86,7 @@ public class PayController {
             int age = 10 / 0;
         } catch (Exception e) {
             e.printStackTrace();
-            return ResultData.fail(ReturnCodeEnum.RC500.getCode(), e.getMessage());
+            return ResultData.error(ReturnCodeEnum.RC500.getCode(), e.getMessage());
         }
         return ResultData.success(integer);
     }
