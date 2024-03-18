@@ -1,0 +1,60 @@
+1. 启动第1个Server节点
+docker run -d --name=consul_header \
+-p 8500:8500 \
+-e CONSUL_BIND_INTERFACE=eth0 \
+consul:1.15.4 \
+agent --server=true \
+--bootstrap-expect=3 \
+--client=0.0.0.0 \
+-ui
+
+
+-e CONSUL_BIND_INTERFACE=eth0
+MacOs interface is en0
+是一个用于设置环境变量的参数，它被传递给 Consul 容器。
+这个参数的作用是告诉 Consul 在哪个网络接口上监听来自其他节点的请求。
+
+-e 代表环境变量
+CONSUL_BIND_INTERFACE
+环境变量用于指定 Consul 绑定的网络接口。
+如果您不指定这个环境变量，Consul 将默认使用 127.0.0.1
+地址，这意味着只能从本地访问 Consul API。
+如果您希望其他节点能够访问 Consul API，
+您需要设置 CONSUL_BIND_INTERFACE 环境变量。
+
+在这个例子中，-e CONSUL_BIND_INTERFACE=eth0
+指定 Consul 在 eth0 网络接口上监听来自其他节点的请求。
+这意味着其他节点可以使用 eth0 网络接口的 IP 地址来访问 Consul API。
+如果您的服务器有多个网络接口，
+您可以根据需要设置 CONSUL_BIND_INTERFACE 环境变量，
+以便 Consul 绑定正确的网络接口。
+
+总之，-e CONSUL_BIND_INTERFACE=eth0
+参数的作用是告诉 Consul 在哪个网络接口上监听来自其他节点的请求。
+它是 Consul 容器的一个重要参数，
+确保 Consul 能够正确地与其他节点通信。
+
+
+2. 启动第2个Server节点，并加入集群
+docker run -d --name=consul2 \
+-e CONSUL_BIND_INTERFACE=eth0 \
+consul:1.15.4 \
+agent --server=true \
+--client=0.0.0.0 \
+--join 172.17.0.2
+
+3. 启动第3个Server节点，并加入集群
+docker run -d --name=consul3 \
+-e CONSUL_BIND_INTERFACE=eth0 \
+consul:1.15.4 \
+agent --server=true \
+--client=0.0.0.0 \
+--join 172.17.0.2
+
+4. 启动第4个Server节点，并加入集群
+docker run -d --name=consul4 \
+-e CONSUL_BIND_INTERFACE=eth0 \
+consul:1.15.4 \
+agent --server=false \
+--client=0.0.0.0 \
+--join 172.17.0.2

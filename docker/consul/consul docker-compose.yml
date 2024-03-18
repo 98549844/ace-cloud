@@ -1,0 +1,38 @@
+version: '3.5'
+
+services:
+  consul:
+    image: consul
+    environment:
+      - "CONSUL_BIND_INTERFACE=eth0"
+      - "CONSUL_CLIENT_INTERFACE=eth0"
+      - "CONSUL_SERVER=true"
+      - "CONSUL_RETRY_JOIN={{range service \"consul\"}}{{.Address}}{{end}}"
+
+
+#1.创建一个 Consul 集群，其中包含至少一个运行中的 Consul 节点。
+
+#2.在您的 Docker Compose 文件中，
+#  使用 Consul 的服务发现功能来查找运行中的节点的 IP 地址。
+#  您可以使用环境变量、DNS 或 HTTP API 来自动获取节点的 IP 地址。
+#  例如，使用环境变量：
+#  CONSUL_RETRY_JOIN 变量
+#  使用 Consul 的服务发现功能来查找运行中的
+#  Consul 节点的 IP 地址。
+#  这些节点的 IP 地址将被用于加入 Consul 集群。
+
+#3.启动 Docker 容器。在容器启动时，它将自动加入到 Consul 集群中，并与其他节点进行通信和同步数据。
+#  通过这种方式，您可以让 Docker 容器自动加入 Consul 集群，而不需要手动配置 IP 地址。
+#  具体来说，{{range service "consul"}}{{.Address}}{{end}} 是一个 Consul 模板，
+#  它将返回所有注册了服务名为 "consul" 的节点的 IP 地址。这个模板的工作原理如下：
+#  {{range service "consul"}}：这个指令表示使用 Consul 的服务发现功能
+#  来查找服务名为 "consul" 的所有服务实例。这个指令会迭代所有符合条件的服务实例，对每个实例执行下面的操作。
+#  {{.Address}}：这个指令表示获取当前服务实例的 IP 地址。
+#  每个服务实例都有一个唯一的 IP 地址，它可以用来访问该实例。
+#  {{end}}：这个指令表示结束迭代。
+#  因此，{{range service "consul"}}{{.Address}}{{end}}
+#  将返回一个逗号分隔的 IP 地址列表，
+#  这些 IP 地址是所有运行中的 Consul 节点的 IP 地址。
+#  当 Consul 容器启动时，它会使用这个 IP 地址列表来尝试加入 Consul 集群。
+#  如果某个节点无法连接，它会尝试连接下一个节点，直到连接成功或者尝试了所有节点。
+#  这样，使用 CONSUL_RETRY_JOIN 环境变量设置 Consul 模板，可以让 Consul 容器自动发现集群中的其他节点，并自动加入集群。

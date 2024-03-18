@@ -4,7 +4,7 @@ server:
 # ==========applicationName + druid-mysql8 driver===================
 spring:
   application:
-    name: cloud-payment-service
+    name: ace-provider
 
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
@@ -12,6 +12,12 @@ spring:
     url: jdbc:mysql://localhost:3306/ace_cloud?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true
     username: root
     password: root
+
+  cloud:
+    consul:
+      port: 8500
+      discovery:
+        service-name: ${spring.application.name}
 
 # ========================mybatis===================
 mybatis:

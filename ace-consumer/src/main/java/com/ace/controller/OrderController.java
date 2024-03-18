@@ -41,7 +41,7 @@ public class OrderController {
     @GetMapping(value = "/consumer/pay/get/{id}")
     public ResultData getPayInfo(@PathVariable("id") Integer id) {
         System.out.println("access consumer/pay/get");
-        // getForObject(请求地址,返回值, 参数 m ); 返回json
+        // getForObject(请求地址,返回值, 参数 m:1.15 ); 返回json
         return restTemplate.getForObject(PaymentSrv_URL + "/pay/get/" + id, ResultData.class, id);
     }
 
