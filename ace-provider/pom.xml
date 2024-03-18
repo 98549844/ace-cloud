@@ -19,6 +19,11 @@
 
 
     <dependencies>
+        <dependency>
+            <groupId>com.ace</groupId>
+            <artifactId>ace-commons</artifactId>
+            <version>1.0</version>
+        </dependency>
         <!--SpringBoot通用依赖模块-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
