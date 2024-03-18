@@ -14,6 +14,8 @@
         <module>ace-provider</module>
         <module>ace-consumer</module>
         <module>ace-commons</module>
+        <module>ace-provider-01</module>
+        <module>ace-provider-02</module>
     </modules>
 
     <properties>
