@@ -11,7 +11,7 @@
 
     <modules>
         <module>mybatis-generator</module>
-        <module>ace-provider</module>
+        <module>ace-provider-03</module>
         <module>ace-consumer</module>
         <module>ace-commons</module>
         <module>ace-provider-01</module>

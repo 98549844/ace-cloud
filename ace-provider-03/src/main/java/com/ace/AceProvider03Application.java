@@ -17,9 +17,9 @@ import tk.mybatis.spring.annotation.MapperScan;
 @MapperScan("com.ace.mapper") //import tk.mybatis.spring.annotation.MapperScan;
 @EnableDiscoveryClient
 @RefreshScope //动态更新
-public class AceProviderApplication {
+public class AceProvider03Application {
     public static void main(String[] args) {
-        SpringApplication.run(AceProviderApplication.class,args);
+        SpringApplication.run(AceProvider03Application.class,args);
     }
 
 }

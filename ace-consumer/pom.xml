@@ -20,6 +20,10 @@
 
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
         <!--consul服务发现 client  site-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

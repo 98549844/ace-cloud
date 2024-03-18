@@ -5,11 +5,14 @@ import com.ace.response.ResultData;
 import jakarta.annotation.Resource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,8 +30,8 @@ public class OrderController {
 
     @Resource
     private RestTemplate restTemplate;
-    // @Resource
-    // private DiscoveryClient discoveryClient;
+    @Resource
+    private DiscoveryClient discoveryClient;
 
     // postForEntity().getBody() == getForObject()
     @GetMapping(value = "/consumer/pay/add")
@@ -41,7 +44,7 @@ public class OrderController {
     @GetMapping(value = "/consumer/pay/get/{id}")
     public ResultData getPayInfo(@PathVariable("id") Integer id) {
         System.out.println("access consumer/pay/get");
-        // getForObject(请求地址,返回值, 参数 m:1.15 ); 返回json
+        // getForObject(请求地址,返回值, 参数); 返回json
         return restTemplate.getForObject(PaymentSrv_URL + "/pay/get/" + id, ResultData.class, id);
     }
 
@@ -51,23 +54,25 @@ public class OrderController {
     }
 
 
-//    @GetMapping("/consumer/discovery")
-//    public String discovery()
-//    {
-//        List<String> services = discoveryClient.getServices();
-//        for (String element : services) {
-//            System.out.println(element);
-//        }
-//
-//        System.out.println("===================================");
-//
-//        List<ServiceInstance> instances = discoveryClient.getInstances("cloud-payment-service");
-//        for (ServiceInstance element : instances) {
-//            System.out.println(element.getServiceId()+"\t"+element.getHost()+"\t"+element.getPort()+"\t"+element.getUri());
-//        }
-//
-//        return instances.get(0).getServiceId()+":"+instances.get(0).getPort();
-//    }
+    @GetMapping("/consumer/discovery")
+    public ResultData<List> discovery() {
+
+        List<String> services = discoveryClient.getServices();
+        for (String element : services) {
+            System.out.println(element);
+        }
+
+        System.out.println("===================================");
+
+        List<String> result = new ArrayList<>();
+        List<ServiceInstance> instances = discoveryClient.getInstances("ace-provider");
+        for (ServiceInstance element : instances) {
+            System.out.println(element.getServiceId() + "\t" + element.getHost() + "\t" + element.getPort() + "\t" + element.getUri());
+            result.add(element.getServiceId() + ":" + element.getPort());
+        }
+
+        return ResultData.success(result);
+    }
 
 }
 

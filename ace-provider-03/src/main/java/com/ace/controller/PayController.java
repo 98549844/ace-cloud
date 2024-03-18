@@ -14,6 +14,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
@@ -96,11 +98,12 @@ public class PayController {
 
     //从sonsul拿资料
     @GetMapping(value = "/pay/get/info")
-    public ResultData<String> getInfoByConsul(@Value("${ace-cloud.info}") String info) {
-        String result = "ace-cloud.info: " + info + "    port: " + port;
-        System.out.println(result);
-
-        //todo consul 持久化问题未搞掂
+    public ResultData<List> getInfoByConsul(@Value("${ace-cloud.info}") String info) {
+        String re = "ace-cloud.info: " + info + "    port: " + port;
+        System.out.println(re);
+        List<String> result = new ArrayList<>();
+        result.add("ace-cloud.info: " + info);
+        result.add("port: " + port);
         return ResultData.success(result);
     }
 
