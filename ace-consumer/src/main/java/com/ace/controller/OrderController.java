@@ -30,13 +30,18 @@ public class OrderController {
     // @Resource
     // private DiscoveryClient discoveryClient;
 
+    // postForEntity().getBody() == getForObject()
     @GetMapping(value = "/consumer/pay/add")
     public ResultData addOrder(PayDto payDto) {
+        // postForObject(请求地址, 参数 , 返回值); 返回json
+        // postForEntity(请求地址, 参数 , 返回值); 返回header+body, 细节更多
         return restTemplate.postForObject(PaymentSrv_URL + "/pay/add", payDto, ResultData.class);
     }
 
     @GetMapping(value = "/consumer/pay/get/{id}")
     public ResultData getPayInfo(@PathVariable("id") Integer id) {
+        System.out.println("access consumer/pay/get");
+        // getForObject(请求地址,返回值, 参数 m ); 返回json
         return restTemplate.getForObject(PaymentSrv_URL + "/pay/get/" + id, ResultData.class, id);
     }
 
