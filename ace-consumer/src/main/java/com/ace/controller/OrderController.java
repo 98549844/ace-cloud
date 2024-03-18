@@ -22,8 +22,8 @@ import java.util.List;
 
 @RestController
 public class OrderController {
-    public static final String PaymentSrv_URL = "http://localhost:8001";//先写死，硬编码
-    // public static final String PaymentSrv_URL = "http://cloud-payment-service";//服务注册中心上的微服务名称
+    // public static final String PaymentSrv_URL = "http://localhost:8001";//先写死，硬编码
+    public static final String PaymentSrv_URL = "http://ace-provider";//服务注册中心上的微服务名称
 
     @Resource
     private RestTemplate restTemplate;
