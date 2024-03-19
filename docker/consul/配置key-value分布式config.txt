@@ -1,13 +1,13 @@
 1. access key/value => create => create dic
-config/ace-provider
-config/ace-provider-dev
-config/ace-provider-prod
-config/ace-provider-docker
+config/ace-provider/
+config/ace-provider-dev/
+config/ace-provider-prod/
+config/ace-provider-docker/
 
 2. create data file and write into data
 create data file, 缩进不要用tab, 用两个空格键
 
 ace-cloud:
-	info: welcome to ace-cloud default config, version=1
+  info: welcome to ace-cloud default config, version=1
 
 3. config 动态更新

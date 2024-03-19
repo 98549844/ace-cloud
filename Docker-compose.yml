@@ -1,21 +1,58 @@
-version: '3.5'
-
-networks:
-  ace-net: # 网络名
-    name: ace-cloud-network
-    driver: bridge
-
-
+#https://zhuanlan.zhihu.com/p/631201222?utm_id=0
+#https://blog.csdn.net/qq_27229113/article/details/128915696
+version: '3'
 services:
-  consul_leader:
-    image: consul:1.15.4
-    container_name: consul-leader1111111
+  consul-server-1:
+    image: consul
+    container_name: consul-server-1
     restart: always
-    environment:
-      CONSUL_BIND_INTERFACE: eth0
+    command: "agent -server -ui -bootstrap-expect=3 -data-dir=/consul/data -config-dir=/consul/config -client=0.0.0.0 -node=consul-server-1 -enable-script-checks=true -bind=0.0.0.0"
     ports:
-      - 8500:8500
-    command:
-      - agent --server=true --bootstrap-expect=3 -ui
+      - "8403:8400"
+      - "8503:8500"
+      - "8603:8600/udp"
+    volumes:
+      - ./consul/data/consul-1:/consul/data
+      - ./consul/config/consul-1:/consul/config
+    environment:
+      - CONSUL_BIND_INTERFACE=eth0
     networks:
-      - ace-cloud-network
+      - consul-net
+  consul-server-2:
+    image: consul
+    container_name: consul-server-2
+    restart: always
+    command: "agent -server -ui -data-dir=/consul/data -config-dir=/consul/config -client=0.0.0.0 -retry-join=consul-server-1 -node=consul-server-2 -enable-script-checks=true -bind=0.0.0.0"
+    ports:
+      - "8401:8400"
+      - "8501:8500"
+      - "8601:8600/udp"
+    volumes:
+      - ./consul/data/consul-2:/consul/data
+      - ./consul/config/consul-2:/consul/config
+    environment:
+      - CONSUL_BIND_INTERFACE=eth0
+    networks:
+      - consul-net
+    depends_on:
+      - consul-server-1
+  consul-server-3:
+      image: consul
+      container_name: consul-server-3
+      restart: always
+      command: "agent -server -ui -data-dir=/consul/data -config-dir=/consul/config -client=0.0.0.0 -retry-join=consul-server-1 -node=consul-server-3 -enable-script-checks=true -bind=0.0.0.0"
+      ports:
+      - "8402:8400"
+      - "8502:8500"
+      - "8602:8600/udp"
+      volumes:
+      - ./consul/data/consul-3:/consul/data
+      - ./consul/config/consul-3:/consul/config
+      environment:
+      - CONSUL_BIND_INTERFACE=eth0
+      networks:
+      - consul-net
+      depends_on:
+      - consul-server-1
+networks:
+  consul-net:

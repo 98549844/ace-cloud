@@ -68,7 +68,7 @@ public class PayController {
 
         //暂停62秒钟线程,故意写bug，测试出feign的默认调用超时时间
         try {
-            TimeUnit.SECONDS.sleep(2); //62
+            TimeUnit.SECONDS.sleep(62); //以秒作单位
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

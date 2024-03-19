@@ -16,6 +16,7 @@
         <module>ace-commons</module>
         <module>ace-provider-01</module>
         <module>ace-provider-02</module>
+        <module>ace-openfeign-consumer</module>
     </modules>
 
     <properties>
