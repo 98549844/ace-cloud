@@ -12,3 +12,33 @@ spring:
         service-name: ${spring.application.name}
       host: localhost
       port: 8500
+    openfeign:
+      httpclient:
+        hc5:
+          enabled: true #启用Apache httpClient5
+        ok-http:
+          read-timeout: 30 # default timeout 60 sec
+      client:
+        config:
+          default: #设置全局默认超时时间
+            connect-timeout: 3000 #client连接超时时间
+            read-timeout: 3000 #client等待读取超时时间
+
+          ace-provider: #设置指定服务超时时间, 优先级比default要高
+            connect-timeout: 5000 #client连接超时时间
+            read-timeout: 5000 #client等待读取超时时间
+      compression: #启用通讯玉缩Gzip
+        request:
+          enabled: true
+          min-request-size: 2048 #最小触发压缩的大小
+          mime-types: text/xml,application/xml,application/json #触发压缩数据类型
+        response:
+          enabled: true
+
+# feign接口(一定是接口)日志以什么级别监控哪个接口
+logging:
+  level:
+    com:
+      ace:
+        apis:
+          PayFeignApi: debug

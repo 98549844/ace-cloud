@@ -63,7 +63,8 @@ public class PayController {
     @GetMapping(value = "/pay/get/{id}")
     @Operation(summary = "按照ID查流水", description = "查询支付流水方法")
     public ResultData<Pay> getById(@PathVariable("id") Integer id) {
-        System.out.println("查流水: " + id);
+        System.out.println("查流水: " + id+"   port:" +port);
+
         if (id == -4) throw new RuntimeException("id不能为负数");
 
         //暂停62秒钟线程,故意写bug，测试出feign的默认调用超时时间
