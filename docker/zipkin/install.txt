@@ -1,0 +1,8 @@
+1. pull image
+docker pull openzipkin/zipkin
+
+2. run image in docker
+docker run -d -p 9411:9411 --name zipkin openzipkin/zipkin:latest
+
+3. dashboard link
+http://localhost:9411

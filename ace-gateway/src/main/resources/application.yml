@@ -1,0 +1,50 @@
+server:
+  port: 9527
+
+
+spring:
+  application:
+    name: ace-gateway
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        prefer-ip-address: true
+        service-name: ${spring.application.name}
+
+    gateway:
+      routes:
+        - id: pay_route1 #pay_routh1 #路由的ID(类似mysql主键ID)，没有固定规则但要求唯一，建议配合服务名
+         # uri: http://localhost:8001 #匹配后提供服务的路由地址
+          uri: lb://ace-provider #匹配后提供服务的路由地址
+          predicates:
+            - Path=/pay/gateway/get/** # 断言，路径相匹配的进行路由
+          #  - After=ZonedDateTime.now() 这时间后可以访门
+          #  - Before=ZonedDateTime.now() 这时间前可以访门
+          #  - Between=ZonedDateTime.now(),ZonedDateTime.now() 这时间段内可以访门
+           # - Cookie=username,garlam #Cookie带有参数才可以访问
+            #使用cmd=> curl http://url --cookie "username=xxx"
+
+
+        - id: pay_route2 #pay_routh2  #路由的ID(类似mysql主键ID)，没有固定规则但要求唯一，建议配合服务名
+          # uri: http://localhost:8001  #匹配后提供服务的路由地址
+          uri: lb://ace-provider #匹配后提供服务的路由地址
+          predicates:
+            - Path=/pay/gateway/info/**  # 断言，路径相匹配的进行路由
+           # - Path=/pay/gateway/info/**, /pay/gateway/get/**  # 多路径相匹配的路由
+           # - Cookie=username,garlam #Cookie带有参数才可以访问
+            #- Header=X-Request-Id, \d+  # 请求头要有X-Request-Id属性并且值为整数的正则表达式
+            # 使用cmd=> curl http://url -H "X-Request-Id:正数"
+            #- Host=**.ace.com #接受一组匹配域名列表
+            #cmd=> curl http://url -H "www.ace.com"
+            #- Query=username, \d+ #要求有username作为参数
+              # curl http://url.html?username=xxx
+            # - RemoteAddr=192.168.1.1/24 只接受192.168.1.X private network 访问
+            # - Method=Get,Post #充许访问方法
+            #自定义断言
+            #- Ace=1.0
+            #- name: Ace
+            #  args:
+            #    aceVersion: 1.0
+            #curl http://url.html?aceVersion=1.0

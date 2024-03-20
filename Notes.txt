@@ -6,6 +6,13 @@
                        2. api接口调用
 
 3.  CircuitBreaker          => 熔断 (close, open, half-open)
-    (实现方式Resilience4j)   =>bulkhead (基于信号灯 semaphore | 基于线程池 threadPool)
-                            =>限流 (漏斗|令牌桶(default)|滚动(有bug, 不用)|滑动)
+    (实现方式Resilience4j)   => bulkhead (基于信号灯 semaphore | 基于线程池 threadPool)
+                            => 限流 (漏斗|令牌桶(default)|滚动(有bug, 不用)|滑动)
 
+4.  Micrometer              => Micrometer(收集)
+    +ZipKin                 => ZipKin(展示)
+    分布式链路追踪
+
+5. Gateway  =>  1. route 路由
+                2. predicate 断言 (boolean)
+                3. filter 过虑

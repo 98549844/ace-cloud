@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @Description:
  */
 
-@FeignClient(value = "ace-provider")
+//@FeignClient(value = "ace-provider")
+@FeignClient(value = "ace-gateway")
 public interface PayFeignApi {
 
     /**
@@ -76,4 +77,27 @@ public interface PayFeignApi {
     String myRatelimit(@PathVariable("id") Integer id);
 
 
+    /**
+     * Micrometer(Sleuth)进行链路监控的例子
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping(value = "/pay/micrometer/{id}")
+    String myMicrometer(@PathVariable("id") Integer id);
+
+    /**
+     * GateWay进行网关测试案例01
+     * @param id
+     * @return
+     */
+    @GetMapping(value = "/pay/gateway/get/{id}")
+    ResultData getById(@PathVariable("id") Integer id);
+
+    /**
+     * GateWay进行网关测试案例02
+     * @return
+     */
+    @GetMapping(value = "/pay/gateway/info")
+    ResultData<String> getGatewayInfo();
 }
