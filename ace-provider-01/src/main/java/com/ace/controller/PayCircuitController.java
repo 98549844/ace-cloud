@@ -32,7 +32,7 @@ public class PayCircuitController {
     public String myBulkhead(@PathVariable("id") Integer id) {
         if (id == -4) throw new RuntimeException("----bulkhead id 不能-4");
 
-        if (id == 9999) {
+        if (id == 99) {
             try {
                 TimeUnit.SECONDS.sleep(5);
             } catch (InterruptedException e) {

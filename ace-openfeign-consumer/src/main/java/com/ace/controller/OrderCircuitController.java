@@ -30,26 +30,27 @@ public class OrderCircuitController {
     //myCircuitFallback就是服务降级后的兜底处理方法
     public String myCircuitFallback(Integer id, Throwable t) {
         System.out.println("ID: " + id);
-        System.out.println("Throwable: "+ t.getMessage());
+        System.out.println("Throwable: " + t.getMessage());
         // 这里是容错处理逻辑，返回备用结果
         return "myCircuitFallback，系统繁忙，请稍后再试-----/(ㄒoㄒ)/~~";
     }
 
     /**
-     *(船的)舱壁,隔离
+     * (船的)舱壁,隔离
+     *
      * @param id
      * @return
      */
-    /*@GetMapping(value = "/feign/pay/bulkhead/{id}")
-    @Bulkhead(name = "cloud-payment-service",fallbackMethod = "myBulkheadFallback",type = Bulkhead.Type.SEMAPHORE)
-    public String myBulkhead(@PathVariable("id") Integer id)
-    {
+    @GetMapping(value = "/feign/pay/bulkheadSEMAPHORE/{id}")
+    @Bulkhead(name = "ace-provider", fallbackMethod = "myBulkheadFallback", type = Bulkhead.Type.SEMAPHORE)
+    public String myBulkhead(@PathVariable("id") Integer id) {
         return payFeignApi.myBulkhead(id);
     }
-    public String myBulkheadFallback(Throwable t)
-    {
+
+    public String myBulkheadFallback(Throwable t) {
+        System.out.println("Throwable: " + t.getMessage());
         return "myBulkheadFallback，隔板超出最大数量限制，系统繁忙，请稍后再试-----/(ㄒoㄒ)/~~";
-    }*/
+    }
 
     /**
      * (船的)舱壁,隔离  threadPool
@@ -57,8 +58,8 @@ public class OrderCircuitController {
      * @param id
      * @return
      */
-    @GetMapping(value = "/feign/pay/bulkhead/{id}")
-    @Bulkhead(name = "cloud-payment-service", fallbackMethod = "myBulkheadPoolFallback", type = Bulkhead.Type.THREADPOOL)
+    @GetMapping(value = "/feign/pay/bulkheadTHREADPOOL/{id}")
+    @Bulkhead(name = "ace-provider", fallbackMethod = "myBulkheadPoolFallback", type = Bulkhead.Type.THREADPOOL)
     public CompletableFuture<String> myBulkheadTHREADPOOL(@PathVariable("id") Integer id) {
         System.out.println(Thread.currentThread().getName() + "\t" + "---开始进入");
         try {
@@ -72,16 +73,21 @@ public class OrderCircuitController {
     }
 
     public CompletableFuture<String> myBulkheadPoolFallback(Integer id, Throwable t) {
+        System.out.println("ID: " + id);
+        System.out.println("Throwable: " + t.getMessage());
         return CompletableFuture.supplyAsync(() -> "Bulkhead.Type.THREADPOOL,系统繁忙，请稍后再试-----/(ㄒoㄒ)/~~");
     }
 
     @GetMapping(value = "/feign/pay/ratelimit/{id}")
-    @RateLimiter(name = "cloud-payment-service", fallbackMethod = "myRatelimitFallback")
-    public String myBulkhead(@PathVariable("id") Integer id) {
+    @RateLimiter(name = "ace-provider", fallbackMethod = "myRatelimitFallback")
+    public String myBulkheadRateLimiter(@PathVariable("id") Integer id) {
         return payFeignApi.myRatelimit(id);
     }
 
     public String myRatelimitFallback(Integer id, Throwable t) {
+        System.out.println("ID: " + id);
+        System.out.println("Throwable: " + t.getMessage());
+
         return "你被限流了，禁止访问/(ㄒoㄒ)/~~";
     }
 }
