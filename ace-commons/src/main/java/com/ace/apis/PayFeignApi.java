@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(value = "ace-provider")
 public interface PayFeignApi {
 
-    /** 新增一条支付记录
+    /**
+     * 新增一条支付记录
+     *
      * @param payDto
      * @return
      */
@@ -26,7 +28,9 @@ public interface PayFeignApi {
     ResultData addPay(@RequestBody PayDto payDto);
 
 
-    /** 根据id查询pay info
+    /**
+     * 根据id查询pay info
+     *
      * @param id
      * @return
      */
@@ -34,10 +38,42 @@ public interface PayFeignApi {
     ResultData getPayInfo(@PathVariable(value = "id") Integer id);
 
 
-    /** openfeign 天生支持负载均衡
+    /**
+     * openfeign 天生支持负载均衡
+     *
      * @return
      */
     @GetMapping(value = "/pay/get/info")
     String myLoadBalancer();
+
+
+    /**
+     * Resilience4j CircuitBreaker 的例子
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping(value = "/pay/circuit/{id}")
+    String myCircuit(@PathVariable("id") Integer id);
+
+    /**
+     * Resilience4j Bulkhead 的例子
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping(value = "/pay/bulkhead/{id}")
+    String myBulkhead(@PathVariable("id") Integer id);
+
+
+    /**
+     * Resilience4j Ratelimit 的例子
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping(value = "/pay/ratelimit/{id}")
+    String myRatelimit(@PathVariable("id") Integer id);
+
 
 }
