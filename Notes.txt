@@ -1,0 +1,11 @@
+1.  consul =>       1. 服务注册和发现
+                    2. config动态配置管理
+
+2.  loadbalancer    => 1. 负载均衡
+    openFeign       => 1. 负载均衡
+                       2. api接口调用
+
+3.  CircuitBreaker          => 熔断 (close, open, half-open)
+    (实现方式Resilience4j)   =>bulkhead (基于信号灯 semaphore | 基于线程池 threadPool)
+                            =>限流 (漏斗|令牌桶(default)|滚动(有bug, 不用)|滑动)
+
