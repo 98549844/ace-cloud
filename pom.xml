@@ -11,13 +11,12 @@
 
     <modules>
         <module>mybatis-generator</module>
-        <module>ace-provider-03</module>
         <module>ace-consumer</module>
         <module>ace-commons</module>
-        <module>ace-provider-01</module>
-        <module>ace-provider-02</module>
-        <module>ace-openfeign-consumer</module>
+        <module>ace-service</module>
+        <module>ace-openfeign-client</module>
         <module>ace-gateway</module>
+        <module>ace-utilities</module>
     </modules>
 
     <properties>
@@ -47,6 +46,8 @@
     <!--不负责jar依赖引入-->
     <dependencyManagement>
         <dependencies>
+
+
             <!--springboot 3.2.0-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -88,6 +89,20 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
                 <version>${druid.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.hibernate.orm</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>6.1.7.Final</version>
+                <!-- 单独run HibernateUtil.main, 需要include jboss-logging-->
+                <!--<exclusions>
+                    <exclusion>
+                        <artifactId>jboss-logging</artifactId>
+                        <groupId>org.jboss.logging</groupId>
+                    </exclusion>
+                </exclusions>-->
             </dependency>
             <!--通用Mapper4之tk.mybatis-->
             <dependency>

@@ -1,6 +1,6 @@
 package com.ace.exceptions;
 
-import com.ace.response.ResultData;
+import com.ace.response.RespData;
 import com.ace.response.ReturnCodeEnum;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,12 +24,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResultData<String> exception(Exception e)
+    public RespData<String> exception(Exception e)
     {
         System.out.println("##### access GlobalExceptionHandler");
         log.error("全局异常信息:{}",e.getMessage(),e);
 
-        return ResultData.error(ReturnCodeEnum.RC500.getCode(), e.getMessage());
+        return RespData.error(ReturnCodeEnum.RC500.getCode(), e.getMessage());
     }
 }
 

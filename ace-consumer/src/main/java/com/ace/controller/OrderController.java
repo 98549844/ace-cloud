@@ -1,10 +1,8 @@
 package com.ace.controller;
 
 import com.ace.entities.PayDto;
-import com.ace.response.ResultData;
+import com.ace.response.RespData;
 import jakarta.annotation.Resource;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,17 +33,17 @@ public class OrderController {
 
     // postForEntity().getBody() == getForObject()
     @GetMapping(value = "/consumer/pay/add")
-    public ResultData addOrder(PayDto payDto) {
+    public RespData addOrder(PayDto payDto) {
         // postForObject(请求地址, 参数 , 返回值); 返回json
         // postForEntity(请求地址, 参数 , 返回值); 返回header+body, 细节更多
-        return restTemplate.postForObject(PaymentSrv_URL + "/pay/add", payDto, ResultData.class);
+        return restTemplate.postForObject(PaymentSrv_URL + "/pay/add", payDto, RespData.class);
     }
 
     @GetMapping(value = "/consumer/pay/get/{id}")
-    public ResultData getPayInfo(@PathVariable("id") Integer id) {
+    public RespData getPayInfo(@PathVariable("id") Integer id) {
         System.out.println("access consumer/pay/get");
         // getForObject(请求地址,返回值, 参数); 返回json
-        return restTemplate.getForObject(PaymentSrv_URL + "/pay/get/" + id, ResultData.class, id);
+        return restTemplate.getForObject(PaymentSrv_URL + "/pay/get/" + id, RespData.class, id);
     }
 
     @GetMapping(value = "/consumer/pay/get/info")
@@ -55,7 +53,7 @@ public class OrderController {
 
 
     @GetMapping("/consumer/discovery")
-    public ResultData<List> discovery() {
+    public RespData<List> discovery() {
 
         List<String> services = discoveryClient.getServices();
         for (String element : services) {
@@ -71,7 +69,7 @@ public class OrderController {
             result.add(element.getServiceId() + ":" + element.getPort());
         }
 
-        return ResultData.success(result);
+        return RespData.success(result);
     }
 
 }

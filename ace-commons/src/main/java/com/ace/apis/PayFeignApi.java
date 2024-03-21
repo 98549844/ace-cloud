@@ -1,7 +1,7 @@
 package com.ace.apis;
 
 import com.ace.entities.PayDto;
-import com.ace.response.ResultData;
+import com.ace.response.RespData;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +26,7 @@ public interface PayFeignApi {
      * @return
      */
     @PostMapping(value = "/pay/add")
-    ResultData addPay(@RequestBody PayDto payDto);
+    RespData addPay(@RequestBody PayDto payDto);
 
 
     /**
@@ -36,7 +36,7 @@ public interface PayFeignApi {
      * @return
      */
     @GetMapping(value = "/pay/get/{id}")
-    ResultData getPayInfo(@PathVariable(value = "id") Integer id);
+    RespData getPayInfo(@PathVariable(value = "id") Integer id);
 
 
     /**
@@ -92,12 +92,12 @@ public interface PayFeignApi {
      * @return
      */
     @GetMapping(value = "/pay/gateway/get/{id}")
-    ResultData getById(@PathVariable("id") Integer id);
+    RespData getById(@PathVariable("id") Integer id);
 
     /**
      * GateWay进行网关测试案例02
      * @return
      */
     @GetMapping(value = "/pay/gateway/info")
-    ResultData<String> getGatewayInfo();
+    RespData<String> getGatewayInfo();
 }
