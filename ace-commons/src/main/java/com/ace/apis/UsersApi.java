@@ -26,27 +26,49 @@ public interface UsersApi {
      * @return
      */
     @GetMapping(value = "/getAll")
-    public RespData<List<UsersDto>> getAll();
+    RespData getAll();
 
+    /** 根据userAccount获取用户资料
+     * @param userAccount
+     * @return
+     */
     @GetMapping(value = "/get/{userAccount}")
-    public RespData<UsersDto> getByUserAccount(@PathVariable(value = "userAccount") String userAccount);
+    RespData getByUserAccount(@PathVariable(value = "userAccount") String userAccount);
 
 
+    /** 更新用户料资
+     * @param userDto
+     * @return
+     */
     @PostMapping(value = "/update")
-    public RespData<String> updateUser(@RequestBody UsersDto info);
+    RespData updateUser(@RequestBody UsersDto userDto);
 
+    /**
+     * @param userDto
+     * @return
+     */
     @PostMapping(value = "/new")
-    public RespData<String> insertUser(@RequestBody UsersDto info) ;
+    RespData insertUser(@RequestBody UsersDto userDto) ;
 
 
+    /** 删除用户资资料
+     * @param userAccount
+     * @return
+     */
     @GetMapping(value = "/delete/{userAccount}")
-    public RespData<String> deleteByUserAccount(@PathVariable(value = "userAccount") String userAccount);
+    RespData deleteByUserAccount(@PathVariable(value = "userAccount") String userAccount);
 
+    /** 删除所有用户资料
+     * @return
+     */
     @GetMapping(value = "/delete/all")
-    public RespData<String> deleteAll() ;
+    RespData deleteAll() ;
 
+    /** 生成默认用户
+     * @return
+     */
     @GetMapping(value = "/userGenerator")
-    public RespData<List<String>> userGenerator() ;
+    RespData userGenerator() ;
 
 }
 

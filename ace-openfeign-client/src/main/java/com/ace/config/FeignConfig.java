@@ -27,9 +27,9 @@ public class FeignConfig {
     }
 
     //设置feign日志输出级别, default none
-    @Bean
-    Logger.Level feignLoggerLevel() {
-        return Logger.Level.FULL;
-    }
+   // @Bean
+   // Logger.Level feignLoggerLevel() {
+   //     return Logger.Level.FULL;
+   // }
 }
 
