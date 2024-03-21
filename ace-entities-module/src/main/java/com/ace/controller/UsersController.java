@@ -1,6 +1,7 @@
 package com.ace.controller;
 
 import com.ace.entities.Users;
+import com.ace.entities.UsersDto;
 import com.ace.generator.InsertUsers;
 import com.ace.response.RespData;
 import com.ace.service.UsersService;
@@ -9,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -41,25 +43,37 @@ public class UsersController {
 
     @Operation(summary = "获取所有用户")
     @GetMapping(value = "/getAll")
-    public RespData<List<Users>> getAll() {
-        return RespData.success(usersService.getAll());
+    public RespData<List<UsersDto>> getAll() {
+        List<Users> users = usersService.getAll();
+        List<UsersDto> usersDto = new ArrayList<>();
+        for (Users user : users) {
+            UsersDto info = new UsersDto();
+            BeanUtils.copyProperties(user,info);
+            usersDto.add(info);
+        }
+        return RespData.success(usersDto);
     }
 
     @Operation(summary = "根据用户帐号获取")
     @GetMapping(value = "/get/{userAccount}")
-    public RespData<Users> getByUserAccount(@PathVariable(value = "userAccount") String userAccount) {
+    public RespData<UsersDto> getByUserAccount(@PathVariable(value = "userAccount") String userAccount) {
         Users user = usersService.getByUserAccount(userAccount);
-        return RespData.success(user);
+        UsersDto info = new UsersDto();
+        BeanUtils.copyProperties(user,info);
+        return RespData.success(info);
     }
 
 
     @Operation(summary = "更新用户资料")
     @PostMapping(value = "/update")
-    public RespData<String> updateUser(@RequestBody Users user) {
-        Users check = usersService.getByUserAccount(user.getUserAccount());
+    public RespData<String> updateUser(@RequestBody UsersDto userDto) {
+        Users check = usersService.getByUserAccount(userDto.getUserAccount());
         if (NullUtil.isNull(check)) {
             return RespData.success("用户不存在");
         } else {
+            Users user = new Users();
+            BeanUtils.copyProperties(userDto , user);
+
             usersService.save(user);
             return RespData.success("更新用户成功");
         }
@@ -67,9 +81,11 @@ public class UsersController {
 
     @Operation(summary = "新增用户")
     @PostMapping(value = "/new")
-    public RespData<String> insertUser(@RequestBody Users user) {
-        Users check = usersService.getByUserAccount(user.getUserAccount());
+    public RespData<String> insertUser(@RequestBody UsersDto userDto) {
+        Users check = usersService.getByUserAccount(userDto.getUserAccount());
         if (NullUtil.isNull(check)) {
+            Users user = new Users();
+            BeanUtils.copyProperties(userDto , user);
             usersService.save(user);
             return RespData.success("用户已新增");
         } else {
