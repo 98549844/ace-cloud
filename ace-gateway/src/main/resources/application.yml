@@ -48,3 +48,26 @@ spring:
             #  args:
             #    aceVersion: 1.0
             #curl http://url.html?aceVersion=1.0
+
+        - id: pay_route3
+          uri: lb://ace-provider
+          predicates:
+            - Path=/pay/gateway/filter/**
+            #- Path=/ace/application/gateway/{segment} #假路径, 会被SetPath替换掉
+          filters:
+            #- PrefixPath=/ace #组成新路径 /ace/pay/gateway/filter/**
+            #- SetPath=/pay/gateway/{segment} #{segment} 表示占位符 {xxx}也行
+            #- RedirectTo=302, https://www.baidu.com/ # 访问http://localhost:9527/pay/gateway/filter跳转到https://www.baidu.com/
+
+
+            #- AddRequestHeader=X-Request-ace,ace-application #增加请求头
+            #- RemoveRequestHeader=sec-fetch-site #删除请求头
+            #- setRequestHeader=sec-fetch-mode, ace-application-updated  #更新请求头
+            #- AddRequestParameter=aceParam,AceApplicationParam #新增请求参数, 有传就用传入值, 没传就用配置值
+            #- RemoveRequestParameter=aceName,AceApplicationName #删除url传入的aceName参数, 就算传入也是null
+
+            #- AddResponseHeader=X-Response-ace, aceResponse # 新增请求参数X-Response-atguigu并设值为BlueResponse
+            #- SetResponseHeader=Date,1986-11-02 # 更新回应头Date值为1986-11-02
+            #- RemoveResponseHeader=Content-Type # 将默认自带Content-Type回应属性删除
+          #自定义filter
+            #- Ace=AceApplication # http://url.html?AceApplication=xxx 参数的值不关心, 但是一定要有这参数

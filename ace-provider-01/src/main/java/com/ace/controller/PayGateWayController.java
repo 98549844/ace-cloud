@@ -47,8 +47,7 @@ public class PayGateWayController
             String headValue = request.getHeader(headName);
             System.out.println("请求头名: " + headName +"\t\t\t"+"请求头值: " + headValue);
 
-            if(headName.equalsIgnoreCase("X-Request-atguigu1")
-                    || headName.equalsIgnoreCase("X-Request-atguigu2")) {
+            if(headName.equalsIgnoreCase("X-Request-ace")) {
                 result = result+headName + "\t " + headValue +" ";
             }
         }
@@ -60,6 +59,6 @@ public class PayGateWayController
         System.out.println("request Parameter customerName: "+customerName);
         System.out.println("=============================================");
 
-        return ResultData.success("getGatewayFilter 过滤器 test： "+result+" \t "+ DateUtil.now());
+        return ResultData.success("getGatewayFilter 过滤器 ： "+result+" \t "+ DateUtil.now());
     }
 }
