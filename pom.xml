@@ -13,7 +13,7 @@
         <module>mybatis-generator</module>
         <module>ace-consumer</module>
         <module>ace-commons</module>
-        <module>ace-service</module>
+        <module>ace-entities-module</module>
         <module>ace-openfeign-client</module>
         <module>ace-gateway</module>
         <module>ace-utilities</module>
@@ -25,13 +25,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hutool.version>5.8.22</hutool.version>
         <lombok.version>1.18.26</lombok.version>
-        <druid.version>1.1.20</druid.version>
+        <!--<druid.version>1.1.20</druid.version>-->
+        <hikari.version>5.1.0</hikari.version>
         <mybatis.springboot.version>3.0.2</mybatis.springboot.version>
         <mysql.version>8.0.11</mysql.version>
         <swagger3.version>2.2.0</swagger3.version>
         <mapper.version>4.2.3</mapper.version>
         <fastjson2.version>2.0.40</fastjson2.version>
         <persistence-api.version>1.0.2</persistence-api.version>
+        <jakarta.persistence-api>3.1.0</jakarta.persistence-api>
         <spring.boot.test.version>3.1.5</spring.boot.test.version>
         <spring.boot.version>3.2.0</spring.boot.version>
         <spring.cloud.version>2023.0.0</spring.cloud.version>
@@ -90,7 +92,11 @@
                 <artifactId>druid-spring-boot-starter</artifactId>
                 <version>${druid.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.zaxxer</groupId>
+                <artifactId>HikariCP</artifactId>
+                <version>${hikari.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.hibernate.orm</groupId>
@@ -115,6 +121,11 @@
                 <groupId>javax.persistence</groupId>
                 <artifactId>persistence-api</artifactId>
                 <version>${persistence-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.persistence</groupId>
+                <artifactId>jakarta.persistence-api</artifactId>
+                <version>${jakarta.persistence-api}</version>
             </dependency>
             <!-- fastjson2 -->
             <dependency>

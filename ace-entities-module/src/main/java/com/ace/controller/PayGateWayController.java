@@ -2,7 +2,6 @@ package com.ace.controller;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
-import com.ace.entities.Pay;
 import com.ace.response.RespData;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,10 +19,9 @@ public class PayGateWayController
 {
 
     @GetMapping(value = "/pay/gateway/get/{id}")
-    public RespData<Pay> getById(@PathVariable("id") Integer id)
+    public RespData<String> getById(@PathVariable("id") Integer id)
     {
-        Pay pay = new Pay();
-        return RespData.success(pay);
+        return RespData.success("");
     }
 
     @GetMapping(value = "/pay/gateway/info")

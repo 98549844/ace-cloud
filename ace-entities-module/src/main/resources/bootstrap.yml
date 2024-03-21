@@ -1,6 +1,8 @@
+#比application.yml级别高
+
 spring:
   application:
-    name: ace-provider
+    name: ace-entities-module
     ####Spring Cloud Consul for Service Discovery
   cloud:
     consul:

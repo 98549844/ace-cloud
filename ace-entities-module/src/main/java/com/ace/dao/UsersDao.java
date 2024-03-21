@@ -20,7 +20,5 @@ import java.util.List;
 public interface UsersDao extends JpaRepository<Users, Long>, JpaSpecificationExecutor<Users> {
 
     Users findByUserAccount(String userAccount);
-
-
     void deleteByUserAccount(String userAccount);
 }

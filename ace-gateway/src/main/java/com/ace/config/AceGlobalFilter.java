@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-/**
- * @auther zzyy
+/** 自定义全局过虑器
+ * @auther Garlam Au
  * @create 2023-12-31 21:05
  */
 @Component

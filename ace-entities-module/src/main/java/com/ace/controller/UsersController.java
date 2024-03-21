@@ -47,7 +47,7 @@ public class UsersController {
 
     @Operation(summary = "根据用户帐号获取")
     @GetMapping(value = "/get/{userAccount}")
-    public RespData<Users> getByUserAccount(@PathVariable String userAccount) {
+    public RespData<Users> getByUserAccount(@PathVariable(value = "userAccount") String userAccount) {
         Users user = usersService.getByUserAccount(userAccount);
         return RespData.success(user);
     }
@@ -80,7 +80,7 @@ public class UsersController {
 
     @Operation(summary = "删除用户")
     @GetMapping(value = "/delete/{userAccount}")
-    public RespData<String> deleteByUserAccount(@PathVariable String userAccount) {
+    public RespData<String> deleteByUserAccount(@PathVariable(value = "userAccount") String userAccount) {
         usersService.deleteByUserAccount(userAccount);
         StringBuilder res = new StringBuilder();
         res.append("用户").append(" " + userAccount + " ").append("已删除");
