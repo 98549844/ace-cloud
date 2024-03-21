@@ -4,6 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import tk.mybatis.spring.annotation.MapperScan;
 
 /**
@@ -14,9 +16,10 @@ import tk.mybatis.spring.annotation.MapperScan;
  */
 
 @SpringBootApplication
-@MapperScan("com.ace.mapper") //import tk.mybatis.spring.annotation.MapperScan;
-@EnableDiscoveryClient
-@RefreshScope //动态更新
+@EnableJpaAuditing //for baseEntity using
+@EnableJpaRepositories(basePackages = "com.yourpackage.repository")
+@EnableDiscoveryClient //consul 服务发现
+@RefreshScope //consul 动态更新
 public class AceServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(AceServiceApplication.class,args);

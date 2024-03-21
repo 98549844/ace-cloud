@@ -4,10 +4,8 @@ import com.ace.entities.Pay;
 import com.ace.entities.PayDto;
 import com.ace.response.RespData;
 import com.ace.response.ReturnCodeEnum;
-import com.ace.service.PayService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
@@ -31,22 +29,22 @@ import java.util.concurrent.TimeUnit;
 public class PayController {
     private static final Logger log = LogManager.getLogger(PayController.class.getName());
 
-    @Resource
-    private PayService payService;
+   // @Resource
+//    private PayService payService;
 
 
     @PostMapping(value = "/pay/add")
     @Operation(summary = "新增", description = "新增支付流水方法,json串做参数")
     public RespData<String> addPay(@RequestBody Pay pay) {
         System.out.println(pay.toString());
-        int i = payService.add(pay);
+        int i = 1;
         return RespData.success("成功插入记录，返回值: " + i);
     }
 
     @DeleteMapping(value = "/pay/del/{id}")
     @Operation(summary = "删除", description = "删除支付流水方法")
     public RespData<Integer> deletePay(@PathVariable("id") Integer id) {
-        int i = payService.delete(id);
+        int i = 1;
         return RespData.success(i);
     }
 
@@ -56,7 +54,7 @@ public class PayController {
         Pay pay = new Pay();
         BeanUtils.copyProperties(payDTO, pay); // (source => target)
 
-        int i = payService.update(pay);
+        int i = 1;
         return RespData.success("成功修改记录，返回值: " + i);
     }
 
@@ -73,9 +71,8 @@ public class PayController {
             e.printStackTrace();
         }
 
-        Pay pay = payService.getById(id);
 
-        return RespData.success(pay);
+        return RespData.success(new Pay());
     }
 
     //全部查询getall作为家庭作业
