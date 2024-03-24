@@ -1,19 +1,18 @@
 version: '3.8'
 
+
 networks:
-  ace-network:
+  ace-network: # 网络名
     name: ace-network
     driver: bridge
-    ipam:
-      config:
-        subnet: 172.17.0.0/16
+
+
 
 services:
   mysql-8:
     image: mysql:latest
     container_name: mysql-8
     restart: always
-    # platform: linux/x86_64
     environment:
       MYSQL_DATABASE: ace
       MYSQL_USER: garlam
@@ -45,12 +44,9 @@ services:
       agent --server=true
       --bootstrap-expect=3
       --client=0.0.0.0
-      -ui
+      --ui
     networks:
-      ace-network:
-        - ipv4_address: 172.17.0.2
-# bootstrap-expect=3 server要想启动，需要至少3个server
-
+      - ace-network
 
   consul-2:
     image: consul:1.15.4
@@ -64,8 +60,8 @@ services:
       agent --server=true
       --bootstrap-expect=3
       --client=0.0.0.0
-      --join 172.17.0.2
-      -ui
+      --join consul-1
+      --ui
     networks:
       - ace-network
 
@@ -82,8 +78,8 @@ services:
       agent --server=true
       --bootstrap-expect=3
       --client=0.0.0.0
-      --join 172.17.0.2
-      -ui
+      --join consul-1
+      --ui
     networks:
       - ace-network
 
@@ -92,5 +88,99 @@ services:
     container_name: zipkin
     ports:
       - 9411:9411
+    networks:
+      - ace-network
+
+  ace-gateway:
+    build:
+      context: ./ace-gateway
+      dockerfile: Dockerfile
+    container_name: ace-gateway
+    restart: always
+    ports:
+      - 9500:9500
+    depends_on:
+      - zipkin
+      - consul-1
+      - consul-2
+      - consul-3
+    networks:
+      - ace-network
+
+
+  ace-entities-module-1:
+    build:
+      context: ./ace-entities-module
+      dockerfile: Dockerfile
+    container_name: ace-entities-module-1
+    restart: always
+    ports:
+      - 8001:8000
+    depends_on:
+      - redis
+      - mysql-8
+      - zipkin
+      - consul-1
+      - consul-2
+      - consul-3
+      - ace-gateway
+    networks:
+      - ace-network
+
+
+
+
+  ace-entities-module-2:
+    build:
+      context: ./ace-entities-module
+      dockerfile: Dockerfile
+    container_name: ace-entities-module-2
+    restart: always
+    ports:
+      - 8002:8000
+    depends_on:
+      - redis
+      - mysql-8
+      - zipkin
+      - consul-1
+      - consul-2
+      - consul-3
+      - ace-gateway
+    networks:
+      - ace-network
+
+  ace-entities-module-3:
+    build:
+      context: ./ace-entities-module
+      dockerfile: Dockerfile
+    container_name: ace-entities-module-3
+    restart: always
+    ports:
+      - 8003:8000
+    depends_on:
+      - redis
+      - mysql-8
+      - zipkin
+      - consul-1
+      - consul-2
+      - consul-3
+      - ace-gateway
+    networks:
+      - ace-network
+
+  ace-client:
+    build:
+      context: ./ace-client
+      dockerfile: Dockerfile
+    container_name: ace-client
+    restart: always
+    ports:
+      - 80:8090
+    depends_on:
+      - redis
+      - zipkin
+      - consul-1
+      - consul-2
+      - consul-3
     networks:
       - ace-network
