@@ -129,15 +129,7 @@ public class UsersController {
     }
 
 
-    @Value("${spring.cloud.consul.host}")
-    private String val;
 
-    @GetMapping(value = "/aaa")
-    public RespData<String> test() {
-        System.out.println("consul val: " + val);
-
-        return RespData.success("consul val: " + val);
-    }
 
 }
 
