@@ -19,6 +19,6 @@ spring:
         watch:
           wait-time: 1 # 1: 实时更新, default: 55秒
 
-  # config/cloud-payment-service/data
-  #       /cloud-payment-service-dev/data
-  #       /cloud-payment-service-prod/data
+  # config/ace-entities-module/data
+  #       /ace-entities-module-dev/data
+  #       /ace-entities-module-docker/data

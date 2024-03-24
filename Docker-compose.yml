@@ -127,14 +127,14 @@ services:
     networks:
       - ace-network
 
-  ace-client-1:
+  ace-client:
     build:
       context: ./ace-client
       dockerfile: Dockerfile
-    container_name: ace-client-1
+    container_name: ace-client
     # restart: always
     ports:
-      - 8091:8090
+      - 8090:8090
     depends_on:
       - consul-leader
       - consul-1
@@ -145,22 +145,22 @@ services:
       - ace-network
 
 
-  ace-client-2:
-    build:
-      context: ./ace-client
-      dockerfile: Dockerfile
-    container_name: ace-client-2
-    # restart: always
-    ports:
-      - 8092:8090
-    depends_on:
-      - consul-leader
-      - consul-1
-      - consul-2
-      - redis
-      - zipkin
-    networks:
-      - ace-network
+#  ace-client-2:
+#    build:
+#      context: ./ace-client
+#      dockerfile: Dockerfile
+#    container_name: ace-client-2
+#    # restart: always
+#    ports:
+#      - 8092:8090
+#    depends_on:
+#      - consul-leader
+#      - consul-1
+#      - consul-2
+#      - redis
+#      - zipkin
+#    networks:
+#      - ace-network
 
 
 
