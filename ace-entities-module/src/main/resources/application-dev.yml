@@ -1,12 +1,12 @@
 server:
   port: 8000
 
-# ==========applicationName===================
+# ==========applicationName + druid-mysql8 driver===================
 
 spring:
   cloud:
     consul:
-      host: consul-leader
+      host: localhost
       port: 8500
       discovery:
         service-name: ${spring.application.name}
@@ -19,7 +19,7 @@ spring:
   #  type: com.alibaba.druid.pool.DruidDataSource
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql8:3306/ace_cloud?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/ace_cloud?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true
     username: root
     password: root
  # profiles:
@@ -53,7 +53,7 @@ spring:
 management:
   zipkin:
     tracing:
-      endpoint: http://zipkin:9411/api/v2/spans
+      endpoint: http://localhost:9411/api/v2/spans
   tracing:
     sampling:
       probability: 1.0 #采样率默认为0.1(0.1就是10次只能有一次被记录下来)，值越大收集越及时。

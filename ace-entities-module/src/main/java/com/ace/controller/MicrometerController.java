@@ -25,6 +25,6 @@ public class MicrometerController
     @Operation(summary = "链路追踪资料")
     public String myMicrometer()
     {
-        return "Hello, myMicrometer http://localhost:9411/api/v2/spans: " + IdUtil.simpleUUID();
+        return "Hello, myMicrometer http://-zipkin-localhost:9411/api/v2/spans: " + IdUtil.simpleUUID();
     }
 }

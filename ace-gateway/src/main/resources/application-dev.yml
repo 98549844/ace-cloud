@@ -6,7 +6,7 @@ spring:
     name: ace-gateway
   cloud:
     consul: # 配置consul服务发现
-      host: consul-leader
+      host: localhost
       port: 8500
       discovery:
         prefer-ip-address: true

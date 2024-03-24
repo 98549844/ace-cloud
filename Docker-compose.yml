@@ -1,3 +1,4 @@
+#docker compose -f /Users/garlam/IdeaProjects/ace-cloud/Docker-compose.yml -p ace-cloud up -d
 version: '3.8'
 
 
@@ -8,10 +9,11 @@ networks:
 
 
 
+
 services:
-  mysql-8:
+  mysql8:
     image: mysql:latest
-    container_name: mysql-8
+    container_name: mysql8
     restart: always
     environment:
       MYSQL_DATABASE: ace
@@ -20,6 +22,10 @@ services:
       MYSQL_ROOT_PASSWORD: root
     ports:
       - 3306:3306
+    depends_on:
+      - consul-leader
+      - consul-1
+      - consul-2
     networks:
       - ace-network
 
@@ -29,8 +35,32 @@ services:
     restart: always
     ports:
       - 6379:6379
+    depends_on:
+      - consul-leader
+      - consul-1
+      - consul-2
     networks:
       - ace-network
+
+  consul-leader:
+    image: consul:1.15.4
+    container_name: consul-leader
+    restart: always
+    ports:
+      - 8500:8500
+    environment:
+      CONSUL_BIND_INTERFACE: eth0
+    command: >
+      agent 
+      --server=true
+      --bootstrap-expect=3
+      --client=0.0.0.0
+      --ui
+    networks:
+      - ace-network
+
+    #  --advertise=192.168.1.2 绑定ip
+
 
   consul-1:
     image: consul:1.15.4
@@ -41,12 +71,17 @@ services:
     environment:
       CONSUL_BIND_INTERFACE: eth0
     command: >
-      agent --server=true
+      agent 
+      --server=true
       --bootstrap-expect=3
       --client=0.0.0.0
+      --join consul-leader
       --ui
+    depends_on:
+      - consul-leader
     networks:
       - ace-network
+
 
   consul-2:
     image: consul:1.15.4
@@ -57,29 +92,14 @@ services:
     environment:
       CONSUL_BIND_INTERFACE: eth0
     command: >
-      agent --server=true
+      agent 
+      --server=true
       --bootstrap-expect=3
       --client=0.0.0.0
-      --join consul-1
+      --join consul-leader
       --ui
-    networks:
-      - ace-network
-
-
-  consul-3:
-    image: consul:1.15.4
-    container_name: consul-3
-    restart: always
-    ports:
-      - 8503:8500
-    environment:
-      CONSUL_BIND_INTERFACE: eth0
-    command: >
-      agent --server=true
-      --bootstrap-expect=3
-      --client=0.0.0.0
-      --join consul-1
-      --ui
+    depends_on:
+      - consul-1
     networks:
       - ace-network
 
@@ -96,14 +116,14 @@ services:
       context: ./ace-gateway
       dockerfile: Dockerfile
     container_name: ace-gateway
- #   restart: always
+    #   restart: always
     ports:
       - 9500:9500
     depends_on:
       - zipkin
+      - consul-leader
       - consul-1
       - consul-2
-      - consul-3
     networks:
       - ace-network
 
@@ -113,16 +133,16 @@ services:
       context: ./ace-entities-module
       dockerfile: Dockerfile
     container_name: ace-entities-module-1
-    restart: always
+    # restart: always
     ports:
       - 8001:8000
     depends_on:
-      - redis
-      - mysql-8
-      - zipkin
+      - consul-leader
       - consul-1
       - consul-2
-      - consul-3
+      - redis
+      - mysql8
+      - zipkin
       - ace-gateway
     networks:
       - ace-network
@@ -135,16 +155,16 @@ services:
       context: ./ace-entities-module
       dockerfile: Dockerfile
     container_name: ace-entities-module-2
-    restart: always
+    #  restart: always
     ports:
       - 8002:8000
     depends_on:
-      - redis
-      - mysql-8
-      - zipkin
+      - consul-leader
       - consul-1
       - consul-2
-      - consul-3
+      - redis
+      - mysql8
+      - zipkin
       - ace-gateway
     networks:
       - ace-network
@@ -154,16 +174,16 @@ services:
       context: ./ace-entities-module
       dockerfile: Dockerfile
     container_name: ace-entities-module-3
-    restart: always
+    #  restart: always
     ports:
       - 8003:8000
     depends_on:
-      - redis
-      - mysql-8
-      - zipkin
+      - consul-leader
       - consul-1
       - consul-2
-      - consul-3
+      - redis
+      - mysql8
+      - zipkin
       - ace-gateway
     networks:
       - ace-network
@@ -173,14 +193,14 @@ services:
       context: ./ace-client
       dockerfile: Dockerfile
     container_name: ace-client
-    restart: always
+  # restart: always
     ports:
-      - 80:8090
+      - 8090:8090
     depends_on:
-      - redis
-      - zipkin
+      - consul-leader
       - consul-1
       - consul-2
-      - consul-3
+      - redis
+      - zipkin
     networks:
       - ace-network
