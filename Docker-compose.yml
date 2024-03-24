@@ -96,7 +96,7 @@ services:
       context: ./ace-gateway
       dockerfile: Dockerfile
     container_name: ace-gateway
-    restart: always
+ #   restart: always
     ports:
       - 9500:9500
     depends_on:
