@@ -15,7 +15,7 @@ MAINTAINER Garlam Au
 
 #VOLUME /tmp
 ADD target/ace-gateway-1.0.jar ace-gateway.jar
-EXPOSE 8090
+EXPOSE 9500
 # 暴露端口 与配置文件对应
 ENTRYPOINT ["java","-jar","ace-gateway.jar","--spring.profiles.active=docker"]
 # 激活名为 appliction-docker.yml 或 appliction-docker.properties 的配置
