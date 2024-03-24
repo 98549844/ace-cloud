@@ -10,7 +10,9 @@ spring:
      # host: localhost for 本地开发
       port: 8500
       discovery:
+        prefer-ip-address: true #优先使用服务ip进行注册
         service-name: ${spring.application.name}
+        instance-id: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
       config:
         profile-separator: '-' # default value is ","，we update '-'
         format: YAML
