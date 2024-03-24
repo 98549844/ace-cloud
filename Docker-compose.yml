@@ -90,18 +90,18 @@ services:
     networks:
       - ace-network
 
-  redis:
-    image: redis:latest
-    container_name: redis-7
-    restart: always
-    ports:
-      - 6379:6379
-    depends_on:
-      - consul-leader
-      - consul-1
-      - consul-2
-    networks:
-      - ace-network
+#  redis7:
+#    image: redis:latest
+#    container_name: redis7
+#    restart: always
+#    ports:
+#      - 6379:6379
+#    depends_on:
+#      - consul-leader
+#      - consul-1
+#      - consul-2
+#    networks:
+#      - ace-network
 
   zipkin:
     image: openzipkin/zipkin:latest
@@ -134,12 +134,11 @@ services:
     container_name: ace-client
     # restart: always
     ports:
-      - 8090:8090
+      - 80:8090
     depends_on:
       - consul-leader
       - consul-1
       - consul-2
-      - redis
       - zipkin
     networks:
       - ace-network
@@ -179,7 +178,6 @@ services:
       - consul-leader
       - consul-1
       - consul-2
-      - redis
       - mysql8
       - zipkin
       - ace-gateway
@@ -201,7 +199,6 @@ services:
       - consul-leader
       - consul-1
       - consul-2
-      - redis
       - mysql8
       - zipkin
       - ace-gateway
@@ -223,7 +220,6 @@ services:
       - consul-leader
       - consul-1
       - consul-2
-      - redis
       - mysql8
       - zipkin
       - ace-gateway
