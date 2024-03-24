@@ -4,17 +4,7 @@ server:
 # ==========applicationName + druid-mysql8 driver===================
 
 spring:
-  cloud:
-    consul:
-      host: localhost
-      port: 8500
-      discovery:
-        service-name: ${spring.application.name}
-      config:
-        profile-separator: '-' # default value is ","，we update '-'
-        format: YAML
-        watch:
-          wait-time: 1 # 1: 实时更新, default: 55秒
+
   datasource:
   #  type: com.alibaba.druid.pool.DruidDataSource
     type: com.zaxxer.hikari.HikariDataSource

@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,7 +49,7 @@ public class UsersController {
         List<UsersDto> usersDto = new ArrayList<>();
         for (Users user : users) {
             UsersDto info = new UsersDto();
-            BeanUtils.copyProperties(user,info);
+            BeanUtils.copyProperties(user, info);
             usersDto.add(info);
         }
         return RespData.success(usersDto);
@@ -59,7 +60,7 @@ public class UsersController {
     public RespData<UsersDto> getByUserAccount(@PathVariable(value = "userAccount") String userAccount) {
         Users user = usersService.getByUserAccount(userAccount);
         UsersDto info = new UsersDto();
-        BeanUtils.copyProperties(user,info);
+        BeanUtils.copyProperties(user, info);
         return RespData.success(info);
     }
 
@@ -72,7 +73,7 @@ public class UsersController {
             return RespData.success("用户不存在");
         } else {
             Users user = new Users();
-            BeanUtils.copyProperties(userDto , user);
+            BeanUtils.copyProperties(userDto, user);
 
             usersService.save(user);
             return RespData.success("更新用户成功");
@@ -85,7 +86,7 @@ public class UsersController {
         Users check = usersService.getByUserAccount(userDto.getUserAccount());
         if (NullUtil.isNull(check)) {
             Users user = new Users();
-            BeanUtils.copyProperties(userDto , user);
+            BeanUtils.copyProperties(userDto, user);
             usersService.save(user);
             return RespData.success("用户已新增");
         } else {
@@ -127,6 +128,16 @@ public class UsersController {
         return RespData.success(result);
     }
 
+
+    @Value("${spring.cloud.consul.host}")
+    private String val;
+
+    @GetMapping(value = "/aaa")
+    public RespData<String> test() {
+        System.out.println("consul val: " + val);
+
+        return RespData.success("consul val: " + val);
+    }
 
 }
 

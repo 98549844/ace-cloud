@@ -36,6 +36,7 @@ public class NodeController {
     @GetMapping("/get")
     public RespData<String> getNodeInfo() {
         String message = "Node instance: " + nodeName + ":" + port;
+        System.out.println(message+"  "+ System.currentTimeMillis());
         return RespData.success(message);
     }
 
