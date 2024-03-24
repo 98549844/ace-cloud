@@ -119,14 +119,13 @@
             <artifactId>HikariCP</artifactId>
         </dependency>
         <!-- Swagger3 调用方式 http://你的主机IP地址:5555/swagger-ui/index.html -->
-        <dependency>
+        <!--<dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
-            <version>4.3.0</version>
             <!-- 版本4.0.0后没有了lombok.*注解-->
         </dependency>
         <dependency>

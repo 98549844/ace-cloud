@@ -54,7 +54,7 @@ public class UsersController {
         return RespData.success(usersDto);
     }
 
-    @Operation(summary = "根据用户帐号获取")
+    @Operation(summary = "根据用户帐号获取资料")
     @GetMapping(value = "/get/{userAccount}")
     public RespData<UsersDto> getByUserAccount(@PathVariable(value = "userAccount") String userAccount) {
         Users user = usersService.getByUserAccount(userAccount);

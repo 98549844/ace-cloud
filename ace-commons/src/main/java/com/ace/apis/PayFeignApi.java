@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  */
 
 //@FeignClient(value = "ace-provider")
-@FeignClient(value = "ace-gateway")
+//@FeignClient(value = "ace-gateway")
 public interface PayFeignApi {
 
     /**

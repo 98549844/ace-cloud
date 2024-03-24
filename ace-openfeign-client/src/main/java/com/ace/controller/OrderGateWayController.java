@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
  * @auther zzyy
  * @create 2023-12-29 19:00
  */
-@RestController
+//@RestController
 public class OrderGateWayController
 {
-    @Resource
+   // @Resource
     private PayFeignApi payFeignApi;
 
     @GetMapping(value = "/feign/pay/gateway/get/{id}")

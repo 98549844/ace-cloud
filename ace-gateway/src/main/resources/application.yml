@@ -15,9 +15,15 @@ spring:
     gateway:
       routes:
         - id: ace-entities-module # 定义gateway id
-          uri: lb://ace-entities-module # 定义uri
+          uri: lb://ace-entities-module # 定义uri = consul instant
           predicates: # 定义路径pattern
             - Path=/ace/**
+
+        - id: ace-entities-module-circuitbreaker # 定义gateway id
+          uri: lb://ace-entities-module # 定义uri = consul instant
+          predicates: # 定义路径pattern
+            - Path=/circuit/**
+
 
 
       #  - id: pay_route1 #pay_routh1 #路由的ID(类似mysql主键ID)，没有固定规则但要求唯一，建议配合服务名

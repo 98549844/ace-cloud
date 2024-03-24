@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
  * @auther zzyy
  * @create 2023-12-28 16:11
  */
-@RestController
+//@RestController
 @Slf4j
 public class OrderMicrometerController
 {
-    @Resource
+   // @Resource
     private PayFeignApi payFeignApi;
 
     @GetMapping(value = "/feign/micrometer/{id}")

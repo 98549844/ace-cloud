@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.*;
  * @Description:
  */
 
-@RestController
+//@RestController
 public class OrderController {
 
-    @Resource
+   // @Resource
     private PayFeignApi payFeignApi;
 
     @PostMapping(value = "/feign/pay/add")

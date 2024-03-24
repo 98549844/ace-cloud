@@ -3,10 +3,7 @@ package com.ace.apis;
 import com.ace.entities.UsersDto;
 import com.ace.response.RespData;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,17 +15,22 @@ import java.util.List;
  * @Description:
  */
 
-@FeignClient(value = "ace-gateway")
+//@FeignClient(value = "ace-entities-module") 直接调用模组api
+@FeignClient(value = "ace-gateway", path = "/ace/users", contextId = "usersApi") //调用gateway提供的api, 增强安全性
 public interface UsersApi {
 
 
-    /** 返回所有用户
+    /**
+     * 返回所有用户
+     *
      * @return
      */
     @GetMapping(value = "/getAll")
     RespData getAll();
 
-    /** 根据userAccount获取用户资料
+    /**
+     * 根据userAccount获取用户资料
+     *
      * @param userAccount
      * @return
      */
@@ -36,7 +38,9 @@ public interface UsersApi {
     RespData getByUserAccount(@PathVariable(value = "userAccount") String userAccount);
 
 
-    /** 更新用户料资
+    /**
+     * 更新用户料资
+     *
      * @param userDto
      * @return
      */
@@ -48,27 +52,33 @@ public interface UsersApi {
      * @return
      */
     @PostMapping(value = "/new")
-    RespData insertUser(@RequestBody UsersDto userDto) ;
+    RespData insertUser(@RequestBody UsersDto userDto);
 
 
-    /** 删除用户资资料
+    /**
+     * 删除用户资资料
+     *
      * @param userAccount
      * @return
      */
     @GetMapping(value = "/delete/{userAccount}")
     RespData deleteByUserAccount(@PathVariable(value = "userAccount") String userAccount);
 
-    /** 删除所有用户资料
+    /**
+     * 删除所有用户资料
+     *
      * @return
      */
     @GetMapping(value = "/delete/all")
-    RespData deleteAll() ;
+    RespData deleteAll();
 
-    /** 生成默认用户
+    /**
+     * 生成默认用户
+     *
      * @return
      */
     @GetMapping(value = "/userGenerator")
-    RespData userGenerator() ;
+    RespData userGenerator();
 
 }
 

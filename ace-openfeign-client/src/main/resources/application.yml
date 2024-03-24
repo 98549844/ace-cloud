@@ -3,10 +3,10 @@ server:
 
 spring:
   application:
-    name: ace-openfeign-consumer
+    name: ace-openfeign-client
 
   cloud:
-    consul:
+    consul: #设置服务注册和发现
       discovery:
         prefer-ip-address: true #优先使用服务ip进行注册
         service-name: ${spring.application.name}
@@ -57,33 +57,42 @@ spring:
 #  等待5秒后，CircuitBreaker 将自动从开启OPEN状态过渡到半开HALF_OPEN状态，允许一些请求通过以测试服务是否恢复正常。
 #  如还是异常CircuitBreaker 将重新进入开启OPEN状态；如正常将进入关闭CLOSE闭合状态恢复正常处理请求。
 
-#resilience4j:
-#  circuitbreaker: #断路器设置
-#    configs:
-#      default:
-#        failureRateThreshold: 50 #设置50%的调用失败时打开断路器，超过失败请求百分⽐CircuitBreaker变为OPEN状态。
-#        slidingWindowType: COUNT_BASED # 滑动窗口的类型
-#        slidingWindowSize: 6 #滑动窗⼝的⼤⼩配置COUNT_BASED表示6个请求，配置TIME_BASED表示6秒
-#        minimumNumberOfCalls: 6 #断路器计算失败率或慢调用率之前所需的最小样本(每个滑动窗口周期)。如果minimumNumberOfCalls为10，则必须最少记录10个样本，然后才能计算失败率。如果只记录了9次调用，即使所有9次调用都失败，断路器也不会开启。
-#        automaticTransitionFromOpenToHalfOpenEnabled: true # 是否启用自动从开启状态过渡到半开状态，默认值为true。如果启用，CircuitBreaker将自动从开启状态过渡到半开状态，并允许一些请求通过以测试服务是否恢复正常
-#        waitDurationInOpenState: 5s #从OPEN到HALF_OPEN状态需要等待的时间
-#        permittedNumberOfCallsInHalfOpenState: 2 #半开状态允许的最大请求数，默认值为10。在半开状态下，CircuitBreaker将允许最多permittedNumberOfCallsInHalfOpenState个请求通过，如果其中有任何一个请求失败，CircuitBreaker将重新进入开启状态。
-#        recordExceptions:
-#          - java.lang.Exception
-#    instances:
-#      ace-provider: #被调用方实例名
-#        baseConfig: default
-#
-#  bulkhead: #for semaphore 根据时间返回callback
-#    configs:
-#      default:
-#        max-concurrent-calls: 2 #最大并发数 default 25
-#        max-wait-duration:
-#          seconds: 1 # 阻塞等待时间.以秒为单位 default 0
-#    instances:
-#      ace-provider: #被调用方实例名
-#        base-config: default
-#
+resilience4j:
+  timelimiter:
+    configs:
+      default:
+        timeout-duration:
+          seconds: 30 # 以秒为单位, 限制方法执行时间, 如果超果throw TimeoutException
+  circuitbreaker: #断路器设置
+    configs:
+      default:
+        slidingWindowType: COUNT_BASED # 滑动窗口的类型
+        failureRateThreshold: 50 #设置50%的调用失败时打开断路器，超过失败请求百分⽐CircuitBreaker变为OPEN状态。
+        slidingWindowSize: 6 #默认值=100, 滑动窗⼝的⼤⼩配置COUNT_BASED表示6个请求，配置TIME_BASED表示6秒
+        minimumNumberOfCalls: 6 #断路器计算失败率或慢调用率之前所需的最小样本(每个滑动窗口周期)。如果minimumNumberOfCalls为10，
+                                #则必须最少记录10个样本，然后才能计算失败率。如果只记录了9次调用，即使所有9次调用都失败，断路器也不会开启。
+        automaticTransitionFromOpenToHalfOpenEnabled: true # 是否启用自动从开启状态过渡到半开状态，默认值为true.
+                                #如果启用，CircuitBreaker将自动从开启状态过渡到半开状态，并允许一些请求通过以测试服务是否恢复正常
+        waitDurationInOpenState: 5s #从OPEN到HALF_OPEN状态需要等待的时间
+        permittedNumberOfCallsInHalfOpenState: 5 #半开状态允许的最大请求数，默认值为10.
+                                #在半开状态下，CircuitBreaker将允许最多permittedNumberOfCallsInHalfOpenState个请求通过，
+                                #如果其中有任何一个请求失败，CircuitBreaker将重新进入开启状态。
+        recordExceptions:
+          - java.lang.Exception
+    instances:
+      ace-entities-module: #被调用方实例名
+        baseConfig: default
+
+  bulkhead: #for semaphore 根据时间返回callback
+    configs:
+      default:
+        max-concurrent-calls: 2 #最大并发数 default 25
+        max-wait-duration:
+          seconds: 1 # 阻塞等待时间.以秒为单位 default 0
+    instances:
+      ace-entities-module: #被调用方实例名
+        base-config: default
+
 #  thread-pool-bulkhead: #for threadPool  根据线程返回callback
 #    configs:
 #      default:
@@ -93,13 +102,9 @@ spring:
 #    instances:
 #      ace-provider: #被调用方实例名
 #        base-config: default
-#  timelimiter:
-#    configs:
-#      default:
-#        timeout-duration:
-#          seconds: 10 # 以秒为单位
 
-#  ratelimiter:
+
+#  ratelimiter: #限流
 #    configs:
 #      default:
 #        limitForPeriod: 2 #在一次刷新周期内，允许执行的最大请求数 default 50

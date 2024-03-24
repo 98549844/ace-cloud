@@ -10,7 +10,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>mybatis-generator</module>
         <module>ace-consumer</module>
         <module>ace-commons</module>
         <module>ace-entities-module</module>
@@ -30,6 +29,7 @@
         <mybatis.springboot.version>3.0.2</mybatis.springboot.version>
         <mysql.version>8.0.11</mysql.version>
         <swagger3.version>2.2.0</swagger3.version>
+        <knife4j.version>4.3.0</knife4j.version>
         <mapper.version>4.2.3</mapper.version>
         <fastjson2.version>2.0.40</fastjson2.version>
         <persistence-api.version>1.0.2</persistence-api.version>
@@ -138,6 +138,12 @@
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
                 <version>${swagger3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
+                <!-- 版本4.0.0后没有了lombok.*注解-->
             </dependency>
             <!--hutool-->
             <dependency>

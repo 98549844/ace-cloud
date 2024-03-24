@@ -23,7 +23,7 @@ public class FeignConfig {
          return Retryer.NEVER_RETRY; //default不会重试
         // return new Retryer.Default(100,1,3);
         // period: 相隔时间为100ms
-        //macPeriod: 最大重试隔间时间为1s
+        // macPeriod: 最大重试隔间时间为1s
     }
 
     //设置feign日志输出级别, default none
