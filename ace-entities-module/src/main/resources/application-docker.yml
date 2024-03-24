@@ -4,6 +4,9 @@ server:
 # ==========applicationName===================
 
 spring:
+  application:
+    name: ace-entities-module
+    ####Spring Cloud Consul for Service Discovery
   cloud:
     consul:
       host: consul-leader
@@ -15,8 +18,8 @@ spring:
         format: YAML
         watch:
           wait-time: 1 # 1: 实时更新, default: 55秒
+
   datasource:
-  #  type: com.alibaba.druid.pool.DruidDataSource
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://mysql8:3306/ace_cloud?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true

@@ -61,7 +61,6 @@ services:
 
     #  --advertise=192.168.1.2 绑定ip
 
-
   consul-1:
     image: consul:1.15.4
     container_name: consul-1
@@ -81,7 +80,6 @@ services:
       - consul-leader
     networks:
       - ace-network
-
 
   consul-2:
     image: consul:1.15.4
@@ -127,7 +125,6 @@ services:
     networks:
       - ace-network
 
-
   ace-entities-module-1:
     build:
       context: ./ace-entities-module
@@ -146,9 +143,6 @@ services:
       - ace-gateway
     networks:
       - ace-network
-
-
-
 
   ace-entities-module-2:
     build:
