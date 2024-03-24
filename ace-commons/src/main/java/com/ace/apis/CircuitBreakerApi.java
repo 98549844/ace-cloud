@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @Description:
  */
 
-@FeignClient(value = "ace-gateway", path = "/circuit", contextId = "circuitApi") //调用gateway提供的api, 增强安全性
+@FeignClient(value = "ace-gateway", path = "/ace/circuit", contextId = "circuitApi") //调用gateway提供的api, 增强安全性
 public interface CircuitBreakerApi {
 
 

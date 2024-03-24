@@ -1,58 +1,96 @@
-#https://zhuanlan.zhihu.com/p/631201222?utm_id=0
-#https://blog.csdn.net/qq_27229113/article/details/128915696
-version: '3'
-services:
-  consul-server-1:
-    image: consul
-    container_name: consul-server-1
-    restart: always
-    command: "agent -server -ui -bootstrap-expect=3 -data-dir=/consul/data -config-dir=/consul/config -client=0.0.0.0 -node=consul-server-1 -enable-script-checks=true -bind=0.0.0.0"
-    ports:
-      - "8403:8400"
-      - "8503:8500"
-      - "8603:8600/udp"
-    volumes:
-      - ./consul/data/consul-1:/consul/data
-      - ./consul/config/consul-1:/consul/config
-    environment:
-      - CONSUL_BIND_INTERFACE=eth0
-    networks:
-      - consul-net
-  consul-server-2:
-    image: consul
-    container_name: consul-server-2
-    restart: always
-    command: "agent -server -ui -data-dir=/consul/data -config-dir=/consul/config -client=0.0.0.0 -retry-join=consul-server-1 -node=consul-server-2 -enable-script-checks=true -bind=0.0.0.0"
-    ports:
-      - "8401:8400"
-      - "8501:8500"
-      - "8601:8600/udp"
-    volumes:
-      - ./consul/data/consul-2:/consul/data
-      - ./consul/config/consul-2:/consul/config
-    environment:
-      - CONSUL_BIND_INTERFACE=eth0
-    networks:
-      - consul-net
-    depends_on:
-      - consul-server-1
-  consul-server-3:
-      image: consul
-      container_name: consul-server-3
-      restart: always
-      command: "agent -server -ui -data-dir=/consul/data -config-dir=/consul/config -client=0.0.0.0 -retry-join=consul-server-1 -node=consul-server-3 -enable-script-checks=true -bind=0.0.0.0"
-      ports:
-      - "8402:8400"
-      - "8502:8500"
-      - "8602:8600/udp"
-      volumes:
-      - ./consul/data/consul-3:/consul/data
-      - ./consul/config/consul-3:/consul/config
-      environment:
-      - CONSUL_BIND_INTERFACE=eth0
-      networks:
-      - consul-net
-      depends_on:
-      - consul-server-1
+version: '3.8'
+
 networks:
-  consul-net:
+  ace-network:
+    name: ace-network
+    driver: bridge
+    ipam:
+      config:
+        subnet: 172.17.0.0/16
+
+services:
+  mysql-8:
+    image: mysql:latest
+    container_name: mysql-8
+    restart: always
+    # platform: linux/x86_64
+    environment:
+      MYSQL_DATABASE: ace
+      MYSQL_USER: garlam
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3306:3306
+    networks:
+      - ace-network
+
+  redis:
+    image: redis:latest
+    container_name: redis-7
+    restart: always
+    ports:
+      - 6379:6379
+    networks:
+      - ace-network
+
+  consul-1:
+    image: consul:1.15.4
+    container_name: consul-1
+    restart: always
+    ports:
+      - 8501:8500
+    environment:
+      CONSUL_BIND_INTERFACE: eth0
+    command: >
+      agent --server=true
+      --bootstrap-expect=3
+      --client=0.0.0.0
+      -ui
+    networks:
+      ace-network:
+        - ipv4_address: 172.17.0.2
+# bootstrap-expect=3 server要想启动，需要至少3个server
+
+
+  consul-2:
+    image: consul:1.15.4
+    container_name: consul-2
+    restart: always
+    ports:
+      - 8502:8500
+    environment:
+      CONSUL_BIND_INTERFACE: eth0
+    command: >
+      agent --server=true
+      --bootstrap-expect=3
+      --client=0.0.0.0
+      --join 172.17.0.2
+      -ui
+    networks:
+      - ace-network
+
+
+  consul-3:
+    image: consul:1.15.4
+    container_name: consul-3
+    restart: always
+    ports:
+      - 8503:8500
+    environment:
+      CONSUL_BIND_INTERFACE: eth0
+    command: >
+      agent --server=true
+      --bootstrap-expect=3
+      --client=0.0.0.0
+      --join 172.17.0.2
+      -ui
+    networks:
+      - ace-network
+
+  zipkin:
+    image: openzipkin/zipkin:latest
+    container_name: zipkin
+    ports:
+      - 9411:9411
+    networks:
+      - ace-network

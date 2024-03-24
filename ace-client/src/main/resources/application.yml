@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: ace-openfeign-client
+    name: ace-client
 
   cloud:
     consul: #设置服务注册和发现
@@ -69,14 +69,10 @@ resilience4j:
         slidingWindowType: COUNT_BASED # 滑动窗口的类型
         failureRateThreshold: 50 #设置50%的调用失败时打开断路器，超过失败请求百分⽐CircuitBreaker变为OPEN状态。
         slidingWindowSize: 6 #默认值=100, 滑动窗⼝的⼤⼩配置COUNT_BASED表示6个请求，配置TIME_BASED表示6秒
-        minimumNumberOfCalls: 6 #断路器计算失败率或慢调用率之前所需的最小样本(每个滑动窗口周期)。如果minimumNumberOfCalls为10，
-                                #则必须最少记录10个样本，然后才能计算失败率。如果只记录了9次调用，即使所有9次调用都失败，断路器也不会开启。
-        automaticTransitionFromOpenToHalfOpenEnabled: true # 是否启用自动从开启状态过渡到半开状态，默认值为true.
-                                #如果启用，CircuitBreaker将自动从开启状态过渡到半开状态，并允许一些请求通过以测试服务是否恢复正常
-        waitDurationInOpenState: 5s #从OPEN到HALF_OPEN状态需要等待的时间
-        permittedNumberOfCallsInHalfOpenState: 5 #半开状态允许的最大请求数，默认值为10.
-                                #在半开状态下，CircuitBreaker将允许最多permittedNumberOfCallsInHalfOpenState个请求通过，
-                                #如果其中有任何一个请求失败，CircuitBreaker将重新进入开启状态。
+        minimumNumberOfCalls: 6 #断路器计算失败率或慢调用率之前所需的最小样本(每个滑动窗口周期)。如果minimumNumberOfCalls为10，则必须最少记录10个样本，然后才能计算失败率。如果只记录了9次调用，即使所有9次调用都失败，断路器也不会开启。
+        automaticTransitionFromOpenToHalfOpenEnabled: true # 是否启用自动从开启状态过渡到半开状态，默认值为true.如果启用，CircuitBreaker将自动从开启状态过渡到半开状态，并允许一些请求通过以测试服务是否恢复正常
+        waitDurationInOpenState: 10s #从OPEN到HALF_OPEN状态需要等待的时间
+        permittedNumberOfCallsInHalfOpenState: 5 #半开状态允许的最大请求数，默认值为10.在半开状态下，CircuitBreaker将允许最多permittedNumberOfCallsInHalfOpenState个请求通过，如果其中有任何一个请求失败，CircuitBreaker将重新进入开启状态。
         recordExceptions:
           - java.lang.Exception
     instances:
@@ -104,15 +100,15 @@ resilience4j:
 #        base-config: default
 
 
-#  ratelimiter: #限流
-#    configs:
-#      default:
-#        limitForPeriod: 2 #在一次刷新周期内，允许执行的最大请求数 default 50
-#        limitRefreshPeriod: 1s # default 50纳秒, 限流器每隔limitRefreshPeriod刷新一次，将允许处理的最大请求数量重置为limitForPeriod
-#        timeout-duration: 1 # 线程等待权限的默认等待时间 default 5秒
-#    instances:
-#      ace-provider:
-#        baseConfig: default
+  ratelimiter: #限流
+    configs:
+      default:
+        limitForPeriod: 2 #在一次刷新周期内，允许执行的最大请求数 default 50
+        limitRefreshPeriod: 1s # default 50纳秒, 限流器每隔limitRefreshPeriod刷新一次，将允许处理的最大请求数量重置为limitForPeriod
+        timeout-duration: 1 # 线程等待权限的默认等待时间 default 5秒
+    instances:
+      ace-provider:
+        baseConfig: default
 
 
 

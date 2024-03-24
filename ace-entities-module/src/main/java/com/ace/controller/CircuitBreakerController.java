@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  * @create 2023-12-26 22:26
  */
 @RestController
-@RequestMapping(value = "/circuit")
+@RequestMapping(value = "/ace/circuit")
 @Tag(name = "断路器")
 public class CircuitBreakerController {
 
@@ -32,7 +32,7 @@ public class CircuitBreakerController {
                 e.printStackTrace();
             }
         }
-        return "Hello, circuit! inputId:  " + id + " \t " + IdUtil.simpleUUID();
+        return "Hello, circuit! inputId:  " + id + "   " + IdUtil.simpleUUID();
     }
 
     // Resilience4j bulkhead 舱壁
@@ -49,7 +49,7 @@ public class CircuitBreakerController {
             }
         }
 
-        return "Hello, bulkhead! inputId:  " + id + " \t " + IdUtil.simpleUUID();
+        return "Hello, bulkhead! inputId:  " + id + "   " + IdUtil.simpleUUID();
     }
 
 
@@ -57,6 +57,6 @@ public class CircuitBreakerController {
     @Operation(summary = "限流")
     @GetMapping(value = "/rateLimit/{id}")
     public String myRateLimit(@PathVariable("id") Integer id) {
-        return "Hello, myRateLimit 欢迎到来 inputId:  " + id + " \t " + IdUtil.simpleUUID();
+        return "Hello, myRateLimit 欢迎到来 inputId:  " + id + "   " + IdUtil.simpleUUID();
     }
 }

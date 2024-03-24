@@ -10,10 +10,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>ace-consumer</module>
         <module>ace-commons</module>
         <module>ace-entities-module</module>
-        <module>ace-openfeign-client</module>
+        <module>ace-client</module>
         <module>ace-gateway</module>
         <module>ace-utilities</module>
     </modules>

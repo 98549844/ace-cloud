@@ -1,6 +1,6 @@
 package com.ace.controller;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
+import com.ace.response.RespData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,32 +10,30 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 /**
- * @Classname: GatewayController
- * @Date: 24/3/2024 11:30 am
+ * @Classname: NodeController
+ * @Date: 24/3/2024 2:27 pm
  * @Author: garlam
  * @Description:
  */
 
-
 @RestController
-@RequestMapping("/ace/gateway")
-@Tag(name = "网关")
-public class GatewayController {
-    private static final Logger log = LogManager.getLogger(GatewayController.class.getName());
+@RequestMapping("/ace/node")
+public class NodeController {
+    private static final Logger log = LogManager.getLogger(NodeController.class.getName());
+
 
     @Value("${spring.application.name}")
-    private String gatewayName;
+    private String nodeName;
 
     @Value("${server.port}")
     private String port;
 
 
-    @GetMapping(value = "/get")
-    public String get() {
-        String info = "Gateway Name:   " + gatewayName + "   port:   " + port;
-        return info;
+    @GetMapping("/get")
+    public RespData<String> getNodeInfo() {
+        String message = "Node instance: " + nodeName + ":" + port;
+        return RespData.success(message);
     }
-
 
 }
 
