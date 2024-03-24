@@ -29,12 +29,12 @@ public class ConsulConfigController {
     private static final Logger log = LogManager.getLogger(ConsulConfigController.class.getName());
 
 
-    @Operation(summary = "读取consul cluster配置")
-    @GetMapping(value = "/get")
-    public RespData<String> getByUserAccount(@Value("${aceInfo.version}") String version) {
-        System.out.println("Ace config:" + version);
-        return RespData.success("Ace config:" + version);
-    }
+//    @Operation(summary = "读取consul cluster配置")
+//    @GetMapping(value = "/get")
+//    public RespData<String> getByUserAccount(@Value("${aceInfo.version}") String version) {
+//        System.out.println("Ace config:" + version);
+//        return RespData.success("Ace config:" + version);
+//    }
 
 }
 

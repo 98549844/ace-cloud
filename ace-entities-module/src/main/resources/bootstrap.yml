@@ -2,14 +2,14 @@
 
 spring:
   profiles:
-    active: docker
+    active: dev
   application:
     name: ace-entities-module
     ####Spring Cloud Consul for Service Discovery
   cloud:
     consul:
-      host: consul-leader # for docker
-      # host: localhost for 本地开发
+      #host: consul-leader # for docker
+      host: localhost #for 本地开发
       port: 8500
       discovery:
         prefer-ip-address: true #优先使用服务ip进行注册
@@ -20,8 +20,8 @@ spring:
         watch:
           wait-time: 1 # 1: 实时更新, default: 55秒
 
-        # config/ace-entities-module/data
-        #       /ace-entities-module-dev/data
-        #       /ace-entities-module-docker/data
+# config/ace-entities-module/data
+#       /ace-entities-module-dev/data
+#       /ace-entities-module-docker/data
 
-        # instance-id: ${spring.application.name}-${server.port}-${spring.cloud.client.ip-address} # consul id拼接docker ip
+# instance-id: {spring.application.name}-{server.port}-{spring.cloud.client.ip-address} # consul id拼接docker ip
