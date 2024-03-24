@@ -23,7 +23,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hutool.version>5.8.22</hutool.version>
         <lombok.version>1.18.26</lombok.version>
-        <!--<druid.version>1.1.20</druid.version>-->
         <hikari.version>5.1.0</hikari.version>
         <mybatis.springboot.version>3.0.2</mybatis.springboot.version>
         <mysql.version>8.0.11</mysql.version>
@@ -47,8 +46,6 @@
     <!--不负责jar依赖引入-->
     <dependencyManagement>
         <dependencies>
-
-
             <!--springboot 3.2.0-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -101,26 +98,19 @@
                 <groupId>org.hibernate.orm</groupId>
                 <artifactId>hibernate-core</artifactId>
                 <version>6.1.7.Final</version>
-                <!-- 单独run HibernateUtil.main, 需要include jboss-logging-->
-                <!--<exclusions>
-                    <exclusion>
-                        <artifactId>jboss-logging</artifactId>
-                        <groupId>org.jboss.logging</groupId>
-                    </exclusion>
-                </exclusions>-->
             </dependency>
             <!--通用Mapper4之tk.mybatis-->
-            <dependency>
-                <groupId>tk.mybatis</groupId>
-                <artifactId>mapper</artifactId>
-                <version>${mapper.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>tk.mybatis</groupId>-->
+<!--                <artifactId>mapper</artifactId>-->
+<!--                <version>${mapper.version}</version>-->
+<!--            </dependency>-->
             <!--persistence-->
-            <dependency>
-                <groupId>javax.persistence</groupId>
-                <artifactId>persistence-api</artifactId>
-                <version>${persistence-api.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>javax.persistence</groupId>-->
+<!--                <artifactId>persistence-api</artifactId>-->
+<!--                <version>${persistence-api.version}</version>-->
+<!--            </dependency>-->
             <dependency>
                 <groupId>jakarta.persistence</groupId>
                 <artifactId>jakarta.persistence-api</artifactId>
@@ -133,11 +123,11 @@
                 <version>${fastjson2.version}</version>
             </dependency>
             <!-- swagger3 调用方式 http://你的主机IP地址:5555/swagger-ui/index.html -->
-            <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-                <version>${swagger3.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.springdoc</groupId>-->
+<!--                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>-->
+<!--                <version>${swagger3.version}</version>-->
+<!--            </dependency>-->
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>

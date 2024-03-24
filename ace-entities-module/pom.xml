@@ -25,6 +25,7 @@
             <artifactId>ace-utilities</artifactId>
             <version>1.0</version>
         </dependency>
+        <!--for query mysql data-->
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>
@@ -149,14 +150,14 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
         <!--persistence-->
-        <!--<dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>persistence-api</artifactId>
-        </dependency>-->
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
         </dependency>
+        <!--<dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+        </dependency>-->
         <!--通用Mapper4-->
         <!--        <dependency>-->
         <!--            <groupId>tk.mybatis</groupId>-->

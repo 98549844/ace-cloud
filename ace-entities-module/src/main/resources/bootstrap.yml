@@ -13,15 +13,15 @@ spring:
       port: 8500
       discovery:
         prefer-ip-address: true #优先使用服务ip进行注册
-        service-name: ${spring.application.name}
         instance-id: ${spring.application.name}-${server.port}-${spring.cloud.client.hostname} # consul id拼接docker hostname
-       # instance-id: ${spring.application.name}-${server.port}-${spring.cloud.client.ip-address} # consul id拼接docker ip
       config:
         profile-separator: '-' # default value is ","，we update '-'
         format: YAML
         watch:
           wait-time: 1 # 1: 实时更新, default: 55秒
 
-  # config/ace-entities-module/data
-  #       /ace-entities-module-dev/data
-  #       /ace-entities-module-docker/data
+        # config/ace-entities-module/data
+        #       /ace-entities-module-dev/data
+        #       /ace-entities-module-docker/data
+
+        # instance-id: ${spring.application.name}-${server.port}-${spring.cloud.client.ip-address} # consul id拼接docker ip
