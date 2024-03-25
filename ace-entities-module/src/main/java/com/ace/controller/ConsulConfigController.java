@@ -3,6 +3,7 @@ package com.ace.controller;
 import com.ace.entities.Users;
 import com.ace.entities.UsersDto;
 import com.ace.response.RespData;
+import com.ace.utilities.NullUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.logging.log4j.LogManager;
@@ -31,12 +32,15 @@ public class ConsulConfigController {
 
     @Value("${server.port}")
     private String port;
-    @Value("${ace.version}")
+    //  @Value("${ace.version}")
     private String version;
 
     @Operation(summary = "读取consul cluster配置")
     @GetMapping(value = "/get")
     public RespData<String> getByUserAccount() {
+        if (NullUtil.isNull(version)) {
+            version = "未配置";
+        }
         System.out.println("Ace config:" + version);
         System.out.println("port: " + port);
         return RespData.success("Ace config:" + version);
