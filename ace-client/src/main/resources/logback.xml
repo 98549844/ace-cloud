@@ -16,7 +16,6 @@
         </encoder>
     </appender>
 
-
     <!-- error级别日志文件输出,按日期时间滚动记录输出 -->
     <appender name="FILEERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_PATH}/${APPDIR}/log_error.log</file>

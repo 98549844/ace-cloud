@@ -41,18 +41,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        <!-- Swagger3 调用方式 http://你的主机IP地址:5555/swagger-ui/index.html -->
-        <!--<dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-        </dependency>-->
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
-            <version>4.5.0</version>
-        </dependency>
-
-
         <!--lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>

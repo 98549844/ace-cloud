@@ -21,10 +21,9 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hutool.version>5.8.22</hutool.version>
+        <hutool.version>5.8.26</hutool.version>
         <lombok.version>1.18.26</lombok.version>
         <hikari.version>5.1.0</hikari.version>
-        <mybatis.springboot.version>3.0.2</mybatis.springboot.version>
         <mysql.version>8.0.11</mysql.version>
         <swagger3.version>2.2.0</swagger3.version>
         <knife4j.version>4.3.0</knife4j.version>
@@ -51,10 +50,10 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-parent</artifactId>
                 <version>${spring.boot.version}</version>
-                <type>pom</type>
+                <type>pom</type> <!--一般用于父工程-->
                 <scope>import</scope>
             </dependency>
-            <!--springcloud 2023.0.0-->
+            <!--spring cloud 2023.0.0-->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -62,19 +61,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!--springcloud alibaba 2022.0.0.0-RC2-->
+            <!--spring cloud alibaba 2022.0.0.0-RC2-->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
                 <version>${spring.cloud.alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-            <!--SpringBoot集成mybatis-->
-            <dependency>
-                <groupId>org.mybatis.spring.boot</groupId>
-                <artifactId>mybatis-spring-boot-starter</artifactId>
-                <version>${mybatis.springboot.version}</version>
             </dependency>
             <!--Mysql数据库驱动8 -->
             <dependency>
@@ -99,18 +92,7 @@
                 <artifactId>hibernate-core</artifactId>
                 <version>6.1.7.Final</version>
             </dependency>
-            <!--通用Mapper4之tk.mybatis-->
-<!--            <dependency>-->
-<!--                <groupId>tk.mybatis</groupId>-->
-<!--                <artifactId>mapper</artifactId>-->
-<!--                <version>${mapper.version}</version>-->
-<!--            </dependency>-->
-            <!--persistence-->
-<!--            <dependency>-->
-<!--                <groupId>javax.persistence</groupId>-->
-<!--                <artifactId>persistence-api</artifactId>-->
-<!--                <version>${persistence-api.version}</version>-->
-<!--            </dependency>-->
+
             <dependency>
                 <groupId>jakarta.persistence</groupId>
                 <artifactId>jakarta.persistence-api</artifactId>
@@ -122,12 +104,6 @@
                 <artifactId>fastjson2</artifactId>
                 <version>${fastjson2.version}</version>
             </dependency>
-            <!-- swagger3 调用方式 http://你的主机IP地址:5555/swagger-ui/index.html -->
-<!--            <dependency>-->
-<!--                <groupId>org.springdoc</groupId>-->
-<!--                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>-->
-<!--                <version>${swagger3.version}</version>-->
-<!--            </dependency>-->
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>

@@ -40,7 +40,6 @@
         </dependency>
 
 
-
         <!--读取图片文字, refer to textUtil-->
         <dependency>
             <groupId>net.sourceforge.tess4j</groupId>
