@@ -7,11 +7,11 @@ spring:
 
   cloud:
     consul: #设置服务注册和发现
-      discovery:
-        prefer-ip-address: true #优先使用服务ip进行注册
-        service-name: ${spring.application.name}
       host: localhost
       port: 8500
+      discovery:
+        prefer-ip-address: true #优先使用服务ip进行注册
+        instance-id: ${spring.application.name}-${server.port}-${spring.cloud.client.hostname} # consul id拼接docker hostname
     openfeign:
       httpclient:
         hc5:
