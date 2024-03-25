@@ -1,15 +1,13 @@
 #比application.yml级别高
 
 spring:
-  profiles:
-    active: dev
   application:
     name: ace-entities-module
     ####Spring Cloud Consul for Service Discovery
   cloud:
     consul:
       #host: consul-leader # for docker
-      host: localhost #for 本地开发
+      host: localhost # for 本地开发
       port: 8500
       discovery:
         prefer-ip-address: true #优先使用服务ip进行注册
@@ -23,5 +21,9 @@ spring:
 # config/ace-entities-module/data
 #       /ace-entities-module-dev/data
 #       /ace-entities-module-docker/data
+# 在consul配置中文里面, data文件type,要选YAML
+# 文件编写, 要注意空格键
+# ace:
+#   version: xxx
 
 # instance-id: {spring.application.name}-{server.port}-{spring.cloud.client.ip-address} # consul id拼接docker ip
