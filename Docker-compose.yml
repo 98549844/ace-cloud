@@ -1,14 +1,9 @@
 #docker compose -f /Users/garlam/IdeaProjects/ace-cloud/Docker-compose.yml -p ace-cloud up -d
 version: '3.8'
-
-
 networks:
   ace-network: # 网络名
     name: ace-network
     driver: bridge
-
-
-
 
 services:
   consul-leader:
@@ -143,7 +138,6 @@ services:
     networks:
       - ace-network
 
-
 #  ace-client-2:
 #    build:
 #      context: ./ace-client
@@ -160,8 +154,6 @@ services:
 #      - zipkin
 #    networks:
 #      - ace-network
-
-
 
   ace-entities-module-1:
     build:
