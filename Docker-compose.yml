@@ -9,6 +9,7 @@ services:
   consul-leader:
     image: consul:1.15.4
     container_name: consul-leader
+    hostname: consul-leader
     restart: always
     ports:
       - 8500:8500
@@ -28,6 +29,7 @@ services:
   consul-1:
     image: consul:1.15.4
     container_name: consul-1
+    hostname: consul-1
     restart: always
     ports:
       - 8501:8500
@@ -49,6 +51,7 @@ services:
   consul-2:
     image: consul:1.15.4
     container_name: consul-2
+    hostname: consul-2
     restart: always
     ports:
       - 8502:8500
@@ -67,9 +70,26 @@ services:
     networks:
       - ace-network
 
+  seata2:
+    image: seataio/seata-server:latest
+    container_name: seata2
+    hostname: seata2
+    restart: always
+    ports:
+      - "7091:7091"
+      - "8091:8091"
+    environment:
+      - SEATA_PORT=8091
+      - STORE_MODE=file # 事后需要到seata2: application.yml修改
+    depends_on:
+      - consul-leader
+    networks:
+      - ace-network
+
   mysql8:
     image: mysql:latest
     container_name: mysql8
+    hostname: mysql8
     restart: always
     environment:
       MYSQL_DATABASE: ace
@@ -85,22 +105,24 @@ services:
     networks:
       - ace-network
 
-#  redis7:
-#    image: redis:latest
-#    container_name: redis7
-#    restart: always
-#    ports:
-#      - 6379:6379
-#    depends_on:
-#      - consul-leader
-#      - consul-1
-#      - consul-2
-#    networks:
-#      - ace-network
+  #  redis7:
+  #    image: redis:latest
+  #    container_name: redis7
+  #    hostname: redis7
+  #    restart: always
+  #    ports:
+  #      - 6379:6379
+  #    depends_on:
+  #      - consul-leader
+  #      - consul-1
+  #      - consul-2
+  #    networks:
+  #      - ace-network
 
   zipkin:
     image: openzipkin/zipkin:latest
     container_name: zipkin
+    hostname: zipkin
     ports:
       - 9411:9411
     networks:
@@ -111,6 +133,7 @@ services:
       context: ./ace-gateway
       dockerfile: Dockerfile
     container_name: ace-gateway
+    hostname: ace-gateway
     #   restart: always
     ports:
       - 9500:9500
@@ -127,6 +150,7 @@ services:
       context: ./ace-client
       dockerfile: Dockerfile
     container_name: ace-client
+    hostname: ace-client
     # restart: always
     ports:
       - 80:8090
@@ -138,28 +162,29 @@ services:
     networks:
       - ace-network
 
-#  ace-client-2:
-#    build:
-#      context: ./ace-client
-#      dockerfile: Dockerfile
-#    container_name: ace-client-2
-#    # restart: always
-#    ports:
-#      - 8092:8090
-#    depends_on:
-#      - consul-leader
-#      - consul-1
-#      - consul-2
-#      - redis
-#      - zipkin
-#    networks:
-#      - ace-network
+  #  ace-client-2:
+  #    build:
+  #      context: ./ace-client
+  #      dockerfile: Dockerfile
+  #    container_name: ace-client-2
+  #    # restart: always
+  #    ports:
+  #      - 8092:8090
+  #    depends_on:
+  #      - consul-leader
+  #      - consul-1
+  #      - consul-2
+  #      - redis
+  #      - zipkin
+  #    networks:
+  #      - ace-network
 
   ace-entities-module-1:
     build:
       context: ./ace-entities-module
       dockerfile: Dockerfile
     container_name: ace-entities-module-1
+    hostname: ace-entities-module-1
     # restart: always
     environment:
       - SERVICE_NAME=ace-entities-module-1
@@ -181,6 +206,7 @@ services:
       context: ./ace-entities-module
       dockerfile: Dockerfile
     container_name: ace-entities-module-2
+    hostname: ace-entities-module-2
     #  restart: always
     environment:
       - SERVICE_NAME=ace-entities-module-2
@@ -202,6 +228,7 @@ services:
       context: ./ace-entities-module
       dockerfile: Dockerfile
     container_name: ace-entities-module-3
+    hostname: ace-entities-module-3
     #  restart: always
     environment:
       - SERVICE_NAME=ace-entities-module-3

@@ -1,0 +1,55 @@
+https://seata.apache.org/zh-cn/docs/user/configurations
+1. pull images
+docker pull seataio/seata-server
+
+2. docker run image
+docker run --name seata-server -p 8091:8091 seataio/seata-server:latest
+
+3. 指定seata-server IP和端口 启动
+docker run --name seata-server \
+-p 8091:8091 \
+-e SEATA_IP=192.168.1.1 \
+-e SEATA_PORT=8091 \
+seataio/seata-server:latest
+
+4. 容器命令行及查看日志
+docker exec -it seata-server sh
+docker logs -f seata-server
+
+5. 使用自定义配置文件
+$ docker run --name seata-server \
+-p 8091:8091 \
+-e SEATA_CONFIG_NAME=file:/root/seata-config/registry \
+-v /User/seata/config:/root/seata-config  \
+seataio/seata-server:latest
+
+
+
+环境变量
+seata-server 支持以下环境变量：
+
+SEATA_IP
+可选, 指定seata-server启动的IP,
+该IP用于向注册中心注册时使用, 如eureka等
+
+SEATA_PORT
+可选, 指定seata-server启动的端口,
+默认为 8091
+
+STORE_MODE
+可选, 指定seata-server的事务日志存储方式,
+支持db ,file,redis(Seata-Server 1.3及以上版本支持), 默认是 file
+
+SERVER_NODE
+可选, 用于指定seata-server节点ID, 如 1,2,3...,
+默认为 根据ip生成
+
+SEATA_ENV
+可选, 指定 seata-server 运行环境, 如 dev, test 等,
+服务启动时会使用 registry-dev.conf 这样的配置
+
+SEATA_CONFIG_NAME
+可选, 指定配置文件位置, 如 file:/root/registry,
+将会加载 /root/registry.conf 作为配置文件，
+如果需要同时指定 file.conf文件，
+需要将registry.conf的config.file.name的值改为类似file:/root/file.conf：
