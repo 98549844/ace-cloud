@@ -50,7 +50,9 @@ seata:
     cluster: seata2
     server-addr: consul-leader:8500
     acl-token:
+  #172.21.0.2
 
+  #172.21.0.6
 
   store:
     mode: db
