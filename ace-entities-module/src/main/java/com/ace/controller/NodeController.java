@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * @Classname: NodeController
@@ -20,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/ace/node")
-@Tag(name="节点")
+@Tag(name = "节点")
 public class NodeController {
     private static final Logger log = LogManager.getLogger(NodeController.class.getName());
 
@@ -31,12 +34,26 @@ public class NodeController {
     @Value("${server.port}")
     private String port;
 
+    @Value("${spring.cloud.client.hostname}")
+    private String cloudHostname;
+
+    @Value("{spring.cloud.client.ip-address}")
+    private String cloudIp;
+
 
     @Operation(summary = "节点资料")
     @GetMapping("/get")
     public RespData<String> getNodeInfo() {
-        String message = "Node instance: " + nodeName + ":" + port;
-        System.out.println(message+"  "+ System.currentTimeMillis());
+        String node = "Node instance: " + nodeName;
+        String hostname = "hostname: " + cloudHostname;
+        String nodePort = "port: " + port;
+        String ip = "ip: " + cloudIp;
+        String space = "  ";
+        long timestamp = System.currentTimeMillis();
+
+        String message = node + space + hostname + space + nodePort + space + ip + space + timestamp;
+        System.out.println(message);
+
         return RespData.success(message);
     }
 
