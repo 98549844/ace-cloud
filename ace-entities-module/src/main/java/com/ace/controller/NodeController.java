@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,17 +39,19 @@ public class NodeController {
     @Value("${spring.cloud.client.hostname}")
     private String cloudHostname;
 
-    @Value("{spring.cloud.client.ip-address}")
-    private String cloudIp;
+
+
 
 
     @Operation(summary = "节点资料")
     @GetMapping("/get")
-    public RespData<String> getNodeInfo() {
+    public RespData<String> getNodeInfo() throws UnknownHostException {
         String node = "Node instance: " + nodeName;
         String hostname = "hostname: " + cloudHostname;
         String nodePort = "port: " + port;
-        String ip = "ip: " + cloudIp;
+        InetAddress inetAddress = InetAddress.getLocalHost();
+        String ipAddress = inetAddress.getHostAddress();
+        String ip = "ip: " + ipAddress;
         String space = "  ";
         long timestamp = System.currentTimeMillis();
 
