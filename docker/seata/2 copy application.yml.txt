@@ -11,3 +11,8 @@ seata2:/seata-server/resources/ \
 docker cp \
 /Users/garlam/IdeaProjects/ace-cloud/docker/seata/docker_backup/resources_backup/application.yml \
 seata2:/seata-server/resources/application.yml
+
+4. copy registry.conf 到 seata container
+docker cp \
+/Users/garlam/IdeaProjects/ace-cloud/docker/seata/docker_backup/resources_backup/registry.conf \
+seata2:/seata-server/resources/registry.conf

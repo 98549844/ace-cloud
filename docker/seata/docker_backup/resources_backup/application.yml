@@ -20,7 +20,7 @@ server:
 
 spring:
   application:
-    name: seata-server
+    name: seata2
 
 logging:
   config: classpath:logback-spring.xml
@@ -38,20 +38,20 @@ console:
     username: seata
     password: seata
 seata:
-  config:
+  config: #配置
     # support: nacos, consul, apollo, zk, etcd3
     type: consul
-    consul:
-      server-addr: consul-leader:8500
-      acl-token:
-      key: seata.properties
-  registry:
+    server-addr: consul-leader:8500
+    acl-token:
+    key: seata.properties
+  registry: #注册
     # support: nacos, eureka, redis, zk, consul, etcd3, sofa
     type: consul
-    consul:
-      cluster: default
-      server-addr: consul-leader:8500
-      acl-token:
+    cluster: seata2
+    server-addr: consul-leader:8500
+    acl-token:
+
+
   store:
     mode: db
     db:
