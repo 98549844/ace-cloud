@@ -120,7 +120,7 @@ services:
       - "8091:8091"
     environment:
       - SEATA_PORT=8091
-      - STORE_MODE=file # 事后需要到seata2: application.yml修改
+      - STORE_MODE=file
     depends_on:
       - consul-1
       - consul-2
