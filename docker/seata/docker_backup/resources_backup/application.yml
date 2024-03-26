@@ -41,18 +41,20 @@ seata:
   config: #配置
     # support: nacos, consul, apollo, zk, etcd3
     type: consul
-    server-addr: 172.21.0.2:8500
-    acl-token:
-    key: seata.properties
+    consul:
+      server-addr: 172.20.0.2:8500
+      acl-token:
+      key: seata.properties
   registry: #注册
     # support: nacos, eureka, redis, zk, consul, etcd3, sofa
     type: consul
-    cluster: seata2
-    server-addr: 172.21.0.2:8500
-    acl-token:
-  #172.21.0.2
+    consul:
+      cluster: seata2
+      server-addr: 172.20.0.2:8500
+      acl-token:
+  #172.20.0.2
 
-  #172.21.0.6
+  #172.20.0.6
 
   store:
     mode: db
@@ -60,7 +62,7 @@ seata:
       datasource: druid
       db-type: mysql
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://172.21.0.6:3306/seata?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true
+      url: jdbc:mysql://172.20.0.5:3306/seata?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true
       user: root
       password: root
       min-conn: 10
@@ -71,8 +73,6 @@ seata:
       distributed-lock-table: distributed_lock
       query-limit: 1000
       max-wait: 5000
-
-
 
   #  server:
   #    service-port: 8091 #If not configured, the default is '${server.port} + 1000'

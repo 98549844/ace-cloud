@@ -93,7 +93,8 @@ services:
       - consul-2
       - consul-3
     networks:
-      - ace-network
+      ace-network:
+        ipv4_address: 172.20.0.5
 
   #  redis7:
   #    image: redis:latest
