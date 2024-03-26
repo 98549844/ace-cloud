@@ -1,0 +1,10 @@
+1. access http://localhost:8500/ui/dc1/services
+
+2. 打开Key/Value
+
+3. create seata.properties key,
+   type is JSON
+
+4. 把script/config-center/config.txt
+   复制到consul的seata.properties
+https://github.com/apache/incubator-seata/blob/2.x/script/config-center/config.txt
