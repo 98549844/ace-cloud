@@ -76,24 +76,6 @@ services:
       ace-network:
         ipv4_address: 172.20.0.4
 
-  seata2:
-    image: seataio/seata-server:latest
-    container_name: seata2
-    hostname: seata2
-    # restart: always
-    ports:
-      - "7091:7091"
-      - "8091:8091"
-    environment:
-      - SEATA_PORT=8091
-      - STORE_MODE=file # 事后需要到seata2: application.yml修改
-    depends_on:
-      - consul-1
-      - consul-2
-      - consul-3
-    networks:
-      - ace-network
-
   mysql8:
     image: mysql:latest
     container_name: mysql8
@@ -126,6 +108,24 @@ services:
   #      - consul-3
   #    networks:
   #      - ace-network
+
+  seata2:
+    image: seataio/seata-server:latest
+    container_name: seata2
+    hostname: seata2
+    # restart: always
+    ports:
+      - "7091:7091"
+      - "8091:8091"
+    environment:
+      - SEATA_PORT=8091
+      - STORE_MODE=file # 事后需要到seata2: application.yml修改
+    depends_on:
+      - consul-1
+      - consul-2
+      - consul-3
+    networks:
+      - ace-network
 
   zipkin:
     image: openzipkin/zipkin:latest
