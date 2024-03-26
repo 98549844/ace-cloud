@@ -4,12 +4,15 @@ networks:
   ace-network: # 网络名
     name: ace-network
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
 
 services:
-  consul-leader:
+  consul-1:
     image: consul:1.15.4
-    container_name: consul-leader
-    hostname: consul-leader
+    container_name: consul-1
+    hostname: consul-1
     restart: always
     ports:
       - 8500:8500
@@ -21,15 +24,16 @@ services:
       --bootstrap-expect=3
       --client=0.0.0.0
       --ui
-      --node=consul-leader
+      --node=consul-1
     networks:
-      - ace-network
+      ace-network:
+        ipv4_address: 172.20.0.2
     #  --advertise=192.168.1.2 绑定ip
 
-  consul-1:
+  consul-2:
     image: consul:1.15.4
-    container_name: consul-1
-    hostname: consul-1
+    container_name: consul-2
+    hostname: consul-2
     restart: always
     ports:
       - 8501:8500
@@ -40,18 +44,19 @@ services:
       --server=true
       --bootstrap-expect=3
       --client=0.0.0.0
-      --join consul-leader
+      --join consul-1
       --ui
-      --node=consul-1
+      --node=consul-2
     depends_on:
-      - consul-leader
+      - consul-1
     networks:
-      - ace-network
+      ace-network:
+        ipv4_address: 172.20.0.3
 
-  consul-2:
+  consul-3:
     image: consul:1.15.4
-    container_name: consul-2
-    hostname: consul-2
+    container_name: consul-3
+    hostname: consul-3
     restart: always
     ports:
       - 8502:8500
@@ -62,19 +67,20 @@ services:
       --server=true
       --bootstrap-expect=3
       --client=0.0.0.0
-      --join consul-leader
+      --join consul-1
       --ui
-      --node=consul-2
+      --node=consul-3
     depends_on:
-      - consul-1
+      - consul-2
     networks:
-      - ace-network
+      ace-network:
+        ipv4_address: 172.20.0.4
 
   seata2:
     image: seataio/seata-server:latest
     container_name: seata2
     hostname: seata2
-   # restart: always
+    # restart: always
     ports:
       - "7091:7091"
       - "8091:8091"
@@ -82,7 +88,9 @@ services:
       - SEATA_PORT=8091
       - STORE_MODE=file # 事后需要到seata2: application.yml修改
     depends_on:
-      - consul-leader
+      - consul-1
+      - consul-2
+      - consul-3
     networks:
       - ace-network
 
@@ -99,9 +107,9 @@ services:
     ports:
       - 3306:3306
     depends_on:
-      - consul-leader
       - consul-1
       - consul-2
+      - consul-3
     networks:
       - ace-network
 
@@ -113,9 +121,9 @@ services:
   #    ports:
   #      - 6379:6379
   #    depends_on:
-  #      - consul-leader
   #      - consul-1
   #      - consul-2
+  #      - consul-3
   #    networks:
   #      - ace-network
 
@@ -125,6 +133,10 @@ services:
     hostname: zipkin
     ports:
       - 9411:9411
+    depends_on:
+      - consul-1
+      - consul-2
+      - consul-3
     networks:
       - ace-network
 
@@ -138,10 +150,10 @@ services:
     ports:
       - 9500:9500
     depends_on:
-      - zipkin
-      - consul-leader
       - consul-1
       - consul-2
+      - consul-3
+      - zipkin
     networks:
       - ace-network
 
@@ -155,9 +167,9 @@ services:
     ports:
       - 80:8090
     depends_on:
-      - consul-leader
       - consul-1
       - consul-2
+      - consul-3
       - zipkin
     networks:
       - ace-network
@@ -171,9 +183,9 @@ services:
   #    ports:
   #      - 8092:8090
   #    depends_on:
-  #      - consul-leader
   #      - consul-1
   #      - consul-2
+  #      - consul-3
   #      - redis
   #      - zipkin
   #    networks:
@@ -192,9 +204,9 @@ services:
     ports:
       - 8001:8000
     depends_on:
-      - consul-leader
       - consul-1
       - consul-2
+      - consul-3
       - mysql8
       - zipkin
       - ace-gateway
@@ -214,9 +226,9 @@ services:
     ports:
       - 8002:8000
     depends_on:
-      - consul-leader
       - consul-1
       - consul-2
+      - consul-3
       - mysql8
       - zipkin
       - ace-gateway
@@ -236,9 +248,9 @@ services:
     ports:
       - 8003:8000
     depends_on:
-      - consul-leader
       - consul-1
       - consul-2
+      - consul-3
       - mysql8
       - zipkin
       - ace-gateway

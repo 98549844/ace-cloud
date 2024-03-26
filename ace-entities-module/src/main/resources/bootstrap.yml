@@ -6,7 +6,7 @@ spring:
     ####Spring Cloud Consul for Service Discovery
   cloud:
     consul:
-      #host: consul-leader # for docker
+      #host: consul-1 # for docker
       host: localhost # for 本地开发
       port: 8500
       discovery:

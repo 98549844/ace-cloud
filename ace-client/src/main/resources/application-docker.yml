@@ -7,7 +7,7 @@ spring:
 
   cloud:
     consul: #设置服务注册和发现
-      host: localhost
+      host: consul-1
       port: 8500
       discovery:
         prefer-ip-address: true #优先使用服务ip进行注册

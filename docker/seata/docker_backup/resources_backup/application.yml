@@ -41,14 +41,14 @@ seata:
   config: #配置
     # support: nacos, consul, apollo, zk, etcd3
     type: consul
-    server-addr: consul-leader:8500
+    server-addr: consul-1:8500
     acl-token:
     key: seata.properties
   registry: #注册
     # support: nacos, eureka, redis, zk, consul, etcd3, sofa
     type: consul
     cluster: seata2
-    server-addr: consul-leader:8500
+    server-addr: consul-1:8500
     acl-token:
   #172.21.0.2
 
