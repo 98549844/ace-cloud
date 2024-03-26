@@ -48,7 +48,6 @@ public class CircuitBreakerController {
                 e.printStackTrace();
             }
         }
-
         return "Hello, bulkhead! inputId:  " + id + "   " + IdUtil.simpleUUID();
     }
 
