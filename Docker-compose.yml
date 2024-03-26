@@ -124,6 +124,7 @@ services:
       - consul-1
       - consul-2
       - consul-3
+      - mysql8
     networks:
       - ace-network
 
