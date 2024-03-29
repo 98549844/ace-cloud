@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 /**
  * @Classname: Garlam Au
@@ -18,6 +19,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @ComponentScan({"com", "com.ace"})
 @EnableDiscoveryClient //打开consul服务发现
+@EnableJpaAuditing //bastEntity启动自动插入LastModifiedDate和CreatedDate
 public class AceGatewayApplication {
 
     private static final Logger log = LogManager.getLogger(AceGatewayApplication.class.getName());

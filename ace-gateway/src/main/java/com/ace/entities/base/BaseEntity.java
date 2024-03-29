@@ -27,12 +27,12 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
 
-    @CreatedDate
     @Column(updatable = false)
+    @CreatedDate
     private LocalDateTime createdDate;
 
-    @LastModifiedDate
     @Column()
+    @LastModifiedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastUpdateDate;
 
