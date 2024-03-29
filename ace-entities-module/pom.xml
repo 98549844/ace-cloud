@@ -25,6 +25,12 @@
             <artifactId>ace-utilities</artifactId>
             <version>1.0</version>
         </dependency>
+
+        <!--解决 Spring Cloud LoadBalancer using Caffeine cache 警告问题-->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>
         <!--for query mysql data-->
         <dependency>
             <groupId>org.hibernate.orm</groupId>

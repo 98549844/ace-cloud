@@ -77,6 +77,11 @@
             <artifactId>feign-hc5</artifactId>
             <version>13.1</version>
         </dependency>
+        <!--解决 Spring Cloud LoadBalancer using Caffeine cache 警告问题-->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>
 
         <!--openfeign-->
         <dependency>
