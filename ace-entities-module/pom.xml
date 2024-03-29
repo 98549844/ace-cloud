@@ -99,14 +99,14 @@
                     <artifactId>commons-logging</artifactId>
                 </exclusion>
                 <!--解决使用openFeign 而不使用spring cloud loadbalancer warning-->
-                <exclusion>
-                    <artifactId>spring-cloud-starter-loadbalancer</artifactId>
-                    <groupId>org.springframework.cloud</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>spring-cloud-loadbalancer</artifactId>
-                    <groupId>org.springframework.cloud</groupId>
-                </exclusion>
+                <!--<exclusion>-->
+                <!--    <artifactId>spring-cloud-starter-loadbalancer</artifactId>-->
+                <!--    <groupId>org.springframework.cloud</groupId>-->
+                <!--</exclusion>-->
+                <!--<exclusion>-->
+                <!--    <artifactId>spring-cloud-loadbalancer</artifactId>-->
+                <!--    <groupId>org.springframework.cloud</groupId>-->
+                <!--</exclusion>-->
             </exclusions>
         </dependency>
         <dependency>
