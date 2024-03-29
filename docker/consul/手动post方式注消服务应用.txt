@@ -1,0 +1,17 @@
+Consul 注册 MySQL
+1. 编写 MySQL 服务注册脚本
+=> 创建 register.json 文件
+
+2. 在register.json 文件中，
+   我们定义了名为 mysql8 的服务，
+   并指定了标签为 database，
+   端口为 3306
+   同时，
+   我们还定义了一个名为 MySQL TCP Check 的健康检查，
+   检查 MySQL 服务是否能够正常连接。
+
+3. 执行脚本完成注册
+consul services register register.json
+
+4. 验证注册结果
+consul catalog services

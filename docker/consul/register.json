@@ -1,0 +1,15 @@
+{
+  "service": {
+    "name": "mysql8",
+    "tags": ["database8"],
+    "port": 3306
+  },
+  "checks": [
+    {
+      "name": "MySQL TCP Check",
+      "tcp": "localhost:3306",
+      "interval": "10s",
+      "timeout": "1s"
+    }
+  ]
+}
