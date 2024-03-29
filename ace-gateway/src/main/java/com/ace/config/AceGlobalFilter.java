@@ -37,8 +37,11 @@ public class AceGlobalFilter implements GlobalFilter, Ordered {
         Logs logs = new Logs();
         StringBuilder description = new StringBuilder();
         description.append("host: " + exchange.getRequest().getURI().getHost());
+        description.append(" | ");
         description.append("port: " + exchange.getRequest().getURI().getPort());
+        description.append(" | ");
         description.append("url: " + exchange.getRequest().getURI().getPath());
+        description.append(" | ");
         description.append("param: " + exchange.getRequest().getURI().getRawQuery());
         logs.setDescription(description.toString());
         logsService.save(logs);
