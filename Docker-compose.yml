@@ -110,6 +110,20 @@ services:
   #    networks:
   #      - ace-network
 
+  zipkin:
+    image: openzipkin/zipkin:latest
+    container_name: zipkin
+    hostname: zipkin
+    ports:
+      - 9411:9411
+    depends_on:
+      - consul-1
+      - consul-2
+      - consul-3
+    networks:
+      ace-network:
+        ipv4_address: 172.20.0.6
+
   seata2:
     image: seataio/seata-server:latest
     container_name: seata2
@@ -127,24 +141,13 @@ services:
       - consul-3
       - mysql8
     networks:
-      - ace-network
+      ace-network:
+        ipv4_address: 172.20.0.7
     # 1. 要手动create seata table
     # 2. 要手动配置application.yml文件
     # 3. 在consul创建seata.properties key,
     #    并把config-center/config.txt的值保存到seata.properties key
 
-  zipkin:
-    image: openzipkin/zipkin:latest
-    container_name: zipkin
-    hostname: zipkin
-    ports:
-      - 9411:9411
-    depends_on:
-      - consul-1
-      - consul-2
-      - consul-3
-    networks:
-      - ace-network
 
   ace-gateway:
     build:
