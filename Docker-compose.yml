@@ -110,20 +110,6 @@ services:
   #    networks:
   #      - ace-network
 
-  zipkin:
-    image: openzipkin/zipkin:latest
-    container_name: zipkin
-    hostname: zipkin
-    ports:
-      - 9411:9411
-    depends_on:
-      - consul-1
-      - consul-2
-      - consul-3
-    networks:
-      ace-network:
-        ipv4_address: 172.20.0.6
-
   seata2:
     image: seataio/seata-server:latest
     container_name: seata2
@@ -148,6 +134,19 @@ services:
     # 3. 在consul创建seata.properties key,
     #    并把config-center/config.txt的值保存到seata.properties key
 
+  zipkin:
+    image: openzipkin/zipkin:latest
+    container_name: zipkin
+    hostname: zipkin
+    ports:
+      - 9411:9411
+    depends_on:
+      - consul-1
+      - consul-2
+      - consul-3
+    networks:
+      ace-network:
+        ipv4_address: 172.20.0.6
 
   ace-gateway:
     build:
