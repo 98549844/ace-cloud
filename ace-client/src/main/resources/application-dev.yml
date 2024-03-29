@@ -4,6 +4,40 @@ server:
 spring:
   application:
     name: ace-client
+  datasource:
+    #  type: com.alibaba.druid.pool.DruidDataSource
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ace_cloud?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+  # profiles:
+  #   active: dev # 多环境配置加载内容dev/prod,不写就是默认default配置
+
+  jpa:
+    hibernate:
+      naming:
+        #使用驼峰式命名生成table
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: update
+      #create:
+      #根据entity新建表, 原table不动
+      #create-drop:
+      #把表删了再重建
+      #update:
+      #第一次启动根据实体建立表结构，之后启动会根据实体的改变更新表结构，之前的数据都在
+      #validate:
+      #会验证创建数据库表结构，只会和数据库中的表进行比较，不会创建新表，
+      #但是会插入新值，运行程序会校验实体字段与数据库已有的表的字段类型是否相同，不同会报错
+    #去掉WARN spring.jpa.open-in-view is enabled by default
+    open-in-view: true
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        #use_sql_comments: true
+        #对应的entity
+
 
   cloud:
     consul: #设置服务注册和发现

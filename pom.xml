@@ -59,7 +59,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!--spring cloud alibaba 2022.0.0.0-RC2-->
+            <!--spring cloud alibaba 2022.0.0.0-->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>

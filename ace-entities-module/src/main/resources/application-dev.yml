@@ -4,7 +4,6 @@ server:
 # ==========applicationName + druid-mysql8 driver===================
 
 spring:
-
   datasource:
   #  type: com.alibaba.druid.pool.DruidDataSource
     type: com.zaxxer.hikari.HikariDataSource
