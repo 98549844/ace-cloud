@@ -27,11 +27,11 @@ public class MavenTool {
     private static final Logger log = LogManager.getLogger(MavenTool.class.getName());
 
     public static final String mavenWindowsHome = "C:\\maven\\apache-maven-3.9.0\\bin\\mvn.cmd";
+    private static final String localDependencyRecord = "C:\\ideaPorject\\utilities\\src\\main\\resources\\file\\maven\\localDependencyRecord.txt";
     private static final String space = " ";
     private static final String groupId = "com.ace";
     private static final String version = "1.0";
     private static final String bootDir = PathUtil.getSystemPath();
-    private static final String localDependencyRecord = "C:\\ideaPorject\\utilities\\src\\main\\resources\\file\\maven\\localDependencyRecord.txt";
 
 
     public static void main(String[] args) throws IOException {

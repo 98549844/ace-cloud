@@ -104,12 +104,7 @@
             <!--    </exclusion>-->
             <!--</exclusions>-->
         </dependency>
-        <!-- 引入自己定义的api通用包 -->
-        <dependency>
-            <groupId>com.ace</groupId>
-            <artifactId>ace-commons</artifactId>
-            <version>1.0</version>
-        </dependency>
+
         <!--web + actuator-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -173,6 +168,12 @@
             <artifactId>ace-utilities</artifactId>
             <version>1.0</version>
             <scope>compile</scope>
+        </dependency>
+        <!-- 引入自己定义的api通用包 -->
+        <dependency>
+            <groupId>com.ace</groupId>
+            <artifactId>ace-commons</artifactId>
+            <version>1.0</version>
         </dependency>
 
 
