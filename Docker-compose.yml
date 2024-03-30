@@ -156,7 +156,7 @@ services:
     hostname: ace-gateway
     #   restart: always
     ports:
-      - 9500:9500
+      - 9600:9500
     depends_on:
       - consul-1
       - consul-2
