@@ -5,14 +5,10 @@ find / -name application.yml
 2. copy and backup => docker容器=>宿主机
 docker cp \
 seata2:/seata-server/resources/ \
-/Users/garlam/IdeaProjects/ace-cloud/docker/seata/docker_backup
+/Users/garlam/IdeaProjects/ace-cloud/docker/seata/docker/
 
 3. copy 修改后的文件到容器 => 宿主机=>docker容器
 docker cp \
-/Users/garlam/IdeaProjects/ace-cloud/docker/seata/docker_backup/resources_backup/application.yml \
+/Users/garlam/IdeaProjects/ace-cloud/docker/seata/docker/config-file/application.yml \
 seata2:/seata-server/resources/application.yml
 
-4. copy registry.conf 到 seata container
-docker cp \
-/Users/garlam/IdeaProjects/ace-cloud/docker/seata/docker_backup/resources_backup/registry.conf \
-seata2:/seata-server/resources/registry.conf
