@@ -111,7 +111,10 @@ services:
   #      - ace-network
 
   seata2:
-    image: seataio/seata-server:latest
+    build:
+      context: ./docker/seata
+      dockerfile: Dockerfile-seate
+  #  image: seataio/seata-server:latest
     container_name: seata2
     hostname: seata2
     # restart: always

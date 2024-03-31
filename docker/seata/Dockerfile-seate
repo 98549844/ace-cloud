@@ -1,0 +1,5 @@
+FROM seataio/seata-server:latest
+MAINTAINER Garlam Au
+COPY ./docker/config-file/application.yml /seata-server/resources/application.yml
+# 把编辑好的application.yml copy到seata容器内
+
