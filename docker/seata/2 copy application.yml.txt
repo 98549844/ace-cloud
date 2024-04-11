@@ -1,4 +1,4 @@
-1. searchapplication.yml in docker
+1. 在docker容器里找到application.yml位置
 find / -name application.yml
 => /seata-server/resources/application.yml
 

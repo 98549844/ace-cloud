@@ -82,7 +82,7 @@ services:
     hostname: mysql8
     restart: always
     environment:
-      MYSQL_DATABASE: ace
+    #  MYSQL_DATABASE: ace
       MYSQL_USER: garlam
       MYSQL_PASSWORD: root
       MYSQL_ROOT_PASSWORD: root
