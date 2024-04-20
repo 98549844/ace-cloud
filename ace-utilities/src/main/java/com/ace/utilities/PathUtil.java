@@ -118,7 +118,7 @@ public class PathUtil {
     public static String getBaseUrl(String... locations) throws MalformedURLException {
         String baseUrl = FileSystems
                 .getDefault()
-                //  .getPath("src", "main", "resources", "templates", "ace", "modules", "report", "pdf")
+                //  .getPath("src", "main", "resources", "templates", "ace", "modules", "reports", "pdf")
                 .getPath(Arrays.toString(locations))
                 .toUri()
                 .toURL()
