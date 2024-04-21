@@ -22,6 +22,10 @@ public class UUID {
         return java.util.UUID.randomUUID().toString().replaceAll("-", "");
     }
 
+    public static String getOrigin() {
+        return java.util.UUID.randomUUID().toString();
+    }
+
     public static String get(String style) {
         String uuid = UUID.get();
         return uuid.replace("-", style == null ? "" : style);

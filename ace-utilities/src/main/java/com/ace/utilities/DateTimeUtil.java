@@ -22,9 +22,11 @@ public class DateTimeUtil {
     public static String DATETIME2_PATTERN = "yyyy-MM-dd HH:mm:ss SSSS";
 
     public static void main(String[] args) {
-        printCurrentDateTime();
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        System.out.println(toTimestamp(toLong(timestamp)));
+      //  printCurrentDateTime();
+      //  Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+      //  System.out.println(toTimestamp(toLong(timestamp)));
+        System.out.println(getCurrentDateTimeAsFileName());
+
     }
 
     public static Timestamp toTimestamp(long time) {
@@ -61,6 +63,14 @@ public class DateTimeUtil {
     public static String getCurrentDateTime() {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSSS");
+        String formattedDate = formatter.format(date);
+        System.out.println(formattedDate);
+        return formattedDate;
+    }
+
+    public static String getCurrentDateTimeAsFileName() {
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd-HHmmss");
         String formattedDate = formatter.format(date);
         System.out.println(formattedDate);
         return formattedDate;
