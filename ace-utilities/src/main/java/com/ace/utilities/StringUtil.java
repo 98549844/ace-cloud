@@ -4,9 +4,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.util.CollectionUtils;
 
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.apache.commons.codec.binary.Base64;
 
 
@@ -31,6 +33,16 @@ public class StringUtil {
 
     private static String collectionToDelimitedString(Collection<?> coll, String symbol) {
         return collectionToDelimitedString(coll, symbol, "", "");
+    }
+
+
+    /** 带占位符功能的string工具
+     * @param msg
+     * @param param
+     * @return
+     */
+    public static String String(String msg, String... param) {
+        return MessageFormat.format(msg, param);
     }
 
     /**
@@ -255,7 +267,9 @@ public class StringUtil {
     }
 
 
-    /**  检查中英文
+    /**
+     * 检查中英文
+     *
      * @param n
      * @return
      */
@@ -358,7 +372,9 @@ public class StringUtil {
         return s.toCharArray();
     }
 
-    /** 转义字符splitter
+    /**
+     * 转义字符splitter
+     *
      * @param s
      * @param splitter
      * @return
@@ -447,7 +463,9 @@ public class StringUtil {
         arr[j] = temp;
     }
 
-    /** 根据"/'/` 截取wording并以list返回
+    /**
+     * 根据"/'/` 截取wording并以list返回
+     *
      * @param sentence
      * @param symbol
      * @return
@@ -475,7 +493,9 @@ public class StringUtil {
     }
 
 
-    /** 去除space并比较两句子
+    /**
+     * 去除space并比较两句子
+     *
      * @param a
      * @param b
      * @return
