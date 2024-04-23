@@ -36,13 +36,33 @@ public class StringUtil {
     }
 
 
-    /** 带占位符功能的string工具
+    /**
+     * 带占位符功能的string工具
+     *
      * @param msg
      * @param param
      * @return
      */
-    public static String String(String msg, String... param) {
+    public static String String(String msg, Object... param) {
         return MessageFormat.format(msg, param);
+    }
+
+    /**
+     * 带占位符功能的string工具
+     *
+     * "My name is {0} and I am {1} years old." , "John" , 25
+     *
+     * @param msg
+     * @param param
+     * @return
+     */
+    public static String String(String msg, List<Object> param) {
+        int size = param.size();
+        Object[] arr = new Object[size];
+        for (int i = 0; i < size; i++) {
+            arr[i] = param.get(i);
+        }
+        return MessageFormat.format(msg, arr);
     }
 
     /**
