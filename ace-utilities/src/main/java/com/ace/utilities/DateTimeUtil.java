@@ -22,10 +22,8 @@ public class DateTimeUtil {
     public static String DATETIME2_PATTERN = "yyyy-MM-dd HH:mm:ss SSSS";
 
     public static void main(String[] args) {
-      //  printCurrentDateTime();
-      //  Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-      //  System.out.println(toTimestamp(toLong(timestamp)));
         System.out.println(getCurrentDateTimeAsFileName());
+
 
     }
 
@@ -115,8 +113,31 @@ public class DateTimeUtil {
             Long result = end - start;
             printDateTime(result);
         } else {
-            Console.println("Start time or End time is null , pLease check", Console.BOLD, Console.RED);
+            log.error("Start time or End time is null , pLease check");
         }
+    }
+
+    /** 因为时区关系增加8小时, 所以要扣去8小时
+     * @param time
+     * @return
+     */
+    public static String getUsedTime(Long time) {
+        TimeZone timeZone = TimeZone.getTimeZone("GMT+8");
+        Date date = new Date(time - timeZone.getRawOffset());
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss SSSS");
+        return formatter.format(date);
+    }
+
+
+    /** 因为时区关系增加8小时, 所以要扣去8小时
+     * @param time
+     * @return
+     */
+    public static String getUsedDateTime(Long time) {
+        TimeZone timeZone = TimeZone.getTimeZone("GMT+8");
+        Date date = new Date(time - timeZone.getRawOffset());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSSS");
+        return formatter.format(date);
     }
 
 
