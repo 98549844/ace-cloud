@@ -22,7 +22,7 @@ public class DateTimeUtil {
     public static String DATETIME2_PATTERN = "yyyy-MM-dd HH:mm:ss SSSS";
 
     public static void main(String[] args) {
-        System.out.println(getCurrentDateTimeAsFileName());
+        System.out.println(getUsedDateTime(System.currentTimeMillis()));
 
 
     }
@@ -117,7 +117,31 @@ public class DateTimeUtil {
         }
     }
 
-    /** 因为时区关系增加8小时, 所以要扣去8小时
+
+    /**
+     * @param time
+     * @return
+     */
+    public static String getTime(Long time) {
+        Date date = new Date(time);
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss SSSS");
+        return formatter.format(date);
+    }
+
+    /**
+     * @param time
+     * @return
+     */
+    public static String getDateTime(Long time) {
+        Date date = new Date(time);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSSS");
+        return formatter.format(date);
+    }
+
+
+    /**
+     * 因为时区关系增加8小时, 所以要扣去8小时
+     *
      * @param time
      * @return
      */
@@ -129,7 +153,9 @@ public class DateTimeUtil {
     }
 
 
-    /** 因为时区关系增加8小时, 所以要扣去8小时
+    /**
+     * 因为时区关系增加8小时, 所以要扣去8小时
+     *
      * @param time
      * @return
      */
