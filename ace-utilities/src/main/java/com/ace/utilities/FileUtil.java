@@ -960,9 +960,17 @@ public class FileUtil {
         return result;
     }
 
-    public static boolean delete(String path) {
+    /** 完整文件路径, 只用于delete文件
+     * @param filePath
+     * @return
+     */
+    public static boolean delete(String filePath) {
         boolean isSuccess = false;
-        File f = new File(path);
+        File f = new File(filePath);
+        if (isDir(filePath)) {
+            log.warn("The path is a directory, please check !");
+            return false;
+        }
         if (f.exists()) {
             isSuccess = f.delete();
             log.info("Deleted: {}", f.getAbsolutePath());
@@ -972,7 +980,13 @@ public class FileUtil {
         return isSuccess;
     }
 
-    public static boolean deletes(String folder) throws IOException {
+    /**
+     * 删除path下所有文件,但不包括文件夹
+     *
+     * @param folder
+     * @return
+     */
+    public static boolean deletes(String folder) {
         boolean isSuccess = false;
         List<String> files = getCurrentFolderAbsoluteFilesPath(folder);
         try {
@@ -1474,7 +1488,7 @@ public class FileUtil {
 
 
     /**
-     * 删除文件或文件夹
+     * 删除文件或文件夹, 包括自身也会删除
      *
      * @param fileName 文件名
      * @return 删除成功返回true, 失败返回false
