@@ -3,8 +3,10 @@ package com.ace.utilities;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Properties;
 
 /**
@@ -37,6 +39,12 @@ public class PropertiesUtil {
 
     }
 
+    /**
+     * 直接读取resources目录内的文件, 不需要以/开头
+     *
+     * @param propertiesPath
+     * @throws IOException
+     */
     public static void printProperties(String propertiesPath) throws IOException {
         log.info("print static properties");
         Properties properties = new Properties();
@@ -44,6 +52,33 @@ public class PropertiesUtil {
         for (String key : properties.stringPropertyNames()) {
             Console.println(key + "=" + properties.getProperty(key), Console.BOLD, Console.FLUORESCENT_PURPLE);
         }
+    }
+
+    /**
+     * 直接读取resources目录内的文件, 不需要以/开头
+     *
+     * @param filePath
+     * @return
+     * @throws IOException
+     */
+    public static String get(String filePath) throws IOException {
+        InputStream inputStream = PropertiesUtil.class.getResourceAsStream(FileUtil.separator + filePath);
+        StringBuilder sb = new StringBuilder();
+
+        if (inputStream != null) {
+            // 在这里处理文件的输入流
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line).append(SystemUtil.newLine());
+            }
+            reader.close();
+        } else {
+            String errorMsg = "读取文件失败, 请检查文件路径是否正确";
+            log.error(errorMsg);
+            sb.append(errorMsg);
+        }
+        return sb.toString();
     }
 
 }
