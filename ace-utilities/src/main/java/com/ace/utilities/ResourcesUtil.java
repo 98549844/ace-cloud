@@ -16,8 +16,8 @@ import java.util.Properties;
  * @Description:
  */
 
-public class PropertiesUtil {
-    private static final Logger log = LogManager.getLogger(PropertiesUtil.class.getName());
+public class ResourcesUtil {
+    private static final Logger log = LogManager.getLogger(ResourcesUtil.class.getName());
 
     //location: src/main/resources/properties/messages.properties
     public static String utilitiesProperties = "properties/utilities.properties";
@@ -26,7 +26,7 @@ public class PropertiesUtil {
     public static String getValueByKey(String propertiesPath, String key) throws IOException {
         log.info("print static properties value");
         Properties properties = new Properties();
-        InputStream inStream = PropertiesUtil.class.getClassLoader().getResourceAsStream(propertiesPath);
+        InputStream inStream = ResourcesUtil.class.getClassLoader().getResourceAsStream(propertiesPath);
         properties.load(inStream);
         Console.println(properties.get(key).toString(), Console.BOLD, Console.FLUORESCENT_PURPLE);
         return (String) properties.get(key);
@@ -36,6 +36,7 @@ public class PropertiesUtil {
     public static void main(String[] args) throws Exception {
         getValueByKey(utilitiesProperties, "version");
         printProperties(messagesProperties);
+        System.out.println(get("hbm/Users.hbm.xml"));
 
     }
 
@@ -46,9 +47,16 @@ public class PropertiesUtil {
      * @throws IOException
      */
     public static void printProperties(String propertiesPath) throws IOException {
+        if (!propertiesPath.contains(".properties")) {
+            //只处理properties文件
+            log.error("This is not a properties file");
+            return;
+        }
+
         log.info("print static properties");
         Properties properties = new Properties();
-        properties.load(PropertiesUtil.class.getClassLoader().getResourceAsStream(propertiesPath));
+        InputStream inputStream = ResourcesUtil.class.getClassLoader().getResourceAsStream(propertiesPath);
+        properties.load(inputStream);
         for (String key : properties.stringPropertyNames()) {
             Console.println(key + "=" + properties.getProperty(key), Console.BOLD, Console.FLUORESCENT_PURPLE);
         }
@@ -62,7 +70,7 @@ public class PropertiesUtil {
      * @throws IOException
      */
     public static String get(String filePath) throws IOException {
-        InputStream inputStream = PropertiesUtil.class.getResourceAsStream(FileUtil.separator + filePath);
+        InputStream inputStream = ResourcesUtil.class.getResourceAsStream(FileUtil.separator + filePath);
         StringBuilder sb = new StringBuilder();
 
         if (inputStream != null) {
