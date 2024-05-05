@@ -32,6 +32,9 @@ public class StreamUtil {
         //ObjectOutputStream objectOutputStream = null;
         //DataOutputStream dataOutputStream = null;
 
+        StreamUtil streamUtil = new StreamUtil();
+        System.out.println(streamUtil.getFileInputStream("/Users/garlam/IdeaProjects/ace-cloud/ace-utilities/src/main/resources/log4j2.xml"));
+
 
     }
 
