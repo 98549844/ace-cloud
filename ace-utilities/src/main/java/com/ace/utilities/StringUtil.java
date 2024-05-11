@@ -38,7 +38,7 @@ public class StringUtil {
 
     /**
      * 带占位符功能的string工具
-     *
+     * "My name is {0} and I am {1} years old." , "John" , 25
      * @param msg
      * @param param
      * @return
