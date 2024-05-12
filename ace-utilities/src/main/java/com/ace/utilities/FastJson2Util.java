@@ -6,9 +6,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.JSONWriter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.poi.ss.formula.functions.T;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -53,12 +51,14 @@ public class FastJson2Util {
         return JSONObject.parseObject(json, type);
     }
 
-    /** 把json 字符串转换成 封装后的对象List<T>
+    /**
+     * 把json 字符串转换成 封装后的对象List<T>
+     *
      * @param json
      * @param type
      * @return
      */
-    public List<T> JsonToObjectList(String json, Class<T> type) {
+    public static <T> List JsonToObjectList(String json, Class<T> type) {
         JSONArray jsonArray = JSON.parseArray(json);
         return jsonArray.toJavaList(type);
     }
