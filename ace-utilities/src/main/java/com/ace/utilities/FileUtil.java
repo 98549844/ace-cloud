@@ -87,12 +87,8 @@ public class FileUtil {
         boolean result = false;
         try {
             if (!file.exists()) {
-                String p = FileUtil.getParent(path);
-                FileUtil.mkDirs(p);
+                FileUtil.mkDirs(path);
                 result = file.createNewFile();
-                log.info("File created !");
-            } else {
-                log.info("File exist !");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -601,7 +597,7 @@ public class FileUtil {
         File folder = new File(path);
         boolean result = false;
         if (!folder.exists()) {
-            if (path.lastIndexOf(".") == -1) { //检查路径是否包含文件名
+            if (path.lastIndexOf(".") == -1) { //检查路径不包含文件名
                 return folder.mkdirs();
             } else {
                 return new File(folder.getParent()).mkdirs();
@@ -638,13 +634,14 @@ public class FileUtil {
      * @param filePath
      * @param fileName
      * @param obj
-     * @param append true为接着原文写入，false为覆盖原文
+     * @param append   true为接着原文写入，false为覆盖原文
      */
     public static void write(String filePath, String fileName, Object obj, boolean append) {
         if (NullUtil.isNull(obj)) {
             log.error("Object is null !!!");
             return;
         }
+        create(filePath + fileName);
         //boolean isOk = false;
         String type;
         StringBuilder content = null;
@@ -660,50 +657,48 @@ public class FileUtil {
             return;
         }
 
-        if (fileStatus(filePath, fileName)) {
-            FileOutputStream fop = null;
-            try {
-                log.info("writing start: {}{}", filePath, fileName);
-                File file = new File(filePath + fileName);
-                if (append) {
-                    fop = new FileOutputStream(file, true);
-                } else {
-                    fop = new FileOutputStream(file);
-                }
+        FileOutputStream fop = null;
+        try {
+            log.info("writing start: {}{}", filePath, fileName);
+            File file = new File(filePath + fileName);
+            if (append) {
+                fop = new FileOutputStream(file, true);
+            } else {
+                fop = new FileOutputStream(file);
+            }
 
-                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fop, StandardCharsets.UTF_8);
-                // get the content in bytes
-                String contentInBytes = null;
-                if (type.equals("String")) {
-                    contentInBytes = content.toString();
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fop, StandardCharsets.UTF_8);
+            // get the content in bytes
+            String contentInBytes = null;
+            if (type.equals("String")) {
+                contentInBytes = content.toString();
+                outputStreamWriter.append(contentInBytes);
+                outputStreamWriter.flush();
+            } else if (type.equals("List")) {
+                for (StringBuilder stringBuilder : contentList) {
+                    // contentInBytes = contentList.get(i).toString().getBytes();
+                    // fop.write(contentInBytes);
+                    contentInBytes = stringBuilder.toString();
                     outputStreamWriter.append(contentInBytes);
                     outputStreamWriter.flush();
-                } else if (type.equals("List")) {
-                    for (StringBuilder stringBuilder : contentList) {
-                        // contentInBytes = contentList.get(i).toString().getBytes();
-                        // fop.write(contentInBytes);
-                        contentInBytes = stringBuilder.toString();
-                        outputStreamWriter.append(contentInBytes);
-                        outputStreamWriter.flush();
-                    }
-                } else {
-                    log.error("contentInBytes: {}" , contentInBytes);
                 }
+            } else {
+                log.error("contentInBytes: {}", contentInBytes);
+            }
 
-                outputStreamWriter.close();
-                // fop.flush();
-                // fop.close();
-                log.info("writing complete !");
+            outputStreamWriter.close();
+            // fop.flush();
+            // fop.close();
+            log.info("writing complete !");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (NullUtil.isNonNull(fop)) {
+                    fop.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
-            } finally {
-                try {
-                    if (NullUtil.isNonNull(fop)) {
-                        fop.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
         }
     }
@@ -960,7 +955,9 @@ public class FileUtil {
         return result;
     }
 
-    /** 完整文件路径, 只用于delete文件
+    /**
+     * 完整文件路径, 只用于delete文件
+     *
      * @param filePath
      * @return
      */
