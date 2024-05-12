@@ -638,7 +638,7 @@ public class FileUtil {
      * @param filePath
      * @param fileName
      * @param obj
-     * @param append
+     * @param append true为接着原文写入，false为覆盖原文
      */
     public static void write(String filePath, String fileName, Object obj, boolean append) {
         if (NullUtil.isNull(obj)) {
@@ -663,7 +663,7 @@ public class FileUtil {
         if (fileStatus(filePath, fileName)) {
             FileOutputStream fop = null;
             try {
-                log.info("writing start: " + filePath + fileName);
+                log.info("writing start: {}{}", filePath, fileName);
                 File file = new File(filePath + fileName);
                 if (append) {
                     fop = new FileOutputStream(file, true);
@@ -687,7 +687,7 @@ public class FileUtil {
                         outputStreamWriter.flush();
                     }
                 } else {
-                    log.error("contentInBytes: " + contentInBytes);
+                    log.error("contentInBytes: {}" , contentInBytes);
                 }
 
                 outputStreamWriter.close();
