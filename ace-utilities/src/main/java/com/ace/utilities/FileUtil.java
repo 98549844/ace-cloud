@@ -616,6 +616,7 @@ public class FileUtil {
      */
     public static boolean rewrite(String filePath, String Content) {
         boolean flag = false;
+        create(filePath);
         try {
             //写入的txt文档的路径
             PrintWriter pw = new PrintWriter(filePath);
@@ -638,7 +639,7 @@ public class FileUtil {
      */
     public static void write(String filePath, String fileName, Object obj, boolean append) {
         if (NullUtil.isNull(obj)) {
-            log.error("Object is null !!!");
+            log.error("Object is null !");
             return;
         }
         create(filePath + fileName);
