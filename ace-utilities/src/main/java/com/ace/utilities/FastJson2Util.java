@@ -1,10 +1,15 @@
 package com.ace.utilities;
 
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.JSONWriter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.poi.ss.formula.functions.T;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @Classname: FastJsonUtil
@@ -42,6 +47,20 @@ public class FastJson2Util {
 
     public static JSONObject JsonToObject(String json) {
         return JSONObject.parseObject(json);
+    }
+
+    public static <T> T JsonToObject(String json, Class<T> type) {
+        return JSONObject.parseObject(json, type);
+    }
+
+    /** 把json 字符串转换成 封装后的对象List<T>
+     * @param json
+     * @param type
+     * @return
+     */
+    public List<T> JsonToObjectList(String json, Class<T> type) {
+        JSONArray jsonArray = JSON.parseArray(json);
+        return jsonArray.toJavaList(type);
     }
 
 
