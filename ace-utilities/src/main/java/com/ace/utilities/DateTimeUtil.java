@@ -27,6 +27,17 @@ public class DateTimeUtil {
 
     }
 
+    /** timestamp 转换成 localDateTime
+     * @param timestamp
+     * @return
+     */
+    public static LocalDateTime toLocalDateTime(Timestamp timestamp) {
+        // 将Timestamp对象转换为LocalDateTime
+        LocalDateTime localDateTime = timestamp.toLocalDateTime();
+        return localDateTime;
+
+    }
+
     public static Timestamp toTimestamp(long time) {
         return new Timestamp(time);
     }
