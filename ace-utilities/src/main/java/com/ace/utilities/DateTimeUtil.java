@@ -351,6 +351,20 @@ public class DateTimeUtil {
     /**
      * @param start
      * @param end
+     * @return seconds
+     */
+    public static long differenceSecondByLocalDateTime(LocalDateTime start, LocalDateTime end) {
+        if (NullUtil.isNonNull(getDuration(start, end))) {
+            long millis = getDuration(start, end).toSeconds();
+            return millis;
+        } else {
+            return 0l;
+        }
+    }
+
+    /**
+     * @param start
+     * @param end
      * @return minutes
      */
     public static long differenceMinutesByLocalDateTime(LocalDateTime start, LocalDateTime end) {
