@@ -32,13 +32,16 @@ public class UUID {
     }
 
     public static String get(int length) {
+        if(length > 16){
+            throw new IllegalArgumentException("length must be less than or equal to 16");
+        }
         String uuid = UUID.get();
-        return uuid.replace("-", "").substring(0, length);
+        return uuid.replace("-", "").substring(1, length);
     }
 
     public static void main(String[] args) {
         for (int i = 0; i < 20; i++) {
-            String uuid = UUID.get(15);
+            String uuid = UUID.get(16);
             System.out.println(uuid);
             System.out.println(uuid.length());
         }
