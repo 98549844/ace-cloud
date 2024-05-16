@@ -41,7 +41,7 @@ public class FileUtil {
     public static final String FILENAME = "fileName";
     public static final String EXT = "ext";
     public static final String FILENAME_WITH_EXT = "fileNameWithExt";
-    public static final String separator = File.separator;
+    public static final String separator = File.separator; // 系统路径分隔符 相当于"/"
 
     private static final String PREFIX_VIDEO = "video/";
     private static final String PREFIX_IMAGE = "image/";
