@@ -892,7 +892,7 @@ public class FileUtil {
 
 
     /**
-     * Used to extract the filename with its extension.
+     * Used to extract the filename and its extension.
      *
      * @param fullPath Incoming file to get the filename
      * @return <code>String</code> representing the filename without its
