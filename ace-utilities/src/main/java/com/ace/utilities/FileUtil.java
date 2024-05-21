@@ -125,14 +125,11 @@ public class FileUtil {
 
 
     public static void main(String[] args) {
-        File file = new File("C:\\barcode.pdf");
-        String p = file.getAbsolutePath();
 
-        for (byte b : fileToBinArray(p)) {
-            System.out.println(b);
-        }
-        System.out.println("-----");
-        System.out.println(fileToBinString(p));
+        String p = "/Users/garlam/ace/videos/4d476ea5-c64b-48d6-9195-a8d5f562d84d.mkv";
+        String mineType = getMimeType(p);
+        System.out.println(mineType);
+
     }
 
     /**
@@ -1154,38 +1151,7 @@ public class FileUtil {
                 Console.println(f, Console.BOLD);
             }
         }
-        log.info("search complete !!!");
-    }
-
-
-    public static void main1(String[] args) throws IOException {
-        FileUtil fileUtil = new FileUtil();
-        List<String> a = fileUtil.getFilePaths("C:\\ideaPorject\\eORSO_schedulejob\\Template\\");
-        List<String> b = fileUtil.getFilePaths("src/main/java/com/models");
-        List<String> c = getCurrentFolderAbsoluteFilesPath("src/main/java/com/models");
-
-        int count = 0;
-        log.info("start a ...");
-        for (String s : a) {
-            String t = getFileNameWithExt(s.toString());
-            if ("html".equalsIgnoreCase(getExtension(t))) {
-                System.out.println("non-static: " + s);
-                count++;
-            }
-        }
-        log.info("count result : " + count);
-        System.out.println("------------");
-
-        log.info("start b ...");
-        for (int i = 0; i < b.size(); i++) {
-            // System.out.println("static: " + b.get(i));
-
-        }
-        System.out.println("----------");
-        log.info("start c ...");
-        for (int i = 0; i < c.size(); i++) {
-            System.out.println("getFullFileNames: " + b.get(i));
-        }
+        log.info("search complete !");
     }
 
 
@@ -1573,7 +1539,7 @@ public class FileUtil {
 
     public static boolean isImage(String fileName) {
         String mimeType = getMimeType(fileName);
-        return !TextUtils.isEmpty(fileName) && mimeType.contains(PREFIX_IMAGE);
+        return !TextUtils.isEmpty(fileName) && NullUtil.isNonNull(mimeType) && mimeType.contains(PREFIX_IMAGE);
     }
 
     /**
@@ -1581,12 +1547,13 @@ public class FileUtil {
      *
      * @param fileName 文件名
      * @return 返回MIME类型
-     * https://www.oschina.net/question/571282_223549
      */
     private static String getMimeType(String fileName) {
         FileNameMap fileNameMap = URLConnection.getFileNameMap();
-        return fileNameMap.getContentTypeFor(fileName);
+        String mimeType = fileNameMap.getContentTypeFor(fileName);
+        return mimeType;
     }
+
 
     /**
      * 根据文件后缀名判断 文件是否是视频文件
@@ -1596,7 +1563,7 @@ public class FileUtil {
      */
     public static boolean isVideo(String fileName) {
         String mimeType = getMimeType(fileName);
-        return !TextUtils.isEmpty(fileName) && mimeType.contains(PREFIX_VIDEO);
+        return !TextUtils.isEmpty(fileName) && NullUtil.isNonNull(mimeType) && mimeType.contains(PREFIX_VIDEO);
     }
 
     public static List getFileInfo(String p) throws IOException {
