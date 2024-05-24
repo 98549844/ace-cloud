@@ -12,7 +12,7 @@
     <artifactId>ace-utilities</artifactId>
 
     <properties>
-        <springframework.version>6.1.4</springframework.version>
+        <springframework.version>6.1.8</springframework.version>
         <!--编译文件时用UTF-8-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
