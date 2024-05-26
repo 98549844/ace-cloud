@@ -1548,10 +1548,9 @@ public class FileUtil {
      * @param fileName 文件名
      * @return 返回MIME类型
      */
-    private static String getMimeType(String fileName) {
+    public static String getMimeType(String fileName) {
         FileNameMap fileNameMap = URLConnection.getFileNameMap();
-        String mimeType = fileNameMap.getContentTypeFor(fileName);
-        return mimeType;
+        return fileNameMap.getContentTypeFor(fileName);
     }
 
 
