@@ -18,7 +18,15 @@ import org.apache.logging.log4j.Logger;
 public class UnicodeUtil {
     private static final Logger log = LogManager.getLogger(UnicodeUtil.class.getName());
 
-    /** 原文Unicode轉換
+    public static void main(String[] args) throws IOException {
+        String p = "C:\\Users\\Garlam.Au\\IdeaProjects\\allocation-portal\\allocationPortal\\src\\main\\resources\\properties\\";
+        String f = "log4j.properties";
+        System.out.println(unicodeToCNBuilder(p + f));
+    }
+
+    /**
+     * 原文Unicode轉換
+     *
      * @param fullPath
      * @return
      * @throws IOException
