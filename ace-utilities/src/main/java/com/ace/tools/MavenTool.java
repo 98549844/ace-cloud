@@ -26,8 +26,8 @@ import java.util.List;
 public class MavenTool {
     private static final Logger log = LogManager.getLogger(MavenTool.class.getName());
 
-    public static final String mavenWindowsHome = "C:\\maven\\apache-maven-3.9.0\\bin\\mvn.cmd";
-    private static final String localDependencyRecord = "C:\\ideaPorject\\utilities\\src\\main\\resources\\file\\maven\\localDependencyRecord.txt";
+    public static final String mavenWindowsHome = "C:\\applications\\maven-3.9.8\\bin\\mvn.cmd";
+    private static final String localDependencyRecord = "C:\\Users\\Garlam.Au\\IdeaProjects\\ace-cloud\\ace-utilities\\src\\main\\resources\\file\\maven\\localDependencyRecord.txt";
     private static final String space = " ";
     private static final String groupId = "com.ace";
     private static final String version = "1.0";
@@ -35,13 +35,8 @@ public class MavenTool {
 
 
     public static void main(String[] args) throws IOException {
-        String p = "C:\\ideaPorject\\utilities\\src\\main\\resources\\file\\maven\\";
-        String icefaces_ee_ace = p + "icefaces-ee-ace.jar";
-        String runtime = p + "com.ibm.ws.runtime.jar";
-        String admin_core = p + "com.ibm.ws.admin.core.jar";
-        String wlm = p + "com.ibm.ws.wlm.jar";
-        String web2 = "C:\\Users\\Kalam_au\\Downloads\\20230306\\mpfa-web2.jar";
-        String tools = "C:\\Users\\Kalam_au\\.jdks\\azul-1.8.0_362\\lib\\tools.jar";
+
+        String tools = "C:\\Users\\Garlam.Au\\IdeaProjects\\ace\\src\\main\\resources\\lib\\demo-1.0.jar";
 
         installExternalJar(tools);
     }
