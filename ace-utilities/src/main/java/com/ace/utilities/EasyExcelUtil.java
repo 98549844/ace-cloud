@@ -21,16 +21,17 @@ import java.util.Map;
  * @Description:
  */
 
-
+//https://blog.csdn.net/weixin_73077810/article/details/131786254
 public class EasyExcelUtil extends AnalysisEventListener<Map<Integer, String>> {
     private static final Logger log = LogManager.getLogger(EasyExcelUtil.class.getName());
 
-    final static String mac_path = "/Users/garlam/IdeaProjects/utilities/src/main/resources/file/output/";
-    final static String windows_path = "C:\\ideaPorject\\utilities\\src\\main\\resources\\file\\output\\";
-    final static String fileName = windows_path + "excel.xls";
 
     private static final int BATCH_COUNT = 3000;
 
+    public static void main(String[] args) {
+        EasyExcelUtil easyExcelUtil = new EasyExcelUtil();
+        easyExcelUtil.read("C:\\Users\\Garlam.Au\\IdeaProjects\\ace\\src\\main\\resources\\files\\output\\excel.xls");
+    }
 
     public void read(String fileName) {
         // 写法1：JDK8+ ,不用额外写一个DemoDataListener
@@ -57,14 +58,13 @@ public class EasyExcelUtil extends AnalysisEventListener<Map<Integer, String>> {
     }
 
 
-    public ExcelReaderSheetBuilder getSheet(Integer sheetNo){
+    public ExcelReaderSheetBuilder getSheet(String fileName, Integer sheetNo) {
         return EasyExcel.read(fileName, new EasyExcelUtil()).sheet(sheetNo);
     }
 
-    public ExcelReaderSheetBuilder getSheet(String sheetName){
+    public ExcelReaderSheetBuilder getSheet(String fileName, String sheetName) {
         return EasyExcel.read(fileName, new EasyExcelUtil()).sheet(sheetName);
     }
-
 
 
     /**
@@ -72,8 +72,8 @@ public class EasyExcelUtil extends AnalysisEventListener<Map<Integer, String>> {
      *
      * @param data    one row value. It is same as {@link AnalysisContext#readRowHolder()}
      * @param context analysis context
-     *
-     * Map<Integer, String> data 可以改用dataModel封装
+     *                <p>
+     *                Map<Integer, String> data 可以改用dataModel封装
      */
     @Override
     public void invoke(Map<Integer, String> data, AnalysisContext context) {
@@ -94,9 +94,6 @@ public class EasyExcelUtil extends AnalysisEventListener<Map<Integer, String>> {
         List<Map<Integer, String>> list = new ArrayList<>();
         log.info("header: {}", gson.toJson(headMap));
     }
-
-
-
 
 
     public void write(String saveLocation, List objList, Object obj) {
