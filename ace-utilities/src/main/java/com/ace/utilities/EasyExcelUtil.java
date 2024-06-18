@@ -4,6 +4,7 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
+import com.alibaba.excel.read.builder.ExcelReaderSheetBuilder;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
@@ -46,6 +47,24 @@ public class EasyExcelUtil extends AnalysisEventListener<Map<Integer, String>> {
         // })).sheet().doRead();
         EasyExcel.read(fileName, new EasyExcelUtil()).sheet().doRead();
     }
+
+    public void read(String fileName, Integer sheetNo) {
+        EasyExcel.read(fileName, new EasyExcelUtil()).sheet(sheetNo).doRead();
+    }
+
+    public void read(String fileName, String sheetName) {
+        EasyExcel.read(fileName, new EasyExcelUtil()).sheet(sheetName).doRead();
+    }
+
+
+    public ExcelReaderSheetBuilder getSheet(Integer sheetNo){
+        return EasyExcel.read(fileName, new EasyExcelUtil()).sheet(sheetNo);
+    }
+
+    public ExcelReaderSheetBuilder getSheet(String sheetName){
+        return EasyExcel.read(fileName, new EasyExcelUtil()).sheet(sheetName);
+    }
+
 
 
     /**
@@ -93,6 +112,7 @@ public class EasyExcelUtil extends AnalysisEventListener<Map<Integer, String>> {
         excelWriter.write(objList, writeSheet);
         // 千万别忘记finish 会帮忙关闭流
         excelWriter.finish();
+        excelWriter.close();
     }
 
 
