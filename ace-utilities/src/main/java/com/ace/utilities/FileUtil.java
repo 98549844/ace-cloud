@@ -644,13 +644,17 @@ public class FileUtil {
         String type;
         StringBuilder content = null;
         List<StringBuilder> contentList = new ArrayList<>();
+        Map contentMap = new HashMap();
         if (obj instanceof String) {
             content = new StringBuilder((String) obj);
             type = "String";
         } else if (obj instanceof List) {
             contentList = (List<StringBuilder>) obj;
             type = "List";
-        } else {
+        } else if (obj instanceof Map<?,?>) {
+            contentMap = (Map) obj;
+            type = "Map";
+        }else {
             log.error("un-default type");
             return;
         }
@@ -680,6 +684,11 @@ public class FileUtil {
                     outputStreamWriter.append(contentInBytes);
                     outputStreamWriter.flush();
                 }
+            } else if (type.equals("Map")) {
+                //寫成一pet野甘, 有時間優化
+                contentInBytes = contentMap.toString();
+                outputStreamWriter.append(contentInBytes);
+                outputStreamWriter.flush();
             } else {
                 log.error("contentInBytes: {}", contentInBytes);
             }
