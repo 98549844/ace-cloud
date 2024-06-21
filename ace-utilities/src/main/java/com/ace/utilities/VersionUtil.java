@@ -23,7 +23,6 @@ public class VersionUtil {
 
     public static void main(String[] args) {
         getSpringFrameworkVersion();
-        getThymeleafVersion();
         //  showSpringbootVersion();
     }
 
@@ -33,10 +32,6 @@ public class VersionUtil {
         return springVersion;
     }
 
-/*    public static void SpringbootVersion() {
-        Console.println("Spring Boot Version: " + SpringBootVersion.getVersion(), Console.BOLD);
-    }*/
-
     public static void getMavenVersion() {
         String command = "-v";
         List<String> commands = new ArrayList<>();
@@ -45,13 +40,6 @@ public class VersionUtil {
         run(preparedCommands(commands));
     }
 
-    public static void getThymeleafVersion() {
-        String command = "dependency:list -DincludeArtifactIds=thymeleaf";
-        List<String> commands = new ArrayList<>();
-        commands.add(mavenWindowsHome);
-        commands.add(command);
-        run(preparedCommands(commands));
-    }
 
 
 }

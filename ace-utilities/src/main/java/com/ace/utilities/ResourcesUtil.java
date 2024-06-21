@@ -63,7 +63,7 @@ public class ResourcesUtil {
     }
 
     /**
-     * 直接读取resources目录内的文件, 不需要以/开头
+     * 直接读取resources目录内的文件內容, 不需要以/开头
      *
      * @param filePath
      * @return

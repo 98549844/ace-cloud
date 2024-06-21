@@ -214,7 +214,7 @@ public class FTPUtil {
         try (InputStream input = new FileInputStream(originFileName)) {
             return uploadFile(ftpClient, serviceDec, fileName, input);
         } catch (IOException e) {
-            log.error("文件上传失败" + e);
+            log.error("文件上传失败: {}", e.getMessage());
         }
         return false;
     }
@@ -250,7 +250,7 @@ public class FTPUtil {
                     inputStream.close();
                 }
             } catch (IOException e) {
-                log.error("上传文件失败" + e);
+                log.error("上传文件失败: {}", e.getMessage());
                 result = false;
             }
         }
