@@ -1,5 +1,6 @@
-package com.ace.utilities;
+package com.ace.utilities.excel;
 
+import com.ace.utilities.FileUtil;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.context.AnalysisContext;
@@ -25,13 +26,26 @@ import java.util.Map;
 public class EasyExcelUtil extends AnalysisEventListener<Map<Integer, String>> {
     private static final Logger log = LogManager.getLogger(EasyExcelUtil.class.getName());
 
+    public static String XLS = "xls";
+    public static String XLSX = "xlsx";
+
 
     private static final int BATCH_COUNT = 3000;
 
-    public static void main(String[] args) {
+    public static void main1(String[] args) {
         EasyExcelUtil easyExcelUtil = new EasyExcelUtil();
         easyExcelUtil.read("C:\\Users\\Garlam.Au\\IdeaProjects\\ace\\src\\main\\resources\\files\\output\\excel.xls");
     }
+
+    private boolean isNotSupport(String fileName) {
+        if (XLS.equals(FileUtil.getExtension(fileName))) {
+            return false;
+        }
+        log.error("unsupported file");
+        return true;
+    }
+
+
 
     public void read(String fileName) {
         // 写法1：JDK8+ ,不用额外写一个DemoDataListener
@@ -46,23 +60,38 @@ public class EasyExcelUtil extends AnalysisEventListener<Map<Integer, String>> {
         //        log.info("row{}: {}", i, gson.toJson(dataList.get(i)));
         //    }
         // })).sheet().doRead();
+        if (isNotSupport(fileName)) {
+            return;
+        }
         EasyExcel.read(fileName, new EasyExcelUtil()).sheet().doRead();
     }
 
     public void read(String fileName, Integer sheetNo) {
+        if (isNotSupport(fileName)) {
+            return;
+        }
         EasyExcel.read(fileName, new EasyExcelUtil()).sheet(sheetNo).doRead();
     }
 
     public void read(String fileName, String sheetName) {
+        if (isNotSupport(fileName)) {
+            return;
+        }
         EasyExcel.read(fileName, new EasyExcelUtil()).sheet(sheetName).doRead();
     }
 
 
     public ExcelReaderSheetBuilder getSheet(String fileName, Integer sheetNo) {
+        if (isNotSupport(fileName)) {
+            return null;
+        }
         return EasyExcel.read(fileName, new EasyExcelUtil()).sheet(sheetNo);
     }
 
     public ExcelReaderSheetBuilder getSheet(String fileName, String sheetName) {
+        if (isNotSupport(fileName)) {
+            return null;
+        }
         return EasyExcel.read(fileName, new EasyExcelUtil()).sheet(sheetName);
     }
 
