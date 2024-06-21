@@ -16,9 +16,10 @@ public class LogUtil {
     public static void main(String[] args) {
         log.traceEntry();
         log.trace("我是trace");
-        log.info("我是info信息:{}", "ACE_UTIL");
+        log.info("我是info信息:{}", "ACE-UTIL");
         log.error("我是error");
         log.fatal("我是fatal");
+        log.debug("我是debug");
         log.trace("退出程序.");
         log.traceExit();
     }

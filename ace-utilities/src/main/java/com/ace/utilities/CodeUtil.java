@@ -3,12 +3,11 @@ package com.ace.utilities;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 /**
@@ -21,6 +20,9 @@ import java.util.List;
 
 public class CodeUtil {
     private static final Logger log = LogManager.getLogger(CodeUtil.class.getName());
+
+    private static final String DEFAULT_URL_ENCODING = "UTF-8";
+
 
     static String path = "C:\\ideaPorject\\ace\\doc\\keyboards\\keychron\\config.txt";
     static String cont = "镓簩缁寸爜浠樻，缁欘?茶姳寮？娣℃颚";
@@ -56,6 +58,16 @@ public class CodeUtil {
         return list;
     }
 
+    /**
+     * URL 编码, Encode默认为UTF-8.
+     */
+    public static String urlEncode(String part) {
+        try {
+            return URLEncoder.encode(part, DEFAULT_URL_ENCODING);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 
 
