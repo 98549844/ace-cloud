@@ -33,6 +33,10 @@ public class OsUtil {
         return System.getProperties().getProperty("os.name").toUpperCase();
     }
 
+    public static String getOsType() {
+        return System.getProperties().getProperty("os.name").toUpperCase();
+    }
+
 
     public static void showAll() {
         Properties pros = System.getProperties();
