@@ -31,11 +31,11 @@ public class ImportExcel {
     private static final Logger log = LogManager.getLogger(ImportExcel.class.getName());
 
     //工作薄对象
-    private Workbook workbook;
+    private final Workbook workbook;
     //工作表对象
-    private Sheet sheet;
+    private final Sheet sheet;
     //标题行号
-    private int headerNum;
+    private final int headerNum;
 
     /**
      * 构造函数
