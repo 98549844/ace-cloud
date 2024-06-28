@@ -45,7 +45,7 @@
         <dependency>
             <groupId>net.sourceforge.tess4j</groupId>
             <artifactId>tess4j</artifactId>
-            <version>5.11.0</version>
+            <version>5.12.0</version>
             <exclusions>
                 <exclusion>
                     <artifactId>slf4j-api</artifactId>
