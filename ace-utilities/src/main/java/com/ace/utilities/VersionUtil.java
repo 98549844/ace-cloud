@@ -23,7 +23,7 @@ public class VersionUtil {
 
     public static void main(String[] args) {
         getSpringFrameworkVersion();
-        //  showSpringbootVersion();
+      //  mavenVersion();
     }
 
     public static String getSpringFrameworkVersion() {
@@ -32,7 +32,7 @@ public class VersionUtil {
         return springVersion;
     }
 
-    public static void getMavenVersion() {
+    public static void mavenVersion() {
         String command = "-v";
         List<String> commands = new ArrayList<>();
         commands.add(mavenWindowsHome);
