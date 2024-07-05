@@ -139,7 +139,7 @@ public class ImportExcel {
      *
      * @return
      */
-    public int getLastDataRowNum() {
+    public int getRowNum() {
         return this.sheet.getLastRowNum() + headerNum;
     }
 
@@ -263,7 +263,7 @@ public class ImportExcel {
         });
         // Get excel data
         List<E> dataList = Lists.newArrayList();
-        for (int i = this.getDataRowNum(); i < this.getLastDataRowNum(); i++) {
+        for (int i = this.getDataRowNum(); i < this.getRowNum(); i++) {
             E e = cls.newInstance();
             int column = 0;
             Row row = this.getRow(i);
