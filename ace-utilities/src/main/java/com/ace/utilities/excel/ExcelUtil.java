@@ -1,10 +1,10 @@
 package com.ace.utilities.excel;
 
-import com.ace.utilities.NullUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 
@@ -20,88 +20,75 @@ public class ExcelUtil {
     private static final Logger log = LogManager.getLogger(ExcelUtil.class);
 
 
-    final static String path = "/Users/garlam/IdeaProjects/utilities/src/main/resources/file/output/";
-    final static String fileName = "excel.xls";
-    static HSSFWorkbook workbook;
+    final static String path = "C:\\Users\\Garlam.Au\\IdeaProjects\\ace-cloud\\ace-utilities\\src\\main\\java\\com\\ace\\utilities\\excel\\";
+    final static String fileName = "template.xls";
+    //  static HSSFWorkbook workbook;
 
     public static void main(String[] args) {
-        ExcelUtil.createWorkbook();
-        String[] s = null;
-        // s = new String[]{"课程表"};
-        ExcelUtil.genSheets(s);
+        ExcelUtil excelUtil = new ExcelUtil();
+
+        HSSFWorkbook workbook = excelUtil.createWorkbook();
+        excelUtil.setSheetName(workbook, "report");
+
+        List<String> colNames = new ArrayList<>();
+        colNames.add("星期一");
+        colNames.add("星期二");
+        colNames.add("星期三");
+        colNames.add("星期四");
+        colNames.add("星期五");
+        excelUtil.setHeader(workbook, "report", colNames);
+        excelUtil.setBody(workbook, "report", null);
+        excelUtil.export(workbook, path + fileName);
+
+
     }
 
     //创建空的Excel
-    public static void createWorkbook() {
-        try {
-            workbook = new HSSFWorkbook();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public HSSFWorkbook createWorkbook() {
+        return new HSSFWorkbook();
     }
 
-    public static void exportExcel(String path) {
+    public void export(HSSFWorkbook workbook, String filePath) {
         try {
-            FileOutputStream out = new FileOutputStream(path);
+            FileOutputStream out = new FileOutputStream(filePath);
             workbook.write(out);
             out.close();
-            workbook = null;
+            workbook.close();
             System.out.println("Excel export status : completed !");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void genSheets(String[] sheetNames) {
+    public HSSFWorkbook setSheetName(HSSFWorkbook workbook, String sheetName) {
         try {
-            //set sheets name
-            workbook = new HSSFWorkbook();
-            if (NullUtil.isNull(sheetNames) || sheetNames.length == 0) {
-                sheetNames = new String[3];
-                sheetNames[0] = "Sheet1";
-                sheetNames[1] = "Sheet2";
-                sheetNames[2] = "Sheet3";
-            }
-            List<HSSFSheet> sheets = new ArrayList<>();
-            for (String sheetName : sheetNames) {
-                HSSFSheet sheet = workbook.createSheet(sheetName);
-                sheets.add(sheet);
-            }
+            workbook.createSheet(sheetName);
 
-            HSSFCellStyle headerStyle = getStyleHeader(workbook);
+            /*HSSFCellStyle headerStyle = getStyleHeader(workbook);
             HSSFCellStyle bodyStyle = getStyleBody(workbook);
 
             HSSFRow row = sheets.get(0).createRow(0);
-            HSSFCell cell00 = row.createCell(0);
-            cell00.setCellType(CellType.STRING);
-            cell00.setCellValue("星期一");
-            cell00.setCellStyle(headerStyle);
 
-            HSSFCell cell01 = row.createCell(1);
-            cell01.setCellType(CellType.STRING);
-            cell01.setCellValue("星期二");
-            cell01.setCellStyle(headerStyle);
+            List<String> colNames = new ArrayList<>();
+            colNames.add("星期一");
+            colNames.add("星期二");
+            colNames.add("星期三");
+            colNames.add("星期四");
+            colNames.add("星期五");
+            int size = colNames.size();
 
-            HSSFCell cell02 = row.createCell(2);
-            cell02.setCellType(CellType.STRING);
-            cell02.setCellValue("星期三");
-            cell02.setCellStyle(headerStyle);
+            for (int i = 0; i < size; i++) {
+                HSSFCell cell = row.createCell(i);
+                cell.setCellType(CellType.STRING);
+                cell.setCellValue(colNames.get(i));
+                cell.setCellStyle(headerStyle);
+            }*/
 
-            HSSFCell cell03 = row.createCell(3);
-            cell03.setCellType(CellType.STRING);
-            cell03.setCellValue("星期四");
-            cell03.setCellStyle(headerStyle);
-
-            HSSFCell cell04 = row.createCell(4);
-            cell04.setCellType(CellType.STRING);
-            cell04.setCellValue("星期五");
-            cell04.setCellStyle(headerStyle);
-
-            SecureRandom random = new SecureRandom();
+            /*SecureRandom random = new SecureRandom();
             String[] course = {"语文", "数学", "英语", "物理", "化学", "政治", "历史", "音乐", "美术", "体育"};
             for (int rowNo = 1; rowNo <= 7; rowNo++) {
-                //  sheets.get(0).setColumnWidth(rowNo - 1, 20 * 256);
-                sheets.get(0).autoSizeColumn(rowNo - 1);
+                //  sheets.get(0).setColumnWidth(rowNo - 1, 20 * 256); //自定義設置cell寛度
+                sheets.get(0).autoSizeColumn(rowNo - 1); //自動設置cell寛度
                 HSSFRow rowHSSF = sheets.get(0).createRow(rowNo);
                 for (int cellNo = 0; cellNo <= 4; cellNo++) {
                     int i = random.nextInt(10);
@@ -110,12 +97,49 @@ public class ExcelUtil {
                     cell.setCellType(CellType.STRING);
                     cell.setCellStyle(bodyStyle);
                 }
-            }
-            ExcelUtil.exportExcel(path + fileName);
+            }*/
+            // ExcelUtil.export(path + fileName);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return workbook;
     }
+
+    public void setHeader(HSSFWorkbook workbook, String sheetName, List<String> colNames) {
+        HSSFSheet sheet = workbook.getSheet(sheetName);
+        HSSFCellStyle headerStyle = getStyleHeader(workbook);
+        int size = colNames.size();
+        HSSFRow row = sheet.createRow(0);
+        for (int i = 0; i < size; i++) {
+            HSSFCell cell = row.createCell(i);
+            cell.setCellType(CellType.STRING);
+            cell.setCellValue(colNames.get(i));
+            cell.setCellStyle(headerStyle);
+        }
+    }
+
+    public void setBody(HSSFWorkbook workbook, String sheetName, List<Class<T>> type) {
+        //  int size = type.size();
+        HSSFCellStyle bodyStyle = getStyleBody(workbook);
+
+        HSSFSheet sheet = workbook.getSheet(sheetName);
+
+        SecureRandom random = new SecureRandom();
+        String[] course = {"语文", "数学", "英语", "物理", "化学", "政治", "历史", "音乐", "美术", "体育"};
+        for (int rowNo = 1; rowNo <= 7; rowNo++) {
+            sheet.setColumnWidth(rowNo - 1, 20 * 256); //自定義設置cell寛度
+            // sheet.autoSizeColumn(rowNo - 1); //自動設置cell寛度
+            HSSFRow rowHSSF = sheet.createRow(rowNo);
+            for (int cellNo = 0; cellNo <= 4; cellNo++) {
+                int i = random.nextInt(10);
+                HSSFCell cell = rowHSSF.createCell(cellNo);
+                cell.setCellValue(course[i]);
+                cell.setCellType(CellType.STRING);
+                cell.setCellStyle(bodyStyle);
+            }
+        }
+    }
+
 
     //cell style setting
     public static HSSFCellStyle getStyleHeader(HSSFWorkbook workbook) {
@@ -125,7 +149,7 @@ public class ExcelUtil {
         font.setFontName("Times New Roman");//设置字体名字
         HSSFCellStyle style = workbook.createCellStyle();//设置样式
         style.setFont(font);//设置的字体
-        style.setWrapText(true);//设置自动换行
+        // style.setWrapText(true);//设置自动换行
         style.setAlignment(HorizontalAlignment.CENTER);//设置水平对齐的样式为居中对齐
         style.setVerticalAlignment(VerticalAlignment.CENTER);//设置垂直对齐的样式为居中对齐
         //边框填充
@@ -158,7 +182,7 @@ public class ExcelUtil {
         style.setBorderTop(BorderStyle.THIN);
         style.setTopBorderColor(HSSFColor.HSSFColorPredefined.BLACK.getIndex());
         style.setFont(font);
-        style.setWrapText(true);
+        // style.setWrapText(true); //设置自动换行
         style.setAlignment(HorizontalAlignment.CENTER);
         style.setVerticalAlignment(VerticalAlignment.CENTER);
         return style;
