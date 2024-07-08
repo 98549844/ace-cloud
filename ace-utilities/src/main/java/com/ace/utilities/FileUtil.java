@@ -123,15 +123,6 @@ public class FileUtil {
         return map;
     }
 
-
-    public static void main(String[] args) {
-
-        String p = "/Users/garlam/ace/videos/4d476ea5-c64b-48d6-9195-a8d5f562d84d.mkv";
-        String mineType = getMimeType(p);
-        System.out.println(mineType);
-
-    }
-
     /**
      * 文件转为二进制数组
      *
@@ -591,18 +582,23 @@ public class FileUtil {
      * @param path
      */
     public static boolean mkDirs(String path) {
-        File folder = new File(path);
+        File f = new File(path);
         boolean result = false;
-        if (!folder.exists()) {
+        if (!f.exists()) {
             if (path.lastIndexOf(".") == -1) { //检查路径不包含文件名
-                return folder.mkdirs();
+                return f.mkdirs();
             } else {
-                return new File(folder.getParent()).mkdirs();
+                return new File(f.getParent()).mkdirs();
             }
         }
         return result;
     }
 
+    public static void main(String[] args) {
+
+
+
+    }
 
     /**
      * 清空原文并写入新内容
@@ -651,10 +647,10 @@ public class FileUtil {
         } else if (obj instanceof List) {
             contentList = (List<StringBuilder>) obj;
             type = "List";
-        } else if (obj instanceof Map<?,?>) {
+        } else if (obj instanceof Map<?, ?>) {
             contentMap = (Map) obj;
             type = "Map";
-        }else {
+        } else {
             log.error("un-default type");
             return;
         }
