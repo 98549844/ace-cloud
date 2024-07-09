@@ -100,7 +100,7 @@ public class SystemUtil {
      * 通用换行符
      */
     public static String newLine() {
-        return System.getProperty("line.separator");
+        return System.lineSeparator();
     }
 
     /**
