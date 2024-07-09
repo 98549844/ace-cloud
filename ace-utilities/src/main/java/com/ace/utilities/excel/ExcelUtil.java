@@ -38,8 +38,48 @@ public class ExcelUtil {
         colNames.add("星期五");
         excelUtil.setHeader(workbook, "report", colNames);
         excelUtil.setBody(workbook, "report", null);
+        excelUtil.fitColumn(workbook, "report", true);
         excelUtil.export(workbook, path + fileName);
 
+
+    }
+
+    public Row getFirstRow(Sheet sheet) {
+        return sheet.getRow(0);
+    }
+
+    public int getRowNum(Sheet sheet) {
+        return sheet.getLastRowNum();
+    }
+
+
+    public int getHeaderCellNum(Sheet sheet) {
+        return sheet.getRow(0).getLastCellNum();
+    }
+
+    public int getCellNum(Sheet sheet, int rowOrder) {
+        return sheet.getRow(rowOrder).getLastCellNum();
+    }
+
+    public void fitColumn(HSSFWorkbook workbook, String sheetName, boolean autoFit) {
+        Sheet sheet = workbook.getSheet(sheetName);
+        int rowNum = getRowNum(sheet);
+        int maxColNum = 0;
+        for (int i = 0; i < rowNum; i++) {
+            int colNum = getCellNum(sheet, rowNum); //每行row的cell number
+            if (colNum > maxColNum) {
+                maxColNum = colNum;
+            }
+        }
+        if (autoFit) {
+            for (int i = 0; i < maxColNum; i++) {
+                sheet.autoSizeColumn(i);
+            }
+        } else {
+            for (int i = 0; i < maxColNum; i++) {
+                sheet.setColumnWidth(i, 10000);
+            }
+        }
 
     }
 
@@ -63,42 +103,6 @@ public class ExcelUtil {
     public HSSFWorkbook setSheetName(HSSFWorkbook workbook, String sheetName) {
         try {
             workbook.createSheet(sheetName);
-
-            /*HSSFCellStyle headerStyle = getStyleHeader(workbook);
-            HSSFCellStyle bodyStyle = getStyleBody(workbook);
-
-            HSSFRow row = sheets.get(0).createRow(0);
-
-            List<String> colNames = new ArrayList<>();
-            colNames.add("星期一");
-            colNames.add("星期二");
-            colNames.add("星期三");
-            colNames.add("星期四");
-            colNames.add("星期五");
-            int size = colNames.size();
-
-            for (int i = 0; i < size; i++) {
-                HSSFCell cell = row.createCell(i);
-                cell.setCellType(CellType.STRING);
-                cell.setCellValue(colNames.get(i));
-                cell.setCellStyle(headerStyle);
-            }*/
-
-            /*SecureRandom random = new SecureRandom();
-            String[] course = {"语文", "数学", "英语", "物理", "化学", "政治", "历史", "音乐", "美术", "体育"};
-            for (int rowNo = 1; rowNo <= 7; rowNo++) {
-                //  sheets.get(0).setColumnWidth(rowNo - 1, 20 * 256); //自定義設置cell寛度
-                sheets.get(0).autoSizeColumn(rowNo - 1); //自動設置cell寛度
-                HSSFRow rowHSSF = sheets.get(0).createRow(rowNo);
-                for (int cellNo = 0; cellNo <= 4; cellNo++) {
-                    int i = random.nextInt(10);
-                    HSSFCell cell = rowHSSF.createCell(cellNo);
-                    cell.setCellValue(course[i]);
-                    cell.setCellType(CellType.STRING);
-                    cell.setCellStyle(bodyStyle);
-                }
-            }*/
-            // ExcelUtil.export(path + fileName);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -118,6 +122,11 @@ public class ExcelUtil {
         }
     }
 
+    /** 寫得唔夠通用, 要完再修改
+     * @param workbook
+     * @param sheetName
+     * @param type
+     */
     public void setBody(HSSFWorkbook workbook, String sheetName, List<Class<T>> type) {
         //  int size = type.size();
         HSSFCellStyle bodyStyle = getStyleBody(workbook);
@@ -127,8 +136,8 @@ public class ExcelUtil {
         SecureRandom random = new SecureRandom();
         String[] course = {"语文", "数学", "英语", "物理", "化学", "政治", "历史", "音乐", "美术", "体育"};
         for (int rowNo = 1; rowNo <= 7; rowNo++) {
-            sheet.setColumnWidth(rowNo - 1, 20 * 256); //自定義設置cell寛度
-            // sheet.autoSizeColumn(rowNo - 1); //自動設置cell寛度
+            //sheet.setColumnWidth(rowNo - 1, 20 * 256); //自定義設置cell寛度
+            // sheet.autoSizeColumn(rowNo - 1); //自動設置col寛度
             HSSFRow rowHSSF = sheet.createRow(rowNo);
             for (int cellNo = 0; cellNo <= 4; cellNo++) {
                 int i = random.nextInt(10);
