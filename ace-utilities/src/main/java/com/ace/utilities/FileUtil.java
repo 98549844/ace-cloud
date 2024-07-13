@@ -581,17 +581,15 @@ public class FileUtil {
      *
      * @param path
      */
-    public static boolean mkDirs(String path) {
+    public static void mkDirs(String path) {
         File f = new File(path);
-        boolean result = false;
         if (!f.exists()) {
             if (path.lastIndexOf(".") == -1) { //检查路径不包含文件名
-                return f.mkdirs();
+                f.mkdirs();
             } else {
-                return new File(f.getParent()).mkdirs();
+                new File(f.getParent()).mkdirs();
             }
         }
-        return result;
     }
 
     public static void main(String[] args) {
