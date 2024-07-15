@@ -15,6 +15,8 @@ import java.io.*;
 import java.math.BigInteger;
 import java.net.FileNameMap;
 import java.net.URLConnection;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -350,10 +352,10 @@ public class FileUtil {
 
         ArrayList<String> files = new ArrayList<>();
         File file = new File(path);
-        File[] tempLists = file.listFiles();
-        for (File tempList : tempLists) {
-            if (tempList.isFile() && !tempList.getName().equals(".DS_Store")) {
-                files.add(tempList.getName());//file name
+        File[] fileLists = file.listFiles();
+        for (File f : fileLists) {
+            if (f.isFile() && !f.getName().equals(".DS_Store")) {
+                files.add(f.getName());//file name
             }
         }
         return files;
@@ -592,11 +594,39 @@ public class FileUtil {
         }
     }
 
-    public static void main(String[] args) {
 
-
-
+    /**
+     * 檢查文件是否可寫
+     *
+     * @param path
+     * @return
+     */
+    public static boolean canWrite(String path) {
+        return !new File(path).canWrite();
     }
+
+    /**
+     * 檢查文件是否被其他線程佔用
+     *
+     * @param path
+     * @return
+     */
+    public static boolean fileInUse(String path) {
+        try (RandomAccessFile file = new RandomAccessFile(path, "rw"); FileChannel channel = file.getChannel()) {
+            FileLock lock = channel.tryLock();
+            if (lock == null) {
+                log.error("File used by other !");
+                return true; // 文件被占用
+            }
+            lock.release();
+            return false; // 文件未被占用
+        } catch (Exception e) {
+            e.printStackTrace();
+            return true; // 发生异常，视为文件被占用
+        }
+    }
+
+
 
     /**
      * 清空原文并写入新内容
@@ -1284,7 +1314,7 @@ public class FileUtil {
      * @param sorting
      * @return
      */
-    //按 文件修改日期: 递增
+//按 文件修改日期: 递增
     public static List<Map> getNamesOrderByLastModifiedDate(String filePath, boolean sorting) {
         File file = new File(filePath);
         File[] files = file.listFiles();
