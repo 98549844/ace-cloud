@@ -115,6 +115,22 @@ public class ImportExcel {
         log.info("Initialize success.");
     }
 
+    @SuppressWarnings("deprecation")
+    public static boolean isRowEmpty(Row row) {
+        if (row == null) {
+            return true;
+        }
+        int firstCellNum = row.getFirstCellNum();
+        int lastCellNum = row.getLastCellNum();
+        for (int c = firstCellNum; c < lastCellNum; c++) {
+            Cell cell = row.getCell(c);
+            if (cell != null && cell.getCellType() != CellType.BLANK) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * 获取行对象
      *

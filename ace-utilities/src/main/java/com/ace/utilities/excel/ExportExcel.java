@@ -313,7 +313,7 @@ public class ExportExcel {
                 }
             }
         } catch (Exception ex) {
-            log.info("Set cell value [" + row.getRowNum() + "," + column + "] error: " + ex.toString());
+            log.info("Set cell value [{},{}] error: {}", row.getRowNum(), column, ex.toString());
             cell.setCellValue(val.toString());
         }
         cell.setCellStyle(style);
