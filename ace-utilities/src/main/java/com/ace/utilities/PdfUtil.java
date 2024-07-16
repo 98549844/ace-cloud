@@ -1,7 +1,5 @@
 package com.ace.utilities;
 
-import com.ace.utilities.NullUtil;
-import com.ace.utilities.RandomUtil;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
@@ -51,7 +49,7 @@ public class PdfUtil {
             pdfUtil.concatPDFs(pdfs, output, true);
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
 
@@ -93,19 +91,25 @@ public class PdfUtil {
     public static String read(String filePath) {
         StringBuilder result = new StringBuilder();
         try {
-            com.itextpdf.text.pdf.PdfReader reader = new com.itextpdf.text.pdf.PdfReader(filePath);
+            FileInputStream fis = new FileInputStream(filePath);
+            com.itextpdf.text.pdf.PdfReader reader = new com.itextpdf.text.pdf.PdfReader(fis);
+
             int countPage = reader.getNumberOfPages();
             for (int i = 1; i <= countPage; i++) {
                 result.append(PdfTextExtractor.getTextFromPage(reader, i));
+                reader.releasePage(1);
             }
-            reader.close();
+            reader.close(); // 关闭 PdfReader 对象
+            fis.close(); // 关闭 FileInputStream 对象
         } catch (IOException e) {
             e.printStackTrace();
         }
         return result.toString();
     }
 
-    /** 重載concatPDFs方法, 功能是一樣的
+    /**
+     * 重載concatPDFs方法, 功能是一樣的
+     *
      * @param streamArrayOfPdfFiles
      * @param outputStream
      * @param pagination

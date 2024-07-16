@@ -15,13 +15,29 @@ public class EmailUtil {
             log.info("Email address not exist");
             return false;
         }
-        String checkPattern = "^([a-zA-Z0-9_])+@(([a-zA-Z0-9])+\\.)+([a-zA-Z0-9]{2,4})+$";
-        Pattern regex = Pattern.compile(checkPattern);
-        Matcher matcher = regex.matcher(email);
-        String validStatus = matcher.matches() ? "valid" : "invalid";
-        log.info(email + " is " + validStatus + " Email address");
-        return matcher.matches();
+        if (email.contains(";")) {
+            return emailAddressValidator(email.split(";"));
+        } else {
+            String checkPattern = "^([a-zA-Z0-9_])+@(([a-zA-Z0-9])+\\.)+([a-zA-Z0-9]{2,4})+$";
+            Pattern regex = Pattern.compile(checkPattern);
+            Matcher matcher = regex.matcher(email);
+            String isValid = matcher.matches() ? "valid" : "invalid";
+            log.info(email + " is " + isValid + " Email address");
+            return matcher.matches();
+        }
     }
+
+    public static boolean emailAddressValidator(String[] emails) {
+        boolean isValid = false;
+        for (String email : emails) {
+            isValid = emailAddressValidator(email);
+            if (!isValid) {
+                break;
+            }
+        }
+        return isValid;
+    }
+
 
     public static void main(String[] args) {
         boolean isEmail = EmailUtil.emailAddressValidator("sxgkwei@16375.org");
