@@ -49,7 +49,7 @@ public class PdfUtil {
             pdfUtil.concatPDFs(pdfs, output, true);
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }
     }
 
 
