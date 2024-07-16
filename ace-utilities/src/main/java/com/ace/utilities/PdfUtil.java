@@ -115,8 +115,7 @@ public class PdfUtil {
      * @param pagination
      */
     public void concatPDFs(InputStream[] streamArrayOfPdfFiles, OutputStream outputStream, boolean pagination) {
-        List<InputStream> streamOfPdfFiles = new LinkedList<>();
-        streamOfPdfFiles.addAll(Arrays.asList(streamArrayOfPdfFiles));
+        List<InputStream> streamOfPdfFiles = new LinkedList<>(Arrays.asList(streamArrayOfPdfFiles));
         concatPDFs(streamOfPdfFiles, outputStream, pagination);
     }
 
@@ -165,7 +164,7 @@ public class PdfUtil {
                     if (pagination) {
                         cb.beginText();
                         cb.setFontAndSize(bf, 9);
-                        cb.showTextAligned(PdfContentByte.ALIGN_CENTER, "" + currentPageNumber + " of " + totalPages, 520, 5, 0);
+                        cb.showTextAligned(PdfContentByte.ALIGN_CENTER, currentPageNumber + " of " + totalPages, 520, 5, 0);
                         cb.endText();
                     }
                 }
@@ -194,14 +193,22 @@ public class PdfUtil {
      * @throws IOException
      * @throws DocumentException
      */
-    public static void htmlToPdf(String targetUrl, String pdfLocation) throws IOException, DocumentException {
+    public static void htmlToPdf(String targetUrl, String pdfLocation) throws Exception {
         OutputStream outputStream = new FileOutputStream(pdfLocation);
         HtmlUtil htmlUtil = new HtmlUtil();
         String html = htmlUtil.getHtmlFromUrl(targetUrl);
         ITextRenderer renderer = new ITextRenderer();
         renderer.setDocumentFromString(htmlUtil.convertToXHtml(html));
         ITextFontResolver fontResolver = renderer.getFontResolver();
-        fontResolver.addFont("C:/WINDOWS/Fonts/SIMSUN.TTC", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+        if (OsUtil.getOsName().contains(OsUtil.WINDOWS)) {
+            fontResolver.addFont("C:/WINDOWS/Fonts/SIMSUN.TTC", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+        } else if (OsUtil.getOsName().contains(OsUtil.LINUX)) {
+            throw new Exception("Linux系统没有处理");
+        } else if (OsUtil.getOsName().contains(OsUtil.MAC)) {
+            throw new Exception("MacOS系统没有处理");
+        } else {
+            throw new Exception("未知系统 !");
+        }
         renderer.layout();
         renderer.createPDF(outputStream);
         outputStream.flush();
