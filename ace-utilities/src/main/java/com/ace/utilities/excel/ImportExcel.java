@@ -115,7 +115,6 @@ public class ImportExcel {
         log.info("Initialize success.");
     }
 
-    @SuppressWarnings("deprecation")
     public static boolean isRowEmpty(Row row) {
         if (row == null) {
             return true;
@@ -134,7 +133,6 @@ public class ImportExcel {
     /**
      * 获取行对象
      *
-     * @param rownum
      * @return
      */
     public Row getRow(int rownum) {
@@ -144,7 +142,6 @@ public class ImportExcel {
     /**
      * 获取数据行号
      *
-     * @return
      */
     public int getDataRowNum() {
         return headerNum + 1;

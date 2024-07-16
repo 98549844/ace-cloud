@@ -32,7 +32,7 @@ public class EasyExcelUtil extends AnalysisEventListener<Map<Integer, String>> {
 
     private static final int BATCH_COUNT = 3000;
 
-    public static void main1(String[] args) {
+    public static void main(String[] args) {
         EasyExcelUtil easyExcelUtil = new EasyExcelUtil();
         easyExcelUtil.read("C:\\Users\\Garlam.Au\\IdeaProjects\\ace\\src\\main\\resources\\files\\output\\excel.xls");
     }
