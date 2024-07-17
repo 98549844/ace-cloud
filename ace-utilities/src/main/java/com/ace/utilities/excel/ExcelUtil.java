@@ -57,8 +57,8 @@ public class ExcelUtil {
         return sheet.getRow(0).getLastCellNum();
     }
 
-    public int getCellNum(Sheet sheet, int rowOrder) {
-        return sheet.getRow(rowOrder).getLastCellNum();
+    public int getCellNum(Sheet sheet, int rowNum) {
+        return sheet.getRow(rowNum).getLastCellNum();
     }
 
     public void fitColumn(HSSFWorkbook workbook, String sheetName, boolean autoFit) {

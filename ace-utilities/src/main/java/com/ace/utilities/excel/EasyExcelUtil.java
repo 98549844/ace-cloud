@@ -34,18 +34,8 @@ public class EasyExcelUtil extends AnalysisEventListener<Map<Integer, String>> {
 
     public static void main(String[] args) {
         EasyExcelUtil easyExcelUtil = new EasyExcelUtil();
-        easyExcelUtil.read("C:\\Users\\Garlam.Au\\IdeaProjects\\ace\\src\\main\\resources\\files\\output\\excel.xls");
+        easyExcelUtil.read("C:\\dmop\\template\\template.xlsx");
     }
-
-    private boolean isNotSupport(String fileName) {
-        if (XLS.equals(FileUtil.getExtension(fileName))) {
-            return false;
-        }
-        log.error("unsupported file");
-        return true;
-    }
-
-
 
     public void read(String fileName) {
         // 写法1：JDK8+ ,不用额外写一个DemoDataListener
@@ -60,38 +50,23 @@ public class EasyExcelUtil extends AnalysisEventListener<Map<Integer, String>> {
         //        log.info("row{}: {}", i, gson.toJson(dataList.get(i)));
         //    }
         // })).sheet().doRead();
-        if (isNotSupport(fileName)) {
-            return;
-        }
         EasyExcel.read(fileName, new EasyExcelUtil()).sheet().doRead();
     }
 
     public void read(String fileName, Integer sheetNo) {
-        if (isNotSupport(fileName)) {
-            return;
-        }
         EasyExcel.read(fileName, new EasyExcelUtil()).sheet(sheetNo).doRead();
     }
 
     public void read(String fileName, String sheetName) {
-        if (isNotSupport(fileName)) {
-            return;
-        }
         EasyExcel.read(fileName, new EasyExcelUtil()).sheet(sheetName).doRead();
     }
 
 
     public ExcelReaderSheetBuilder getSheet(String fileName, Integer sheetNo) {
-        if (isNotSupport(fileName)) {
-            return null;
-        }
         return EasyExcel.read(fileName, new EasyExcelUtil()).sheet(sheetNo);
     }
 
     public ExcelReaderSheetBuilder getSheet(String fileName, String sheetName) {
-        if (isNotSupport(fileName)) {
-            return null;
-        }
         return EasyExcel.read(fileName, new EasyExcelUtil()).sheet(sheetName);
     }
 
