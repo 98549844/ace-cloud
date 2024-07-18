@@ -18,10 +18,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * 导入Excel文件（支持“XLS”和“XLSX”格式）
@@ -30,12 +27,18 @@ import java.util.List;
 public class ImportExcel {
     private static final Logger log = LogManager.getLogger(ImportExcel.class.getName());
 
+    private static final String XLS = "xls";
+    private static final String XLSX = "xlsx";
+
     //工作薄对象
     private final Workbook workbook;
     //工作表对象
     private final Sheet sheet;
+    //工作表对象列表
+    private Map sheets = new HashMap();
     //标题行号
     private final int headerNum;
+
 
     /**
      * 构造函数
@@ -100,9 +103,9 @@ public class ImportExcel {
     public ImportExcel(String filePath, InputStream is, int headerNum, int sheetIndex) throws InvalidFormatException, IOException {
         if (StringUtils.isBlank(filePath)) {
             throw new RuntimeException("excel文件不存在, 請檢查路徑 !");
-        } else if (filePath.toLowerCase().endsWith("xls")) {
+        } else if (filePath.toLowerCase().endsWith(XLS)) {
             this.workbook = new HSSFWorkbook(is);
-        } else if (filePath.toLowerCase().endsWith("xlsx")) {
+        } else if (filePath.toLowerCase().endsWith(XLSX)) {
             this.workbook = new XSSFWorkbook(is);
         } else {
             throw new RuntimeException("文档格式不正确!");
@@ -115,7 +118,13 @@ public class ImportExcel {
         log.info("Initialize success.");
     }
 
-    public static boolean isRowEmpty(Row row) {
+    /**
+     * 檢查row
+     *
+     * @param row
+     * @return
+     */
+    public boolean isRowEmpty(Row row) {
         if (row == null) {
             return true;
         }
@@ -130,6 +139,61 @@ public class ImportExcel {
         return true;
     }
 
+
+    public int getSheetNum() {
+        return this.workbook.getNumberOfSheets();
+    }
+
+    public Sheet getSheet(Workbook workbook, String sheetName) {
+        return workbook.getSheet(sheetName);
+    }
+
+
+    /**
+     * col字母轉換成數值
+     * Excel column index begin 1
+     *
+     * @param colStr
+     * @param length
+     * @return
+     */
+    private static int colStrToNum(String colStr) {
+        int length = colStr.length();
+        int num = 0;
+        int result = 0;
+        for (int i = 0; i < length; i++) {
+            char ch = colStr.charAt(length - i - 1);
+            num = (int) (ch - 'A' + 1);
+            num *= Math.pow(26, i);
+            result += num;
+        }
+        return result;
+    }
+
+    /**
+     * col數轉換成字母
+     * Excel column index begin 1
+     *
+     * @param columnIndex
+     * @return
+     */
+    private static String colIndexToStr(int columnIndex) {
+        if (columnIndex <= 0) {
+            return null;
+        }
+        String columnStr = "";
+        columnIndex--;
+        do {
+            if (columnStr.length() > 0) {
+                columnIndex--;
+            }
+            columnStr = ((char) (columnIndex % 26 + (int) 'A')) + columnStr;
+            columnIndex = (int) ((columnIndex - columnIndex % 26) / 26);
+        } while (columnIndex > 0);
+        return columnStr;
+    }
+
+
     /**
      * 获取行对象
      *
@@ -141,7 +205,6 @@ public class ImportExcel {
 
     /**
      * 获取数据行号
-     *
      */
     public int getDataRowNum() {
         return headerNum + 1;
@@ -352,6 +415,24 @@ public class ImportExcel {
             log.info("Read success: [{}] {}", i, sb.toString());
         }
         return dataList;
+    }
+
+    public Workbook getWorkbook() {
+        return workbook;
+    }
+
+    public Sheet getSheet() {
+        return sheet;
+    }
+
+    public Map getSheets() {
+        if (sheets.isEmpty()) {
+            int size = getSheetNum();
+            for (int i = 0; i < size; i++) {
+                sheets.put(this.workbook.getSheetName(i), this.workbook.getSheetAt(i));
+            }
+        }
+        return sheets;
     }
 
 
