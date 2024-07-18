@@ -214,6 +214,7 @@ public class ExcelUtil {
             row10_cell01.setCellType(CellType.STRING);
             row10_cell01.setCellStyle(headerStyle);
 
+
             CellRangeAddress cellAddresses = new CellRangeAddress(0, 0, 0, 9);
             sheet.addMergedRegion(cellAddresses);
 
