@@ -23,9 +23,12 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+
+import static com.ace.constants.constant.PDF;
 
 /**
  * @Classname: PdfUtil
@@ -40,16 +43,26 @@ public class PdfUtil {
 
     public static void main(String[] args) throws IOException {
         PdfUtil pdfUtil = new PdfUtil();
-        try {
-            List<InputStream> pdfs = new LinkedList<>();
-            pdfs.add(new FileInputStream("C:\\Users\\Garlam.Au\\IdeaProjects\\ace\\src\\main\\java\\com\\ace\\utils\\PdfUtil-Sample.pdf"));
-            pdfs.add(new FileInputStream("C:\\Users\\Garlam.Au\\IdeaProjects\\ace\\src\\main\\java\\com\\ace\\utils\\PdfUtil-Sample1.pdf"));
-            pdfs.add(new FileInputStream("C:\\Users\\Garlam.Au\\IdeaProjects\\ace\\src\\main\\java\\com\\ace\\utils\\PdfUtil-Sample2.pdf"));
-            OutputStream output = new FileOutputStream("C:\\ace\\misc\\merge.pdf");
-            pdfUtil.concatPDFs(pdfs, output, true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        String p = "C:\\Users\\Garlam.Au\\IdeaProjects\\ace-cloud\\ace-utilities\\src\\main\\resources\\file\\images\\img.png";
+        String p2 = "C:\\Users\\Garlam.Au\\IdeaProjects\\ace-cloud\\ace-utilities\\src\\main\\resources\\file\\images\\img1.png";
+        List<String> ls = new ArrayList<>();
+        ls.add(p);
+        ls.add(p2);
+
+        String dest = "C:\\Users\\Garlam.Au\\IdeaProjects\\ace-cloud\\ace-utilities\\src\\main\\resources\\file\\images\\aaa.pdf";
+        PdfUtil.imagesToPdf(ls, dest);
+
+        //jpgsMergeToPdf(p, dest);
+        //try {
+        //    List<InputStream> pdfs = new LinkedList<>();
+        //    pdfs.add(new FileInputStream("C:\\Users\\Garlam.Au\\IdeaProjects\\ace\\src\\main\\java\\com\\ace\\utils\\PdfUtil-Sample.pdf"));
+        //    pdfs.add(new FileInputStream("C:\\Users\\Garlam.Au\\IdeaProjects\\ace\\src\\main\\java\\com\\ace\\utils\\PdfUtil-Sample1.pdf"));
+        //    pdfs.add(new FileInputStream("C:\\Users\\Garlam.Au\\IdeaProjects\\ace\\src\\main\\java\\com\\ace\\utils\\PdfUtil-Sample2.pdf"));
+        //    OutputStream output = new FileOutputStream("C:\\ace\\misc\\merge.pdf");
+        //    pdfUtil.concatPDFs(pdfs, output, true);
+        //} catch (Exception e) {
+        //    e.printStackTrace();
+        //}
     }
 
 
@@ -220,27 +233,77 @@ public class PdfUtil {
      * 支持一张或多张图片转换成pdf
      *
      * @param input
-     * @param output
+     * @param outputPath
      * @throws IOException
      */
-    public static void toPdf(String input, String output) throws IOException {
-        if (NullUtil.isNull(input) || NullUtil.isNull(output)) {
-            log.error("Input param is null");
-            return;
-        }
-
+    public static void toPdf(String input, String outputPath) throws IOException {
         File f = new File(input);
         if (f.exists()) {
-            if (new File(output).isDirectory()) {
-                output = output + "pdf_ver_" + RandomUtil.getInt(100) + ".pdf";
+            if (new File(outputPath).isDirectory()) {
+                outputPath = outputPath + "pdf_ver_" + RandomUtil.getInt(100) + ".pdf";
             }
 
             if (f.isDirectory()) {
-                jpgsMergeToPdf(input, output);
+                imagesConcatPdf(input, outputPath);
             } else {
-                jpgToPdf(input, output);
+                imageToPdf(input, outputPath);
             }
         }
+    }
+
+    /**
+     * 支持一张或多张图片转换成pdf
+     *
+     * @param fileNames
+     * @param outputPath
+     * @throws IOException
+     */
+    public static void imagesToPdf(List<String> fileNames, String outputPath) throws IOException {
+        try {
+            // 图片文件夹地址
+            // 图片地址
+            String imagePath;
+            // PDF文件保存地址
+            // 输入流
+            if (!outputPath.endsWith(PDF)) {
+                throw new Exception("this is not a PDF !");
+            }
+            FileOutputStream fos = new FileOutputStream(outputPath);
+            // 创建文档
+            Document doc = new Document(null, 0, 0, 0, 0);
+            //doc.open();
+            // 写入PDF文档
+            PdfWriter.getInstance(doc, fos);
+            // 读取图片流
+            BufferedImage img;
+            // 实例化图片
+            Image image;
+            // 循环获取图片文件夹内的图片
+            for (String p : fileNames) {
+                // 获取图片文件对象
+                File f = new File(p);
+                if (f.getName().endsWith(".png") || f.getName().endsWith(".jpg") || f.getName().endsWith(".gif") || f.getName().endsWith(".jpeg") || f.getName().endsWith(".tif")) {
+                    System.out.println(f.getName());
+                    imagePath = p;
+                    // 读取图片流
+                    img = ImageIO.read(new FileInputStream(imagePath));
+                    doc.setPageSize(new Rectangle(img.getWidth(), img.getHeight()));
+                    // 根据图片大小设置文档大小
+                    doc.setPageSize(new Rectangle(img.getWidth(), img.getHeight()));
+                    // 实例化图片
+                    image = Image.getInstance(imagePath);
+                    // 添加图片到文档
+                    doc.open();
+                    doc.add(image);
+                }
+            }
+            // 关闭文档
+            doc.close();
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
 
@@ -252,7 +315,7 @@ public class PdfUtil {
      * @param pdfPath pdf文件存储路径
      * @throws IOException IOException
      */
-    private static void jpgToPdf(String input, String pdfPath) throws IOException {
+    private static void imageToPdf(String input, String pdfPath) throws IOException {
 
         InputStream jpgStream = new FileInputStream(input);
 
@@ -275,13 +338,16 @@ public class PdfUtil {
      * @param imageFolderPath
      * @param pdfPath
      */
-    private static void jpgsMergeToPdf(String imageFolderPath, String pdfPath) {
+    private static void imagesConcatPdf(String imageFolderPath, String pdfPath) {
         try {
             // 图片文件夹地址
             // 图片地址
             String imagePath;
             // PDF文件保存地址
             // 输入流
+            if (!pdfPath.endsWith(PDF)) {
+                throw new Exception("this is not a PDF !");
+            }
             FileOutputStream fos = new FileOutputStream(pdfPath);
             // 创建文档
             Document doc = new Document(null, 0, 0, 0, 0);
@@ -299,8 +365,7 @@ public class PdfUtil {
             for (File f : files) {
                 if (f.getName().endsWith(".png") || f.getName().endsWith(".jpg") || f.getName().endsWith(".gif") || f.getName().endsWith(".jpeg") || f.getName().endsWith(".tif")) {
                     System.out.println(f.getName());
-                    imagePath = imageFolderPath + f.getName();
-                    System.out.println(f.getName());
+                    imagePath = imageFolderPath + PathUtil.separator + f.getName();
                     // 读取图片流
                     img = ImageIO.read(new FileInputStream(imagePath));
                     doc.setPageSize(new Rectangle(img.getWidth(), img.getHeight()));
@@ -315,6 +380,7 @@ public class PdfUtil {
             }
             // 关闭文档
             doc.close();
+            fos.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
