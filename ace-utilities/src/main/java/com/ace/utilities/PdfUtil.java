@@ -50,7 +50,7 @@ public class PdfUtil {
         ls.add(p2);
 
         String dest = "C:\\Users\\Garlam.Au\\IdeaProjects\\ace-cloud\\ace-utilities\\src\\main\\resources\\file\\images\\aaa.pdf";
-        PdfUtil.imagesToPdf(ls, dest);
+        PdfUtil.toPdf(ls, dest);
 
         //jpgsMergeToPdf(p, dest);
         //try {
@@ -232,33 +232,33 @@ public class PdfUtil {
     /**
      * 支持一张或多张图片转换成pdf
      *
-     * @param input
+     * @param inputPath
      * @param outputPath
      * @throws IOException
      */
-    public static void toPdf(String input, String outputPath) throws IOException {
-        File f = new File(input);
+    public static void toPdf(String inputPath, String outputPath) throws IOException {
+        File f = new File(inputPath);
         if (f.exists()) {
             if (new File(outputPath).isDirectory()) {
                 outputPath = outputPath + "pdf_ver_" + RandomUtil.getInt(100) + ".pdf";
             }
 
             if (f.isDirectory()) {
-                imagesConcatPdf(input, outputPath);
+                imagesConcatPdf(inputPath, outputPath);
             } else {
-                imageToPdf(input, outputPath);
+                imageToPdf(inputPath, outputPath);
             }
         }
     }
 
     /**
-     * 支持一张或多张图片转换成pdf
+     * 多张图片转换成pdf
      *
      * @param fileNames
      * @param outputPath
      * @throws IOException
      */
-    public static void imagesToPdf(List<String> fileNames, String outputPath) throws IOException {
+    public static void toPdf(List<String> fileNames, String outputPath) throws IOException {
         try {
             // 图片文件夹地址
             // 图片地址
