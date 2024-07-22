@@ -223,20 +223,20 @@ public class FileUtil {
                     fw.write(buf, 0, len);//读几个写几个
                 }
                 File file = new File(path + fileName);
-                if (NullUtil.isNonNull(delFile) && delFile && file.exists()) {
+                if (NullUtil.nonNull(delFile) && delFile && file.exists()) {
                     file.delete();
                 }
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             } finally {
-                if (NullUtil.isNonNull(fr)) {
+                if (NullUtil.nonNull(fr)) {
                     try {
                         fr.close();
                     } catch (IOException e) {
                         System.out.println(e.getMessage());
                     }
                 }
-                if (NullUtil.isNonNull(fw)) {
+                if (NullUtil.nonNull(fw)) {
                     try {
                         fw.flush();
                         fw.close();
@@ -433,7 +433,7 @@ public class FileUtil {
         StringBuilder content1 = new StringBuilder();
         StringBuilder content2 = new StringBuilder();
         List<String> content3 = new LinkedList<>();
-        while (NullUtil.isNonNull(line) || "".equals(line)) {
+        while (NullUtil.nonNull(line) || "".equals(line)) {
             // 一次读入一行数据,并显示行数
             // content1.append(i + ". ");
             content1.append(line).append(SystemUtil.newLine());
@@ -567,7 +567,7 @@ public class FileUtil {
             throw e;
         } finally {
             try {
-                if (NullUtil.isNonNull(raf)) {
+                if (NullUtil.nonNull(raf)) {
                     raf.close();
                 }
             } catch (IOException e) {
@@ -725,7 +725,7 @@ public class FileUtil {
             e.printStackTrace();
         } finally {
             try {
-                if (NullUtil.isNonNull(fop)) {
+                if (NullUtil.nonNull(fop)) {
                     fop.close();
                 }
             } catch (IOException e) {
@@ -796,7 +796,7 @@ public class FileUtil {
             detector.dataEnd();
             // (4)
             String encoding = detector.getDetectedCharset();
-            if (NullUtil.isNonNull(encoding)) {
+            if (NullUtil.nonNull(encoding)) {
                 log.info("Detected encoding = " + encoding);
             } else {
                 log.info("No encoding detected.");
@@ -1145,7 +1145,7 @@ public class FileUtil {
         log.info("searching file size: {}", fileList.size());
 
         Map<String, List<String>> resultMap = new HashMap<>();
-        if (NullUtil.isNonNull(ext) && ext.length > 0) {
+        if (NullUtil.nonNull(ext) && ext.length > 0) {
             log.info("starting searching: {}", path);
             for (String f : fileList) {
                 String type = getExtension(FileUtil.getFileNameWithExt(f));
@@ -1573,7 +1573,7 @@ public class FileUtil {
 
     public static boolean isImage(String fileName) {
         String mimeType = getMimeType(fileName);
-        return !TextUtils.isEmpty(fileName) && NullUtil.isNonNull(mimeType) && mimeType.contains(PREFIX_IMAGE);
+        return !TextUtils.isEmpty(fileName) && NullUtil.nonNull(mimeType) && mimeType.contains(PREFIX_IMAGE);
     }
 
     /**
@@ -1596,7 +1596,7 @@ public class FileUtil {
      */
     public static boolean isVideo(String fileName) {
         String mimeType = getMimeType(fileName);
-        return !TextUtils.isEmpty(fileName) && NullUtil.isNonNull(mimeType) && mimeType.contains(PREFIX_VIDEO);
+        return !TextUtils.isEmpty(fileName) && NullUtil.nonNull(mimeType) && mimeType.contains(PREFIX_VIDEO);
     }
 
     public static List getFileInfo(String p) throws IOException {

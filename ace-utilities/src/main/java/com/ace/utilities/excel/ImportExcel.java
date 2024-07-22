@@ -154,17 +154,16 @@ public class ImportExcel {
      * Excel column index begin 1
      *
      * @param colStr
-     * @param length
      * @return
      */
     private static int colStrToNum(String colStr) {
         int length = colStr.length();
-        int num = 0;
+        int num;
         int result = 0;
         for (int i = 0; i < length; i++) {
             char ch = colStr.charAt(length - i - 1);
-            num = (int) (ch - 'A' + 1);
-            num *= Math.pow(26, i);
+            num = ch - 'A' + 1;
+            num *= (int) Math.pow(26, i);
             result += num;
         }
         return result;
@@ -181,16 +180,16 @@ public class ImportExcel {
         if (columnIndex <= 0) {
             return null;
         }
-        String columnStr = "";
+        StringBuilder columnStr = new StringBuilder();
         columnIndex--;
         do {
             if (columnStr.length() > 0) {
                 columnIndex--;
             }
-            columnStr = ((char) (columnIndex % 26 + (int) 'A')) + columnStr;
-            columnIndex = (int) ((columnIndex - columnIndex % 26) / 26);
+            columnStr.insert(0, ((char) (columnIndex % 26 + (int) 'A')));
+            columnIndex = (columnIndex - columnIndex % 26) / 26;
         } while (columnIndex > 0);
-        return columnStr;
+        return columnStr.toString();
     }
 
 

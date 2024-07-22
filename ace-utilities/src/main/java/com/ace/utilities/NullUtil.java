@@ -72,7 +72,7 @@ public class NullUtil {
         return false;
     }
 
-    public static boolean isNonNull(Object object) {
+    public static boolean nonNull(Object object) {
         if (object == null) {
             return false;
         } else if (object instanceof String) {
@@ -120,7 +120,7 @@ public class NullUtil {
     }
 
     public static boolean isAssignable(Class<?> superType, Class<?> subType) {
-        if (isNonNull(superType) && isNonNull(subType) && superType.isAssignableFrom(subType)) {
+        if (nonNull(superType) && nonNull(subType) && superType.isAssignableFrom(subType)) {
             return true;
         } else {
             return false;
@@ -128,7 +128,7 @@ public class NullUtil {
     }
 
     public static boolean isInstanceOf(Class<?> type, Object object) {
-        if (isNonNull(type) && type.isInstance(object)) {
+        if (nonNull(type) && type.isInstance(object)) {
             return true;
         } else {
             return false;

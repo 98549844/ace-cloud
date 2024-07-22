@@ -208,7 +208,7 @@ public class ImageUtil {
      */
     public boolean square(String src, String dest) throws IOException {
         File outFile;
-        if (NullUtil.isNonNull(dest)) {
+        if (NullUtil.nonNull(dest)) {
             log.info("image squared to: {}",dest);
             outFile = setDestFile(src, dest);
         } else {
