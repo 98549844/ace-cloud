@@ -1,6 +1,7 @@
 package com.ace.utilities;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,8 +20,8 @@ public class UnicodeUtil {
     private static final Logger log = LogManager.getLogger(UnicodeUtil.class.getName());
 
     public static void main(String[] args) throws IOException {
-        String p = "C:\\Users\\Garlam.Au\\IdeaProjects\\allocation-portal\\allocationPortal\\src\\main\\resources\\properties\\";
-        String f = "log4j.properties";
+        String p = "C:\\Users\\Garlam.Au\\IdeaProjects\\bj_mgmt_portal\\src\\main\\resources\\properties\\";
+        String f = "jeeplus.properties";
         System.out.println(unicodeToCNBuilder(p + f));
     }
 
@@ -32,7 +33,7 @@ public class UnicodeUtil {
      * @throws IOException
      */
     public static String unicodeToCNBuilder(String fullPath) throws IOException {
-        String content = (String) FileUtil.read(fullPath).get(FileUtil.ORIGINAL);
+        String content = (String) Objects.requireNonNull(FileUtil.read(fullPath)).get(FileUtil.ORIGINAL);
         return unicodeToCN(content);
     }
 

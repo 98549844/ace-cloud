@@ -35,7 +35,7 @@ public class ImportExcel {
     //工作表对象
     private final Sheet sheet;
     //工作表对象列表
-    private Map sheets = new HashMap();
+    private final Map sheets = new HashMap();
     //标题行号
     private final int headerNum;
 
@@ -203,9 +203,18 @@ public class ImportExcel {
     }
 
     /**
+     * 获取行对象
+     *
+     * @return
+     */
+    public Row getRow(String rowCol) {
+        return this.sheet.getRow(colStrToNum(rowCol));
+    }
+
+    /**
      * 获取数据行号
      */
-    public int getDataRowNum() {
+    public int getFirstRowNum() {
         return headerNum + 1;
     }
 
@@ -338,7 +347,7 @@ public class ImportExcel {
         });
         // Get excel data
         List<E> dataList = Lists.newArrayList();
-        for (int i = this.getDataRowNum(); i < this.getRowNum(); i++) {
+        for (int i = this.getFirstRowNum(); i < this.getRowNum(); i++) {
             E e = cls.newInstance();
             int column = 0;
             Row row = this.getRow(i);
