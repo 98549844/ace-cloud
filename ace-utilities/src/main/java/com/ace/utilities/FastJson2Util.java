@@ -34,7 +34,9 @@ public class FastJson2Util {
     }
 
 
-    /** object to json
+    /**
+     * object to json
+     *
      * @param object
      * @return
      */
@@ -44,7 +46,9 @@ public class FastJson2Util {
         return json;
     }
 
-    /** object to 二進製字節流
+    /**
+     * object to 二進製字節流
+     *
      * @param object
      * @return
      */
@@ -52,7 +56,9 @@ public class FastJson2Util {
         return toJson(object).getBytes();
     }
 
-    /** 二進製字節流 to object
+    /**
+     * 二進製字節流 to object
+     *
      * @param bytes
      * @param type
      * @param <T>
@@ -63,7 +69,9 @@ public class FastJson2Util {
     }
 
 
-    /** json to object
+    /**
+     * json to object
+     *
      * @param json
      * @return
      */
@@ -71,7 +79,9 @@ public class FastJson2Util {
         return JSONObject.parseObject(json);
     }
 
-    /** json to object
+    /**
+     * json to object
+     *
      * @param json
      * @param type
      * @param <T>
