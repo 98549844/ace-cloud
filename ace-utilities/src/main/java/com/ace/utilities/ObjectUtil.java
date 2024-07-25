@@ -30,7 +30,7 @@ public class ObjectUtil {
     }
 
     public static byte[] toByteArray(Object obj) {
-        return FastJson2Util.ObjectToJson(obj).getBytes();
+        return FastJson2Util.toJson(obj).getBytes();
     }
 
 

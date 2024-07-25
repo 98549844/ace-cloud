@@ -22,32 +22,62 @@ public class FastJson2Util {
 
     //https://blog.csdn.net/qq_33697094/article/details/128114939
 
+    /**
+     * 格式化json
+     *
+     * @param json
+     * @return
+     */
     public static String formatJson(String json) {
         JSONObject jsonObject = JSONObject.parseObject(json);
         return JSON.toJSONString(jsonObject, JSONWriter.Feature.PrettyFormat, JSONWriter.Feature.WriteMapNullValue, JSONWriter.Feature.WriteNulls);
     }
 
 
-    public static String ObjectToJson(Object object) {
+    /** object to json
+     * @param object
+     * @return
+     */
+    public static String toJson(Object object) {
         String json = JSON.toJSONString(object);
         json = json.replace("\\", "");
         return json;
     }
 
-    public static byte[] ObjectToByteArray(Object object) {
-        return ObjectToJson(object).getBytes();
+    /** object to 二進製字節流
+     * @param object
+     * @return
+     */
+    public static byte[] toByteArray(Object object) {
+        return toJson(object).getBytes();
     }
 
-    public static <T> T BytesArrayToObject(byte[] bytes, Class<T> type) {
+    /** 二進製字節流 to object
+     * @param bytes
+     * @param type
+     * @param <T>
+     * @return
+     */
+    public static <T> T toObject(byte[] bytes, Class<T> type) {
         return JSON.parseObject(bytes, type);
     }
 
 
-    public static JSONObject JsonToObject(String json) {
+    /** json to object
+     * @param json
+     * @return
+     */
+    public static JSONObject toObject(String json) {
         return JSONObject.parseObject(json);
     }
 
-    public static <T> T JsonToObject(String json, Class<T> type) {
+    /** json to object
+     * @param json
+     * @param type
+     * @param <T>
+     * @return
+     */
+    public static <T> T toObject(String json, Class<T> type) {
         return JSONObject.parseObject(json, type);
     }
 
@@ -58,7 +88,7 @@ public class FastJson2Util {
      * @param type
      * @return
      */
-    public static <T> List JsonToObjectList(String json, Class<T> type) {
+    public static <T> List toObjectList(String json, Class<T> type) {
         JSONArray jsonArray = JSON.parseArray(json);
         return jsonArray.toJavaList(type);
     }

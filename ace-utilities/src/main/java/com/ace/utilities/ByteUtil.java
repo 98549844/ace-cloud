@@ -24,7 +24,7 @@ public class ByteUtil {
      * @throws Exception
      */
     public static Object toObject(byte[] bytes, Class<T> type) throws Exception {
-        return FastJson2Util.BytesArrayToObject(bytes, type);
+        return FastJson2Util.toObject(bytes, type);
     }
 
 }
