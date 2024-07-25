@@ -61,7 +61,7 @@ public class SerializableUtil {
      * @param object
      * @return
      */
-    public static byte[] serializeToByteArray(Object object) {
+    public static byte[] serialize(Object object) {
         byte[] objectBytes = null;
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -82,7 +82,7 @@ public class SerializableUtil {
      * byte[]内容反序列化, 用作数据反序列
      *
      */
-    public static <T> T deserializationFromByteArray(byte[] objectBytes) {
+    public static <T> T deserialize(byte[] objectBytes) {
         try {
             ByteArrayInputStream bais = new ByteArrayInputStream(objectBytes);
             ObjectInputStream objectInputStream = new ObjectInputStream(bais);
