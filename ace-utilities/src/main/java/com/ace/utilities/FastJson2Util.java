@@ -4,6 +4,9 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.JSONWriter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,9 +31,20 @@ public class FastJson2Util {
      * @param json
      * @return
      */
+    public static String formatFastJson2(String json) {
+        return JSON.toJSONString(json, JSONWriter.Feature.PrettyFormat, JSONWriter.Feature.WriteMapNullValue, JSONWriter.Feature.WriteNulls);
+    }
+
+    /**
+     * 格式化json
+     *
+     * @param json
+     * @return
+     */
     public static String formatJson(String json) {
-        JSONObject jsonObject = JSONObject.parseObject(json);
-        return JSON.toJSONString(jsonObject, JSONWriter.Feature.PrettyFormat, JSONWriter.Feature.WriteMapNullValue, JSONWriter.Feature.WriteNulls);
+        //在序列化的时候不忽略null值
+        Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
+        return gson.toJson(JsonParser.parseString(json));
     }
 
 
@@ -42,8 +56,7 @@ public class FastJson2Util {
      */
     public static String toJson(Object object) {
         String json = JSON.toJSONString(object);
-        json = json.replace("\\", "");
-        return json;
+        return json.replace("\\", "");
     }
 
     /**

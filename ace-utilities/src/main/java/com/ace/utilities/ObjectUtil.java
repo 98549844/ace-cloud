@@ -155,11 +155,10 @@ public class ObjectUtil {
         return "UNKNOWN TYPE";
     }
 
-    public static List objectToList(Object os) {
+    public static List toList(Object os) {
         List result = new ArrayList();
         if (os instanceof List<?>) {
-            result = (List) os;
-            for (Object o : result) {
+            for (Object o : (List<?>) os) {
                 result.add(o);
             }
         }
