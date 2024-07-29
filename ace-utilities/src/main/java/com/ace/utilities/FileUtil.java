@@ -1004,7 +1004,7 @@ public class FileUtil {
             isSuccess = f.delete();
             log.info("Deleted: {}", f.getAbsolutePath());
         } else {
-            log.info("Not exist: {}", f.getAbsolutePath());
+            log.info("No exist: {}", f.getAbsolutePath());
         }
         return isSuccess;
     }
