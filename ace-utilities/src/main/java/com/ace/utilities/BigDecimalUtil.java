@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.regex.Pattern;
 
 public class BigDecimalUtil {
@@ -119,6 +120,12 @@ public class BigDecimalUtil {
 		return b1.divide(b2, scale, RoundingMode.HALF_UP).doubleValue();
 	}
 
+	public static String amountConversion(String amount) {
+		double number = Double.parseDouble(amount);
+		DecimalFormat decimalFormat = new DecimalFormat("#,###,###.00");
+		return decimalFormat.format(number);
+	}
+
 	/**
 	 * 方法名：isNumeric
 	 * 功能：是否为整数
@@ -131,6 +138,14 @@ public class BigDecimalUtil {
 		}
 		Pattern pattern = Pattern.compile("[0-9]*");
 		return pattern.matcher(str).matches();
+	}
+
+	/** 整數 return true, 其他return false
+	 * @param str
+	 * @return
+	 */
+	public static boolean isNumeric(String str){
+        return TypeUtil.isNumeric(str);
 	}
 
 	private static boolean isNull(Double v1, Double v2) {

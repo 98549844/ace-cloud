@@ -6,6 +6,8 @@ import org.apache.commons.logging.LogFactory;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class TypeUtil {
@@ -16,12 +18,12 @@ public class TypeUtil {
     }
 
     /**
-     * @param input 输入double数值
-     * @param digit round长度
+     * @param input  输入double数值
+     * @param length round长度
      * @return
      */
-    public static double roundUpByDigit(double input, int digit) {
-        return new BigDecimal(input).setScale(digit, RoundingMode.HALF_UP).doubleValue();
+    public static double roundUpByDigit(double input, int length) {
+        return new BigDecimal(input).setScale(length, RoundingMode.HALF_UP).doubleValue();
     }
 
     /**
@@ -29,15 +31,15 @@ public class TypeUtil {
      * 功能：double类型数值保留两位小数
      * 描述：返回值为double
      */
-    public static Double formatToDouble(Double number, Integer digit) {
+    public static Double toDouble(Double number, Integer length) {
         if (NullUtil.isNull(number)) {
             return null;
         }
-        if (NullUtil.isNull(digit)) {
-            digit = 2;
+        if (NullUtil.isNull(length)) {
+            length = 2;
         }
         BigDecimal bigDecimal = new BigDecimal(number);
-        return bigDecimal.setScale(digit, RoundingMode.HALF_UP).doubleValue();
+        return bigDecimal.setScale(length, RoundingMode.HALF_UP).doubleValue();
     }
 
     /**
@@ -45,15 +47,15 @@ public class TypeUtil {
      * 功能：double类型的数值保留两位小数
      * 描述：返回值为String
      */
-    public static String doubleToString(Double number, Integer digit) {
+    public static String doubleToString(Double number, Integer length) {
         if (NullUtil.isNull(number)) {
             return null;
         }
-        if (NullUtil.isNull(digit)) {
-            digit = 2;
+        if (NullUtil.isNull(length)) {
+            length = 2;
         }
         String place = "";
-        for (int i = 0; i < digit; i++) {
+        for (int i = 0; i < length; i++) {
             place = place + "0";
         }
 
@@ -63,7 +65,7 @@ public class TypeUtil {
 
 
     //Integer To BigDecimal
-    public static Integer integerToBigDecimal(BigDecimal b) {
+    public static Integer toBigDecimal(BigDecimal b) {
         if (NullUtil.isNull(b)) {
             return null;
         }
@@ -71,7 +73,7 @@ public class TypeUtil {
     }
 
     //bigDecimal To Integer
-    public static BigDecimal bigDecimalToInteger(Integer i) {
+    public static BigDecimal toBigDecimal(Integer i) {
         if (NullUtil.isNull(i)) {
             return null;
         }
@@ -79,91 +81,68 @@ public class TypeUtil {
     }
 
     //String to Long
-    public static Long stringToLong(String s) {
-        Long l = null;
+    public static Long toLong(String s) {
         try {
-            if (NullUtil.isNull(s) || s.isEmpty()) {
-                return null;
-            }
-            l = Long.valueOf(s);
+            return Long.valueOf(s);
         } catch (Exception e) {
             e.printStackTrace();
 
         }
-        return l;
+        return null;
     }
 
     //Long to Integer
-    public static Integer longToInteger(Long l) {
-        Integer i = null;
+    public static Integer toInteger(Long l) {
         try {
-            if (NullUtil.isNull(l)) {
-                return null;
-            }
-            i = l.intValue();
+            return l.intValue();
         } catch (Exception e) {
             e.printStackTrace();
 
         }
-        return i;
+        return null;
 
     }
 
     //Long to String
     public static String longToString(Long l) {
-        String s = null;
         try {
-            if (NullUtil.isNull(l)) {
-                return null;
-            }
-            s = String.valueOf(l);
+            return String.valueOf(l);
         } catch (Exception e) {
             e.printStackTrace();
 
         }
-        return s;
+        return null;
     }
 
     public static String integerToString(Integer l) {
-        String s = null;
         try {
-            if (NullUtil.isNull(l)) {
-                return null;
-            }
-            s = String.valueOf(l);
+
+            return String.valueOf(l);
         } catch (Exception e) {
             e.printStackTrace();
-
         }
-        return s;
+        return null;
     }
 
-    public static Integer stringToInteger(String s) {
-        Integer l = null;
+    public static Integer toInteger(String s) {
         try {
-            if (NullUtil.isNull(s) || s.isEmpty()) {
-                return null;
-            }
-            l = Integer.valueOf(s);
+            return Integer.valueOf(s);
         } catch (Exception e) {
             e.printStackTrace();
 
         }
-        return l;
+        return null;
     }
 
-    public static Long integerToLong(Integer i) {
-        Long l = null;
+    public static Long toLong(Integer i) {
         try {
-            if (NullUtil.isNull(i)) {
-                return null;
-            }
-            l = i.longValue();
+
+            return i.longValue();
         } catch (Exception e) {
             e.printStackTrace();
 
         }
-        return l;
+        return null;
     }
 
     public static String booleanToString(boolean b) {
@@ -176,8 +155,8 @@ public class TypeUtil {
      * 入参：str：字符串
      * 出参：return：true或false
      */
-    public static boolean isNumeric(String str) {
-        if (NullUtil.isNull(str) || str.length() == 0) {
+    public static boolean convertToNumeric(String str) {
+        if (NullUtil.isNull(str) || str.isEmpty()) {
             Console.println("parameter is null , please check");
             return false;
         }
@@ -194,22 +173,35 @@ public class TypeUtil {
                     Float.parseFloat(str);
                     return true;
                 } catch (NumberFormatException e2) {
+                    e2.printStackTrace();
                     return false;
                 }
             }
         }
     }
 
+    /**
+     * 整數 return true, 其他return false
+     *
+     * @param str
+     * @return
+     */
+    public static boolean isNumeric(String str) {
+        Pattern pattern = Pattern.compile("[0-9]*\\.?[0-9]+");
+        Matcher isNum = pattern.matcher(str);
+        return isNum.matches();
+    }
+
 
     //检查double是否整数
-    public static boolean isIntegerForDouble(double obj) {
+    public static boolean isInteger(double obj) {
         System.out.println(obj);
         double eps = 1e-10;  // 精度范围
         System.out.println(eps);
         return obj - Math.floor(obj) < eps;
     }
 
-    public static char[] stringToCharset(String s) {
+    public static char[] toCharset(String s) {
         // char[] charArray = s.toCharArray();
         return s.toCharArray();
     }
@@ -221,8 +213,14 @@ public class TypeUtil {
     }
 
     public static String getSimpleType(Object o) {
-        String type =  o.getClass().getSimpleName();
+        String type = o.getClass().getSimpleName();
         log.info("Object type: " + type);
         return type;
+    }
+
+    public static String amountConversion(String amount) {
+        double number = Double.parseDouble(amount);
+        DecimalFormat decimalFormat = new DecimalFormat("#,###,###.00");
+        return decimalFormat.format(number);
     }
 }

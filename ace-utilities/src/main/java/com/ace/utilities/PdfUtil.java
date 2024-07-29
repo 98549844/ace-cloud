@@ -41,6 +41,8 @@ import static com.ace.constants.constant.PDF;
 public class PdfUtil {
     private static final Logger log = LogManager.getLogger(PdfUtil.class.getName());
 
+    public static com.itextpdf.text.pdf.PdfReader pdfReader;
+
     public static void main(String[] args) throws IOException {
         PdfUtil pdfUtil = new PdfUtil();
         String p = "C:\\Users\\Garlam.Au\\IdeaProjects\\ace-cloud\\ace-utilities\\src\\main\\resources\\file\\images\\img.png";
@@ -95,6 +97,11 @@ public class PdfUtil {
         doc.close();
     }
 
+
+    public static com.itextpdf.text.pdf.PdfReader getPdfReader(String filePath) {
+        return pdfReader;
+    }
+
     /**
      * 读取pdf文件的内容
      *
@@ -105,14 +112,14 @@ public class PdfUtil {
         StringBuilder result = new StringBuilder();
         try {
             FileInputStream fis = new FileInputStream(filePath);
-            com.itextpdf.text.pdf.PdfReader reader = new com.itextpdf.text.pdf.PdfReader(fis);
+            pdfReader = new com.itextpdf.text.pdf.PdfReader(fis);
 
-            int countPage = reader.getNumberOfPages();
+            int countPage = pdfReader.getNumberOfPages();
             for (int i = 1; i <= countPage; i++) {
-                result.append(PdfTextExtractor.getTextFromPage(reader, i));
-                reader.releasePage(1);
+                result.append(PdfTextExtractor.getTextFromPage(pdfReader, i));
+                pdfReader.releasePage(1);
             }
-            reader.close(); // 关闭 PdfReader 对象
+            pdfReader.close(); // 关闭 PdfReader 对象
             fis.close(); // 关闭 FileInputStream 对象
         } catch (IOException e) {
             e.printStackTrace();
