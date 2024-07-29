@@ -93,7 +93,6 @@ public class PdfUtil {
     }
 
 
-
     /**
      * 读取pdf文件的内容
      *
@@ -113,11 +112,12 @@ public class PdfUtil {
             }
             pdfReader.close(); // 关闭 PdfReader 对象
             fis.close(); // 关闭 FileInputStream 对象
+            return result.toString();
         } catch (IOException e) {
             log.error("Error reading PDF file: ", e);
             e.printStackTrace();
         }
-        return result.toString();
+        return "";
     }
 
     /**
