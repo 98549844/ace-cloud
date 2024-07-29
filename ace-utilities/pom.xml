@@ -221,13 +221,6 @@
             <version>9.7.2</version>
         </dependency>
 
-        <!--https://www.e-iceblue.cn/pdf_java_text/extract-or-read-text-from-pdf-in-java.html-->
-        <dependency>
-            <groupId>e-iceblue</groupId>
-            <artifactId>spire.pdf</artifactId>
-            <version>10.7.3</version>
-        </dependency>
-
         <!-- get system usage-->
         <dependency>
             <groupId>com.github.oshi</groupId>
