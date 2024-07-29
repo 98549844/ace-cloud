@@ -23,10 +23,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import static com.ace.constants.constant.PDF;
 
@@ -40,8 +37,6 @@ import static com.ace.constants.constant.PDF;
 
 public class PdfUtil {
     private static final Logger log = LogManager.getLogger(PdfUtil.class.getName());
-
-    public static com.itextpdf.text.pdf.PdfReader pdfReader;
 
     public static void main(String[] args) throws IOException {
         PdfUtil pdfUtil = new PdfUtil();
@@ -98,9 +93,6 @@ public class PdfUtil {
     }
 
 
-    public static com.itextpdf.text.pdf.PdfReader getPdfReader(String filePath) {
-        return pdfReader;
-    }
 
     /**
      * 读取pdf文件的内容
@@ -112,16 +104,17 @@ public class PdfUtil {
         StringBuilder result = new StringBuilder();
         try {
             FileInputStream fis = new FileInputStream(filePath);
-            pdfReader = new com.itextpdf.text.pdf.PdfReader(fis);
+            com.itextpdf.text.pdf.PdfReader pdfReader = new com.itextpdf.text.pdf.PdfReader(fis);
 
             int countPage = pdfReader.getNumberOfPages();
             for (int i = 1; i <= countPage; i++) {
                 result.append(PdfTextExtractor.getTextFromPage(pdfReader, i));
-                pdfReader.releasePage(1);
+                pdfReader.releasePage(i);
             }
             pdfReader.close(); // 关闭 PdfReader 对象
             fis.close(); // 关闭 FileInputStream 对象
         } catch (IOException e) {
+            log.error("Error reading PDF file: ", e);
             e.printStackTrace();
         }
         return result.toString();
