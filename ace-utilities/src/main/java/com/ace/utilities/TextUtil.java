@@ -16,7 +16,8 @@ import java.io.IOException;
  * @Description:
  */
 
-
+//https://blog.csdn.net/Hi_alan/article/details/136874426
+    //Unable to load library ‘tesseract‘
 public class TextUtil {
     private static final Logger log = LogManager.getLogger(TextUtil.class.getName());
 
