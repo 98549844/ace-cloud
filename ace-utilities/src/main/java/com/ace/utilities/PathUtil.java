@@ -36,8 +36,43 @@ public class PathUtil {
         return path.trim().replaceAll(" ", "%20");
     }
 
-    public File getSrcFile(String srcFile) throws IOException {
+
+    public static void main(String[] args) throws IOException {
+        //  String p = "C:\\Users\\Garlam.Au\\IdeaProjects\\ace-cloud\\ace-utilities\\src\\main\\resources\\ace-util.txt";
+        PathUtil pathUtil = new PathUtil();
+        System.out.println("getSrcFile");
+        PathUtil.getSrcFile("src\\main\\resources\\banner.txt");
+
+        System.out.println("getResourceContent");
+        pathUtil.getResourceContent("/banner.txt");
+
+        System.out.println("getResourcePath");
+        pathUtil.getResourcePath("\\banner.txt");
+
+        System.out.println("getSystemPath");
+        System.out.println(PathUtil.getSystemPath());
+
+        System.out.println("getClassLoaderAbsolutePath");
+        System.out.println(PathUtil.getClassLoaderAbsolutePath());
+
+        PathUtil.printBaseUrl();
+    }
+
+
+
+    public static File getSrcFile(String srcFile) throws IOException {
         log.info("format: src/main/java/com/.../xx.xx");
+        File file = new File(srcFile);
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        String len;
+        while ((len = br.readLine()) != null) {
+            System.out.println(len);
+        }
+        return file;
+    }
+
+    public static File getSourceFile(String srcFile) throws IOException {
+        log.info("format: src/main/resources/.../xx.xx");
         File file = new File(srcFile);
         BufferedReader br = new BufferedReader(new FileReader(file));
         String len;
@@ -89,22 +124,12 @@ public class PathUtil {
      * @param resource
      * @return
      */
-    public String getResourcePath(String resource) {
+    public  String getResourcePath(String resource) {
         // 直接folder名, 不用resource开头
         // 不能直接在main方法运行
-        log.info("directly access resource/{} ", resource);
+        log.info("directly access resource{} ", resource);
         URL url = this.getClass().getResource("/" + resource);
-        assert url != null;
         return new File(url.getFile()).getAbsolutePath();
-    }
-
-
-    public static void main(String[] args) throws IOException {
-        System.out.println("getSystemPath: " + getSystemPath());
-        getClassLoaderAbsolutePath();
-        System.out.println(getBaseUrl());
-        PathUtil p = new PathUtil();
-        //   System.out.println(p.getResourceContent("com/util/UUID.java"));
     }
 
     /**
@@ -120,6 +145,17 @@ public class PathUtil {
                 .getDefault()
                 //  .getPath("src", "main", "resources", "templates", "ace", "modules", "reports", "pdf")
                 .getPath(Arrays.toString(locations))
+                .toUri()
+                .toURL()
+                .toString();
+        System.out.println("baseUrl: " + baseUrl);
+        return baseUrl;
+    }
+
+    public static String printBaseUrl() throws MalformedURLException {
+        String baseUrl = FileSystems
+                .getDefault()
+                .getPath("src", "main", "resources", "templates", "ace", "modules", "reports", "pdf")
                 .toUri()
                 .toURL()
                 .toString();
