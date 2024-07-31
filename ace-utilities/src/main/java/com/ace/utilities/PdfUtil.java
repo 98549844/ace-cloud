@@ -93,14 +93,13 @@ public class PdfUtil {
     }
 
 
-
     /**
      * 读取pdf文件的内容
      *
      * @param filePath
      * @return String
      */
-    public static String read(String filePath) {
+    public static String readv5(String filePath) {
         StringBuilder result = new StringBuilder();
         try {
             FileInputStream fis = new FileInputStream(filePath);
@@ -119,6 +118,27 @@ public class PdfUtil {
         }
         return result.toString();
     }
+
+    public static String readv7(String filePath) {
+        StringBuilder result = new StringBuilder();
+        try {
+            FileInputStream fis = new FileInputStream(filePath);
+            com.itextpdf.kernel.pdf.PdfReader reader = new com.itextpdf.kernel.pdf.PdfReader(fis);
+            com.itextpdf.kernel.pdf.PdfDocument pdfDocument = new com.itextpdf.kernel.pdf.PdfDocument(reader);
+
+            int pageSize = pdfDocument.getNumberOfPages();
+            for (int pageNum = 1; pageNum <= pageSize; pageNum++) {
+                result.append(com.itextpdf.kernel.pdf.canvas.parser.PdfTextExtractor.getTextFromPage(pdfDocument.getPage(pageNum)));
+                System.out.println(com.itextpdf.kernel.pdf.canvas.parser.PdfTextExtractor.getTextFromPage(pdfDocument.getPage(pageNum)));
+            }
+            pdfDocument.close();
+            fis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result.toString();
+    }
+
 
     /**
      * 重載concatPDFs方法, 功能是一樣的
