@@ -124,7 +124,7 @@ public class ImportExcel {
      * @param row
      * @return
      */
-    public boolean isRowEmpty(Row row) {
+    public static boolean isRowEmpty(Row row) {
         if (row == null) {
             return true;
         }
@@ -225,6 +225,21 @@ public class ImportExcel {
      */
     public int getRowNum() {
         return this.sheet.getLastRowNum() + headerNum;
+    }
+
+    /** filter走excel的空行, 返回rowNum
+     * @param sheet
+     * @return
+     */
+    public int getNumFilteredNullRow(Sheet sheet) {
+        int rowNum = sheet.getLastRowNum() + headerNum;
+        int filter = 0;
+        for (int i = 1; i < rowNum; i++) {
+            if (!isRowEmpty(sheet.getRow(i))) {
+                ++filter;
+            }
+        }
+        return filter;
     }
 
     /**
