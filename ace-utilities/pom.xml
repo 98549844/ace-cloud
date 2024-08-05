@@ -220,6 +220,16 @@
             <artifactId>flying-saucer-pdf-itext5</artifactId>
             <version>9.7.2</version>
         </dependency>
+        <dependency>
+            <groupId>e-iceblue</groupId>
+            <artifactId>spire.pdf</artifactId>
+            <version>10.7.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>5.9</version>
+        </dependency>
 
         <!--比itext5的兼容性比較好-->
         <dependency>
@@ -275,4 +285,11 @@
         </dependency>
     </dependencies>
 
+    <repositories>
+        <repository>
+            <id>com.e-iceblue</id>
+            <name>e-iceblue</name>
+            <url>https://repo.e-iceblue.cn/repository/maven-public/</url>
+        </repository>
+    </repositories>
 </project>

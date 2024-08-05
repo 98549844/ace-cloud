@@ -8,6 +8,8 @@ import com.lowagie.text.DocumentException;
 import com.lowagie.text.Image;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.*;
+import com.spire.pdf.FileFormat;
+import com.spire.pdf.PdfDocument;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -16,6 +18,7 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.graphics.image.LosslessFactory;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.xhtmlrenderer.pdf.ITextFontResolver;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
@@ -23,7 +26,10 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import static com.ace.constants.constant.PDF;
 
@@ -62,6 +68,15 @@ public class PdfUtil {
         //}
     }
 
+    /** pdf转excel
+     * @param filePath
+     * @param outputExcel
+     */
+    public static void toExcel(String filePath, String outputExcel){
+        PdfDocument pdfDocument = new PdfDocument();
+        pdfDocument.loadFromFile(filePath);
+        pdfDocument.saveToFile(outputExcel, FileFormat.XLSX);
+    }
 
     /**
      * https://blog.csdn.net/ThinkPet/article/details/131256428
@@ -93,13 +108,26 @@ public class PdfUtil {
     }
 
 
+    public static String readPdfBoxV3(String filePath) throws IOException {
+        // 1、加载指定PDF文档
+        PDDocument document = org.apache.pdfbox.Loader.loadPDF(new File(filePath));
+        // 2、创建文本提取对象
+        PDFTextStripper stripper = new PDFTextStripper();
+        // 3、获取指定页面的文本内容
+        String text = stripper.getText(document);
+        System.out.println("获取文本内容: " + text);
+        // 4、关闭
+        document.close();
+        return text;
+    }
+
     /**
      * 读取pdf文件的内容
      *
      * @param filePath
      * @return String
      */
-    public static String readv5(String filePath) {
+    public static String readItextPdfv5(String filePath) {
         StringBuilder result = new StringBuilder();
         try {
             FileInputStream fis = new FileInputStream(filePath);
@@ -119,7 +147,7 @@ public class PdfUtil {
         return result.toString();
     }
 
-    public static String readv7(String filePath) {
+    public static String readItextPdfv7(String filePath) {
         StringBuilder result = new StringBuilder();
         try {
             FileInputStream fis = new FileInputStream(filePath);
