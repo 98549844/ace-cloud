@@ -6,6 +6,7 @@ import com.alibaba.fastjson2.JSONObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -28,9 +29,22 @@ public class CsvUtil {
 
     }
 
-    public static void toCsv(String jsonFilePath, String csvFilePath) throws IOException {
+    /** json转csv
+     *  同时支持读取文本和jsonString
+     * @param json
+     * @param csvFilePath
+     * @throws IOException
+     */
+    public static void toCsv(String json, String csvFilePath) throws IOException {
         // 读取JSON文件
-        String jsonContent = new String(Files.readAllBytes(Paths.get(jsonFilePath)));
+        String jsonContent;
+        File file = new File(json);
+        if (file.isFile()) {
+            jsonContent = new String(Files.readAllBytes(Paths.get(json)));
+        } else {
+            jsonContent = json;
+        }
+
         JSONArray jsonArray;
         JSONObject jsonObject;
 
