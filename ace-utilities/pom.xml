@@ -231,10 +231,10 @@
             <version>5.9</version>
         </dependency>
 
-        <!--比itext5的兼容性比較好-->
+        <!--itext7的兼容性比較好-->
         <dependency>
             <groupId>com.itextpdf</groupId>
-            <artifactId>itext7-core</artifactId>
+            <artifactId>itext-core</artifactId>
             <version>8.0.5</version>
             <type>pom</type>
         </dependency>
