@@ -107,10 +107,10 @@ public class Console {
     }
 
     /**
-     * 默认打印红色文字
+     * 默认打印粗體白色文字
      */
     public static void println(String txt) {
-        System.out.println(FMT(txt, RED));
+        System.out.println(FMT(txt, WHITE, BOLD));
     }
 
     /** 执行command
