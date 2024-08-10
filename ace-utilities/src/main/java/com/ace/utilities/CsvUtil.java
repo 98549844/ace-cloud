@@ -29,8 +29,10 @@ public class CsvUtil {
 
     }
 
-    /** json转csv
-     *  同时支持读取文本和jsonString
+    /**
+     * json转csv
+     * 同时支持读取文本和jsonString
+     *
      * @param json
      * @param csvFilePath
      * @throws IOException
@@ -92,6 +94,21 @@ public class CsvUtil {
 
     }
 
+
+    /**
+     * csv写入文件.txt
+     *
+     * @param path
+     * @param fileName
+     * @param content
+     */
+    public static void toFile(String path, String fileName, String content) {
+        String location = path + File.separator + fileName;
+        if (new File(location).exists()) {
+            throw new RuntimeException(fileName + " already exists");
+        }
+        FileUtil.write(path, fileName, content, false);
+    }
 
     //public static void mapToCsv(Map<String, String> map, String csvFileName) throws IOException {
     //    try (CSVPrinter csvPrinter = new CSVPrinter(new FileWriter(csvFileName), CSVFormat.DEFAULT)) {
