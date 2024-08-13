@@ -207,11 +207,7 @@ public class CsvUtil {
      * @param content
      */
     public static void toFile(String path, String fileName, String content) {
-        String location = path + File.separator + fileName;
-        if (new File(location).exists()) {
-            throw new RuntimeException(fileName + " already exists");
-        }
-        FileUtil.write(path, fileName, content, false);
+        FileUtil.write(path, fileName, content, true);
     }
 
     //public static void mapToCsv(Map<String, String> map, String csvFileName) throws IOException {
