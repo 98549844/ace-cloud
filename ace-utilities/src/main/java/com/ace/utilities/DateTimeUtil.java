@@ -81,7 +81,6 @@ public class DateTimeUtil {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd-HHmmss");
         String formattedDate = formatter.format(date);
-        System.out.println(formattedDate);
         return formattedDate;
     }
 

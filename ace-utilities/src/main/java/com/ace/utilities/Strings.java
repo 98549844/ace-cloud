@@ -15,27 +15,31 @@ import org.apache.commons.codec.binary.Base64;
 public class Strings {
     private static final Logger log = LogManager.getLogger(Strings.class);
 
+    public static String EN = "en";
+    public static String CN = "cn";
+
     /**
      * 带占位符功能的string工具
      * "My name is {0} and I am {1} years old." , "John" , 25
+     *
      * @param msg
      * @param param
      * @return
      */
-    public static String String(String msg, Object... param) {
+    public static String fmt(String msg, Object... param) {
         return MessageFormat.format(msg, param);
     }
 
     /**
      * 带占位符功能的string工具
-     *
+     * <p>
      * "My name is {0} and I am {1} years old." , "John" , 25
      *
      * @param msg
      * @param param
      * @return
      */
-    public static String String(String msg, List<Object> param) {
+    public static String fmt(String msg, List<Object> param) {
         int size = param.size();
         Object[] arr = new Object[size];
         for (int i = 0; i < size; i++) {
@@ -65,7 +69,7 @@ public class Strings {
     }
 
     //首字母大寫
-    public static String toUpperFirstChar(String string) {
+    public static String upperFirstChar(String string) {
         char[] charArray = string.toCharArray();
         charArray[0] -= 32;
         return String.valueOf(charArray);
@@ -82,8 +86,8 @@ public class Strings {
             System.out.println("Compare data empty, please check !");
             return;
         }
-        List<String> aList = stringToList(a);
-        List<String> bList = stringToList(b);
+        List<String> aList = toList(a);
+        List<String> bList = toList(b);
 
         //compare string
         if (aList.size() == 1 && bList.size() == 1) {
@@ -176,11 +180,11 @@ public class Strings {
         for (char c : chars) {
             if (c >= 0x0391 && c <= 0xFFE5) {
                 //中文字符
-                type = "CN";
+                type = CN;
             }
-            if (c >= 0x0000 && c <= 0x00FF) {
+            if (c <= 0x00FF) {
                 //英文字符
-                type = "EN";
+                type = EN;
             }
         }
         return type;
@@ -190,7 +194,7 @@ public class Strings {
      * @param source
      * @return
      */
-    public static List stringToList(String source) {
+    public static List toList(String source) {
         if (NullUtil.isNull(source) || source.isEmpty()) {
             System.out.println("String is null");
             return null;
@@ -209,41 +213,41 @@ public class Strings {
      *
      * @param source
      */
-    public static void reformatColToObjName(String source) {
-        //print total char
-        char[] chars = source.toCharArray();
-        System.out.println("total char: " + chars.length);
+    //public static void reformatColToObjName(String source) {
+    //    //print total char
+    //    char[] chars = source.toCharArray();
+    //    System.out.println("total char: " + chars.length);
+    //
+    //    //key出现的次数
+    //    source = source.toLowerCase();
+    //    List<Integer> location = searchAllIndex(source, "_");
+    //    System.out.println("key出现的次数: " + location.size() + "\n");
+    //
+    //    StringBuilder sourceBuild = new StringBuilder(source);
+    //    for (int i = 0; i < location.size(); i++) {
+    //        Integer integer = location.get(i);
+    //        String s = source.substring(integer + 1, integer + 2).toUpperCase();
+    //        //charList.add(s);
+    //        // StringBuilder sourceBuild = new StringBuilder(source);
+    //        sourceBuild.replace(integer + 1, integer + 2, s);
+    //
+    //    }
+    //    String result = sourceBuild.toString();
+    //    result = result.replace("_", "");
+    //    System.out.println(result);
+    //}
 
-        //key出现的次数
-        source = source.toLowerCase();
-        List<Integer> location = searchAllIndex(source, "_");
-        System.out.println("key出现的次数: " + location.size() + "\n");
 
-        StringBuilder sourceBuild = new StringBuilder(source);
-        for (int i = 0; i < location.size(); i++) {
-            Integer integer = location.get(i);
-            String s = source.substring(integer + 1, integer + 2).toUpperCase();
-            //charList.add(s);
-            // StringBuilder sourceBuild = new StringBuilder(source);
-            sourceBuild.replace(integer + 1, integer + 2, s);
-
-        }
-        String result = sourceBuild.toString();
-        result = result.replace("_", "");
-        System.out.println(result);
-    }
-
-
-    public static List<Integer> searchAllIndex(String str, String key) {
-        List<Integer> location = new ArrayList<>();
-        int a = str.indexOf(key);//*第一个出现的索引位置
-        while (a != -1) {
-            location.add(a);
-            //System.out.print(a + "\t");
-            a = str.indexOf(key, a + 1);//*从这个索引往后开始第一个出现的位置
-        }
-        return location;
-    }
+    //public static List<Integer> searchAllIndex(String str, String key) {
+    //    List<Integer> location = new ArrayList<>();
+    //    int a = str.indexOf(key);//*第一个出现的索引位置
+    //    while (a != -1) {
+    //        location.add(a);
+    //        //System.out.print(a + "\t");
+    //        a = str.indexOf(key, a + 1);//*从这个索引往后开始第一个出现的位置
+    //    }
+    //    return location;
+    //}
 
 
     /**
@@ -265,7 +269,7 @@ public class Strings {
         return true;
     }
 
-    public static char[] stringToCharset(String s) {
+    public static char[] toCharset(String s) {
         return s.toCharArray();
     }
 
@@ -330,6 +334,8 @@ public class Strings {
             int pivotIndex = partition(arr, asc, left, right);
             sort(arr, asc, left, pivotIndex - 1);
             sort(arr, asc, pivotIndex + 1, right);
+        } else {
+            log.error("not allow left >= right value");
         }
     }
 
