@@ -39,7 +39,7 @@ public class CsvUtil {
 
     }
 
-    public static Table<Integer, Integer, String> toTable(File file) {
+    public static Table<Integer, Integer, String> toTable(File file, boolean haveHeader) {
         Table<Integer, Integer, String> csvTable = TreeBasedTable.create();
         int i = 0;
         try {
@@ -54,6 +54,14 @@ public class CsvUtil {
                 }
                 i++;
             }
+            if (haveHeader) {
+                return csvTable;
+            }
+            // 移除座標x,y的cell
+            //csvTable.remove(x, y);
+
+            // remote header row
+            csvTable.rowKeySet().remove(0);
             return csvTable;
         } catch (Exception e) {
             e.printStackTrace();
