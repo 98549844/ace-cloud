@@ -27,7 +27,9 @@ public class DateTimeUtil {
 
     }
 
-    /** timestamp 转换成 localDateTime
+    /**
+     * timestamp 转换成 localDateTime
+     *
      * @param timestamp
      * @return
      */
@@ -80,8 +82,7 @@ public class DateTimeUtil {
     public static String getCurrentDateTimeAsFileName() {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd-HHmmss");
-        String formattedDate = formatter.format(date);
-        return formattedDate;
+        return formatter.format(date);
     }
 
     public static String getDateTime(Timestamp timestamp) {
@@ -98,10 +99,8 @@ public class DateTimeUtil {
     public static Date getDate(Timestamp timestamp) {
         // 使用toInstant()方法将Timestamp转换为Instant
         Instant instant = timestamp.toInstant();
-
         // 使用Date.from()方法将Instant转换为Date
         Date date = Date.from(instant);
-
         System.out.println("Timestamp: " + timestamp);
         System.out.println("Date: " + date);
         return date;
@@ -176,15 +175,22 @@ public class DateTimeUtil {
         return formatter.format(date);
     }
 
+    //获取当月月份的天数
+    public static int getDaysOfCurrentMonth() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+    }
+
 
     //获取月份的天数
-    public static int getDaysOfCurrentMonth(Date date) {
+    public static int getDaysOfMonth(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
     }
 
-    public static XMLGregorianCalendar convertDateToXMLGregorianCalendar(Date date) {
+    public static XMLGregorianCalendar oXMLGregorianCalendar(Date date) {
         GregorianCalendar cal = new GregorianCalendar();
         cal.setTime(date);
         XMLGregorianCalendar gc = null;
@@ -244,7 +250,7 @@ public class DateTimeUtil {
      * 功能：某周的开始日期
      */
     public static String getStartDayOfWeekNo(int year, int weekNo) {
-        Calendar cal = getCalendarFormYear(year);
+        Calendar cal = getCalendar(year);
         cal.set(Calendar.WEEK_OF_YEAR, weekNo);
         String month = (cal.get(Calendar.MONTH) + 1) < 10 ? "0" + (cal.get(Calendar.MONTH) + 1) : String.valueOf(cal.get(Calendar.MONTH) + 1);
         String day = cal.get(Calendar.DAY_OF_MONTH) < 10 ? "0" + cal.get(Calendar.DAY_OF_MONTH) : String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
@@ -256,7 +262,7 @@ public class DateTimeUtil {
      * 功能：某周的结束日期
      */
     public static String getEndDayOfWeekNo(int year, int weekNo) {
-        Calendar cal = getCalendarFormYear(year);
+        Calendar cal = getCalendar(year);
         cal.set(Calendar.WEEK_OF_YEAR, weekNo);
         cal.add(Calendar.DAY_OF_WEEK, 6);
         String month = (cal.get(Calendar.MONTH) + 1) < 10 ? "0" + (cal.get(Calendar.MONTH) + 1) : String.valueOf(cal.get(Calendar.MONTH) + 1);
@@ -264,7 +270,7 @@ public class DateTimeUtil {
         return cal.get(Calendar.YEAR) + month + day;
     }
 
-    private static Calendar getCalendarFormYear(int year) {
+    private static Calendar getCalendar(int year) {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         cal.set(Calendar.YEAR, year);
@@ -318,18 +324,23 @@ public class DateTimeUtil {
         log.info("时间：{}", dateformat);
     }
 
+    private static Duration getDuration(LocalDateTime start, LocalDateTime end) {
+        if (NullUtil.isNull(start, end)) {
+            throw new NullPointerException("Start or End is null");
+        }
+        return Duration.between(start, end);
+    }
 
     /**
      * @param start
      * @param end
      * @return nanos
      */
-    public static long differenceNanosByLocalDateTime(LocalDateTime start, LocalDateTime end) {
+    public static long differenceNanos(LocalDateTime start, LocalDateTime end) {
         if (NullUtil.nonNull(getDuration(start, end))) {
-            long nanos = getDuration(start, end).toNanos();
-            return nanos;
+            return getDuration(start, end).toNanos();
         } else {
-            return 0l;
+            return 0L;
         }
     }
 
@@ -338,7 +349,7 @@ public class DateTimeUtil {
      * @param end
      * @return millis
      */
-    public static long differenceMillisByLocalDateTime(LocalDateTime start, LocalDateTime end) {
+    public static long differenceMillis(LocalDateTime start, LocalDateTime end) {
         if (NullUtil.nonNull(getDuration(start, end))) {
             long millis = getDuration(start, end).toMillis();
             return millis;
@@ -352,7 +363,7 @@ public class DateTimeUtil {
      * @param end
      * @return seconds
      */
-    public static long differenceSecondByLocalDateTime(LocalDateTime start, LocalDateTime end) {
+    public static long differenceSecond(LocalDateTime start, LocalDateTime end) {
         if (NullUtil.nonNull(getDuration(start, end))) {
             long millis = getDuration(start, end).toSeconds();
             return millis;
@@ -366,7 +377,7 @@ public class DateTimeUtil {
      * @param end
      * @return minutes
      */
-    public static long differenceMinutesByLocalDateTime(LocalDateTime start, LocalDateTime end) {
+    public static long differenceMinutes(LocalDateTime start, LocalDateTime end) {
         if (NullUtil.nonNull(getDuration(start, end))) {
             long minutes = getDuration(start, end).toMinutes();
             return minutes;
@@ -381,7 +392,7 @@ public class DateTimeUtil {
      * @param end
      * @return hours
      */
-    public static long differenceHoursByLocalDateTime(LocalDateTime start, LocalDateTime end) {
+    public static long differenceHours(LocalDateTime start, LocalDateTime end) {
         if (NullUtil.nonNull(getDuration(start, end))) {
             long hours = getDuration(start, end).toHours();
             return hours;
@@ -395,7 +406,7 @@ public class DateTimeUtil {
      * @param end
      * @return days
      */
-    public static long differenceDaysByLocalDateTime(LocalDateTime start, LocalDateTime end) {
+    public static long differenceDays(LocalDateTime start, LocalDateTime end) {
         if (NullUtil.nonNull(getDuration(start, end))) {
             long days = getDuration(start, end).toDays();
             return days;
@@ -409,7 +420,7 @@ public class DateTimeUtil {
      * @param end
      * @return Years
      */
-    public static long differenceYearsByLocalDateTime(LocalDateTime start, LocalDateTime end) {
+    public static long differenceYears(LocalDateTime start, LocalDateTime end) {
         if (NullUtil.nonNull(getDuration(start, end))) {
             long days = getDuration(start, end).toDays();
             return days / 365;
@@ -418,30 +429,20 @@ public class DateTimeUtil {
         }
     }
 
-    private static Duration getDuration(LocalDateTime start, LocalDateTime end) {
-        if (NullUtil.isNull(start) || NullUtil.isNull(end)) {
-            log.warn("LocalDateTime is null");
-            return null;
-        }
-        Duration duration = Duration.between(start, end);
-        return duration;
-    }
-
     /**
      * 以今年为标识，获取上N年的年份List列表
      */
-    public static List<String> getPreviousYearListByCurrentYear(int n) {
+    public static List<String> getPreviousYear(int length) {
         List<String> years = new ArrayList<>();
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
-        for (int i = year - n; i <= year; i++) {
+        for (int i = year - length; i <= year; i++) {
             years.add(String.valueOf(i));
         }
         return years;
     }
 
-    public static LocalDateTime convertLocalDate(String dateTimeString) throws Exception {
-
+    public static LocalDateTime toLocalDate(String dateTimeString) throws Exception {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATETIME_PATTERN);
         LocalDateTime dateTime = null;
         try {

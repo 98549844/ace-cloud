@@ -32,7 +32,7 @@ public class CpuRamUtil {
         }
     }
 
-    public static void cpuAndRamUsage() throws InterruptedException {
+    public static void cpuRamUsage() throws InterruptedException {
         /*while (true) {
             //使用buildin function 获取cpu and ram使用量
             //获取CPU
@@ -55,7 +55,6 @@ public class CpuRamUtil {
     }
 
     public static void memoryUsage() throws InterruptedException {
-
         SystemInfo systemInfo = new SystemInfo();
         GlobalMemory memory = systemInfo.getHardware().getMemory();
         long totalByte = memory.getTotal();
@@ -67,7 +66,6 @@ public class CpuRamUtil {
     }
 
     public static void cpuUsage() throws InterruptedException {
-
         SystemInfo systemInfo = new SystemInfo();
         CentralProcessor processor = systemInfo.getHardware().getProcessor();
         long[] prevTicks = processor.getSystemCpuLoadTicks();

@@ -24,13 +24,13 @@ public class ArrayUtil {
     public static void main(String[] args) {
         int[] a = {1, 23, 5, 12, 5, 23, 43, 2, 7, 3, 91};
         Integer[] b = {1, 23, 5, 12, 5, 23, 43, 2, 7, 3, 91};
-        System.out.println(intToHashSet(a));
-        System.out.println(intToHashSetAsc(a));
-        System.out.println(intToHashSetDesc(a));
+        System.out.println(toHashSet(a));
+        System.out.println(toHashSetAsc(a));
+        System.out.println(toHashSetDesc(a));
     }
 
-    public static Boolean isArray(Object obj) {
-        return NullUtil.isNull(obj) ? null : obj.getClass().isArray();
+    public static boolean isArray(Object obj) {
+        return NullUtil.nonNull(obj) && obj.getClass().isArray();
     }
 
     /**
@@ -39,7 +39,7 @@ public class ArrayUtil {
      * @param nums
      * @return
      */
-    public static Set intToHashSet(int[] nums) {
+    public static Set toHashSet(int[] nums) {
         return Arrays.stream(nums).boxed().collect(Collectors.toSet());
     }
 
@@ -49,9 +49,9 @@ public class ArrayUtil {
      * @param nums
      * @return
      */
-    public static Set intToHashSetAsc(int[] nums) {
-        int[] arrayInts = Arrays.stream(nums).sorted().toArray();
-        return Arrays.stream(arrayInts).boxed().collect(Collectors.toSet());
+    public static Set toHashSetAsc(int[] nums) {
+        int[] arrayInt = Arrays.stream(nums).sorted().toArray();
+        return Arrays.stream(arrayInt).boxed().collect(Collectors.toSet());
     }
 
     /**
@@ -60,13 +60,13 @@ public class ArrayUtil {
      * @param nums
      * @return
      */
-    public static Set intToHashSetDesc(int[] nums) {
+    public static Set toHashSetDesc(int[] nums) {
         Set<Integer> sortedSet = new TreeSet<>(Comparator.reverseOrder());
-        sortedSet.addAll(intToHashSet(nums));
+        sortedSet.addAll(toHashSet(nums));
         return sortedSet;
     }
 
-    public static int[] listToIntArray(List<Integer> ls) {
+    public static int[] toIntArray(List<Integer> ls) {
         return ls.stream().mapToInt(Integer::valueOf).toArray();
     }
 

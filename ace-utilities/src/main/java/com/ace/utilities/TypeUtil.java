@@ -217,7 +217,11 @@ public class TypeUtil {
         return type;
     }
 
-    public static String amountConversion(String amount) {
+    /** 保留两位小数
+     * @param amount
+     * @return
+     */
+    public static String format(String amount) {
         double number = Double.parseDouble(amount);
         DecimalFormat decimalFormat = new DecimalFormat("#,###,###.00");
         return decimalFormat.format(number);

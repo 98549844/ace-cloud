@@ -85,11 +85,11 @@ public class Console {
         for (int code : codes) {
             sb.append(code + ";");
         }
-        String _code = sb.toString();
-        if (_code.endsWith(";")) {
-            _code = _code.substring(0, _code.length() - 1);
+        String code = sb.toString();
+        if (code.endsWith(";")) {
+            code = code.substring(0, code.length() - 1);
         }
-        return (char) 27 + "[" + _code + "m" + txt + (char) 27 + "[0m";
+        return (char) 27 + "[" + code + "m" + txt + (char) 27 + "[0m";
     }
 
     /**

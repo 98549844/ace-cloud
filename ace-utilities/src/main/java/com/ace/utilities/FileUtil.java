@@ -131,7 +131,7 @@ public class FileUtil {
      * @param p
      * @return
      */
-    public static byte[] fileToBinArray(String p) {
+    public static byte[] toByte(String p) {
         File file = new File(p);
         try {
             InputStream fis = new FileInputStream(file);
@@ -148,7 +148,7 @@ public class FileUtil {
      * @param p
      * @return
      */
-    public static String fileToBinString(String p) {
+    public static String toByteString(String p) {
         File file = new File(p);
         try {
             InputStream fis = new FileInputStream(file);
@@ -188,16 +188,16 @@ public class FileUtil {
         File src = new File(source);
         File desc = new File(dest);
         if (NullUtil.isNull(source) || !src.isFile()) {
-            log.error("source incorrect !");
-            log.error("source: {}", source);
+            log.error("error! source: {}", source);
         }
         FileUtils.copyFile(src, desc);
     }
 
     /**
+     * 批量重复制并重命名后缀
      * 用缓冲区读写，来提升读写效率。
      */
-    public static void CopyFileWithNewExt(String path, List<String> fileNames, String ext, Boolean delFile) {
+    public static void copyFileWithNewExt(String path, List<String> fileNames, String ext, boolean delFile) {
         if (!exist(path)) {
             log.error("Directory not exist or incorrect !!!");
             return;
@@ -223,7 +223,7 @@ public class FileUtil {
                     fw.write(buf, 0, len);//读几个写几个
                 }
                 File file = new File(path + fileName);
-                if (NullUtil.nonNull(delFile) && delFile && file.exists()) {
+                if (delFile && file.exists()) {
                     file.delete();
                 }
             } catch (IOException e) {
@@ -292,7 +292,7 @@ public class FileUtil {
 
     private static String extension(String ext) throws Exception {
         if (NullUtil.isNull(ext)) {
-            throw new Exception();
+            throw new NullPointerException("extension is null");
         } else {
             if (ext.startsWith(".")) {
                 return ext;
@@ -627,7 +627,6 @@ public class FileUtil {
     }
 
 
-
     /**
      * 清空原文并写入新内容
      *
@@ -735,7 +734,7 @@ public class FileUtil {
     }
 
     //check file and dir status
-    public static boolean fileStatus(String path, String fileName) {
+    public static void fileStatus(String path, String fileName) {
         path = getParent(path);
         //check dir exist
         File folder = new File(path);
@@ -744,7 +743,6 @@ public class FileUtil {
             System.out.print("Directory created. ");
         }
         //check file exist
-        boolean isOK = false;
         File file = new File(path + fileName);
         if (!file.exists()) {
             try {
@@ -754,18 +752,15 @@ public class FileUtil {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            isOK = true;
         } else {
             if (file.exists() && file.length() == 0) {
                 System.out.print("File is empty. ");
             }
             if (file.canWrite()) {
-                isOK = true;
             } else {
                 System.out.println("File can't write. ");
             }
         }
-        return isOK;
     }
 
     /**
@@ -810,25 +805,25 @@ public class FileUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        log.info("ENCODING: " + ENCODING);
+        log.info("ENCODING: {}", ENCODING);
         return ENCODING;
     }
 
-    public static boolean compareFile(String file1, String file2) {
-        File fileFirst = new File(file1);
-        File fileSecond = new File(file2);
-        if (!fileFirst.isFile() || !fileSecond.isFile()) {
-            log.error("File not exist, please check !!!");
+    public static boolean compareFile(String fileA, String fileB) {
+        File fileX = new File(fileA);
+        File fileY = new File(fileB);
+        if (!fileX.isFile() || !fileY.isFile()) {
+            log.error("File not exist!");
             return false;
         }
-        String firstMD5 = getFileMD5(fileFirst);
-        String secondMD5 = getFileMD5(fileSecond);
-        boolean isEquals = firstMD5.equals(secondMD5);
-        log.info("Compare result: " + isEquals);
+        String md5X = getMD5(fileX);
+        String md5Y = getMD5(fileY);
+        boolean isEquals = md5X.equals(md5Y);
+        log.info("Compare result: {}", isEquals);
         return isEquals;
     }
 
-    private static String getFileMD5(File file) {
+    private static String getMD5(File file) {
         MessageDigest digest;
         FileInputStream in = null;
         byte[] buffer = new byte[8192];
@@ -840,16 +835,11 @@ public class FileUtil {
                 digest.update(buffer, 0, len);
             }
             BigInteger bigInt = new BigInteger(1, digest.digest());
+            in.close();
             return bigInt.toString(16);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
-        } finally {
-            try {
-                in.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -913,6 +903,10 @@ public class FileUtil {
      * extension.
      */
     public static String getName(String f) {
+        File file = new File(f);
+        if (file.isFile()) {
+            return file.getName().split("\\.")[0];
+        }
         String fName = "";
         int i = f.lastIndexOf('.');
         if (i > 0 && i < f.length() - 1) {
@@ -925,48 +919,51 @@ public class FileUtil {
     /**
      * Used to extract the filename and its extension.
      *
-     * @param fullPath Incoming file to get the filename
+     * @param fileName Incoming file to get the filename
      * @return <code>String</code> representing the filename without its
      * extension.
      */
-    public static Map getNameAndExt(String fullPath) {
-        String fName;
-        String ext;
-        int i = fullPath.lastIndexOf('.');
-        Map map = new HashMap();
-        if (i > 0 && i < fullPath.length() - 1) {
-            fName = fullPath.substring(0, i);
-            ext = fullPath.substring(i);
-            map.put(FileUtil.FILENAME, fName);
-            map.put(FileUtil.EXT, ext);
+    //public static Map getNameAndExt(String fileName) {
+    //    String fName;
+    //    String ext;
+    //    int i = fileName.lastIndexOf('.');
+    //    Map map = new HashMap();
+    //    if (i > 0 && i < fileName.length() - 1) {
+    //        fName = fileName.substring(0, i);
+    //        ext = fileName.substring(i);
+    //        map.put(FileUtil.FILENAME, fName);
+    //        map.put(FileUtil.EXT, ext);
+    //    }
+    //    return map;
+    //}
+    public static List getNameAndExt(String fileName) {
+        File file = new File(fileName);
+        List<String> list = new ArrayList<>();
+        if (file.isFile()) {
+            String[] result = file.getName().split("\\.");
+            list.add(result[0]); //文件名
+            list.add("." + result[1]); //后缀
+        } else {
+            String[] result = fileName.split("\\.");
+            list.add(result[0]);
+            list.add("." + result[1]);
         }
-        return map;
+        return list;
     }
 
     /**
      * @param f 完整路径 xxx/xxx/xxx/xxx.txt
      * @return
      */
-    public static Map<String, String> getPathAndFileMap(String f) {
-        int i = f.lastIndexOf(File.separator);
-        String p = f.substring(0, i);
-        String fNameWithExt = f.substring(i + 1); // +1 为了去除分隔符
-
-        String name;
-        String ext;
-        int k = fNameWithExt.lastIndexOf('.');
+    public static Map<String, String> getFileMap(String f) {
+        File file = new File(f);
         Map<String, String> map = new HashMap<>();
-        if (i > 0 && k < f.length() - 1) {
-            name = fNameWithExt.substring(0, k);
-            ext = fNameWithExt.substring(k);
-            map.put(FileUtil.PATH, p);
-            map.put(FileUtil.FILENAME_WITH_EXT, fNameWithExt);
-            map.put(FileUtil.FILENAME, name);
-            map.put(FileUtil.EXT, ext);
-        }
+        map.put(FileUtil.PATH, file.getPath());
+        map.put(FileUtil.FILENAME_WITH_EXT, file.getName());
+        map.put(FileUtil.FILENAME, file.getName().split("\\.")[0]);
+        map.put(FileUtil.EXT, "." + file.getName().split("\\.")[1]);
         return map;
     }
-
 
     /**
      * 不包括ext
@@ -981,8 +978,8 @@ public class FileUtil {
             return result;
         }
         for (String s : ls) {
-            Map name = getNameAndExt(s);
-            result.add((String) name.get(FileUtil.FILENAME));
+            List<String> name = getNameAndExt(s);
+            result.add(name.get(0));
         }
         return result;
     }

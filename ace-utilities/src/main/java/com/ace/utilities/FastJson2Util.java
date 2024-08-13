@@ -81,17 +81,6 @@ public class FastJson2Util {
         return JSON.parseObject(bytes, type);
     }
 
-
-    /**
-     * json to object
-     *
-     * @param json
-     * @return
-     */
-    public static JSONObject toObject(String json) {
-        return JSONObject.parseObject(json);
-    }
-
     /**
      * json to object
      *
@@ -103,6 +92,18 @@ public class FastJson2Util {
     public static <T> T toObject(String json, Class<T> type) {
         return JSONObject.parseObject(json, type);
     }
+
+
+    /**
+     * json to object
+     *
+     * @param json
+     * @return
+     */
+    public static JSONObject toObject(String json) {
+        return JSONObject.parseObject(json);
+    }
+
 
     /**
      * 把json 字符串转换成 封装后的对象List<T>

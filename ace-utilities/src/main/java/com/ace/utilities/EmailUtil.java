@@ -10,13 +10,13 @@ import java.util.regex.Pattern;
 public class EmailUtil {
     static private final Log log = LogFactory.getLog(EmailUtil.class);
 
-    public static boolean emailAddressValidator(String email) {
+    public static boolean validator(String email) {
         if (NullUtil.isNull(email)) {
             log.info("Email address not exist");
             return false;
         }
         if (email.contains(";")) {
-            return emailAddressValidator(email.split(";"));
+            return validator(email.split(";"));
         } else {
             String checkPattern = "^([a-zA-Z0-9_])+@(([a-zA-Z0-9])+\\.)+([a-zA-Z0-9]{2,4})+$";
             Pattern regex = Pattern.compile(checkPattern);
@@ -27,10 +27,10 @@ public class EmailUtil {
         }
     }
 
-    public static boolean emailAddressValidator(String[] emails) {
+    public static boolean validator(String[] emails) {
         boolean isValid = false;
         for (String email : emails) {
-            isValid = emailAddressValidator(email);
+            isValid = validator(email);
             if (!isValid) {
                 break;
             }
@@ -40,7 +40,7 @@ public class EmailUtil {
 
 
     public static void main(String[] args) {
-        boolean isEmail = EmailUtil.emailAddressValidator("sxgkwei@16375.org");
+        boolean isEmail = EmailUtil.validator("sxgkwei@16375.org");
 
         System.out.println(isEmail);
     }

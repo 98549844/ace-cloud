@@ -25,24 +25,9 @@ public class CompressUtil {
         try {
             System.out.println("Creating the GZIP output stream.");
             String outFileName = inFileName + ".gz";
-            GZIPOutputStream out = null;
-            try {
-                out = new GZIPOutputStream(new FileOutputStream(outFileName));
-            } catch (FileNotFoundException e) {
-                System.err.println("Could not create file: " + outFileName);
-                System.exit(1);
-            }
-
-
+            GZIPOutputStream out = new GZIPOutputStream(new FileOutputStream(outFileName));
             System.out.println("Opening the input file.");
-            FileInputStream in = null;
-            try {
-                in = new FileInputStream(inFileName);
-            } catch (FileNotFoundException e) {
-                System.err.println("File not found. " + inFileName);
-                System.exit(1);
-            }
-
+            FileInputStream in = new FileInputStream(inFileName);
             System.out.println("Transferring bytes from input file to GZIP Format.");
             byte[] buf = new byte[1024];
             int len;
@@ -50,43 +35,27 @@ public class CompressUtil {
                 out.write(buf, 0, len);
             }
             in.close();
-
             System.out.println("Completing the GZIP file");
             out.finish();
             out.close();
-
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
         }
-
     }
 
-    public static void unCompressGZFile(String inFileName) {
+    public static void decompressGZFile(String inFileName) {
         try {
             if (!FileUtil.getExtension(inFileName).equalsIgnoreCase("gz")) {
-                log.error("File name must have extension of \".gz\"");
+                log.error("extension not equal .gz");
                 System.exit(1);
             }
 
             log.info("Opening the compressed file.");
-            GZIPInputStream in = null;
-            try {
-                in = new GZIPInputStream(new FileInputStream(inFileName));
-            } catch (FileNotFoundException e) {
-                log.error("File not found. " + inFileName);
-                System.exit(1);
-            }
+            GZIPInputStream in = new GZIPInputStream(new FileInputStream(inFileName));
 
-            log.info("Open the output file.");
             String outFileName = FileUtil.getName(inFileName);
-            FileOutputStream out = null;
-            try {
-                out = new FileOutputStream(outFileName);
-            } catch (FileNotFoundException e) {
-                log.error("Could not write to file. " + outFileName);
-                System.exit(1);
-            }
+            FileOutputStream out = new FileOutputStream(outFileName);
 
             log.info("Transferring bytes from compressed file to the output file.");
             byte[] buf = new byte[1024];
@@ -104,23 +73,23 @@ public class CompressUtil {
     }
 
 
-    public static void unCompressGZFiles(String path) throws Exception {
+    public static void decompressGZFiles(String path) {
         path = FileUtil.getParent(path);
         System.out.println(path);
         ArrayList<String> files = FileUtil.getFileNamesWithExt(path);
         for (String f : files) {
             f = path + f;
-            unCompressGZFile(f);
+            decompressGZFile(f);
         }
     }
 
-    public static void unCompressGZFilesAndDeleteGZFile(String path) throws Exception {
+    public static void decompressAndDeleteGZFile(String path) {
         path = FileUtil.getParent(path);
         System.out.println(path);
         ArrayList<String> files = FileUtil.getFileNamesWithExt(path);
         for (String f : files) {
             f = path + f;
-            unCompressGZFile(f);
+            decompressGZFile(f);
             FileUtil.delete(f);
         }
     }
@@ -129,10 +98,7 @@ public class CompressUtil {
         File rarFile = new File(rarPath);
         File outFileDir = new File(outDir);
         if (!outFileDir.exists()) {
-            boolean isMakDir = outFileDir.mkdirs();
-            if (isMakDir) {
-                System.out.println("创建压缩目录成功");
-            }
+            outFileDir.mkdirs();
         }
         Archive archive = new Archive(new FileInputStream(rarFile));
         FileHeader fileHeader = archive.nextFileHeader();
@@ -150,9 +116,7 @@ public class CompressUtil {
             }
             FileOutputStream os = new FileOutputStream(out);
             archive.extractFile(fileHeader, os);
-
             os.close();
-
             fileHeader = archive.nextFileHeader();
         }
         archive.close();
@@ -197,13 +161,11 @@ public class CompressUtil {
                 if (entry.isDirectory()) {
                     continue;
                 }
-
                 File outputFile = new File(outDir, entry.getName());
                 File outputDirFile = outputFile.getParentFile();
                 if (!outputDirFile.exists()) {
                     outputDirFile.mkdirs();
                 }
-
                 byte[] content = new byte[(int) entry.getSize()];
                 sevenZFile.read(content, 0, content.length);
 
@@ -222,17 +184,17 @@ public class CompressUtil {
      * @param outPut7zDir 压缩后的文件路径（如 D:\SevenZip\test.7z）
      * @param inFiles     需要压缩的文件
      */
-    public static void compressTo7z(String outPut7zDir, File... inFiles) {
+    public static void to7z(String outPut7zDir, File... inFiles) {
         try (SevenZOutputFile out = new SevenZOutputFile(new File(outPut7zDir))) {
             for (File file : inFiles) {
-                addToArchived7zCompression(out, file, ".");
+                addTo7z(out, file, ".");
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static void addToArchived7zCompression(SevenZOutputFile out, File file, String dir) {
+    private static void addTo7z(SevenZOutputFile out, File file, String dir) {
         String name = dir + File.separator + file.getName();
         if (dir.equals(".")) {
             name = file.getName();
@@ -264,7 +226,7 @@ public class CompressUtil {
             File[] children = file.listFiles();
             if (children != null) {
                 for (File child : children) {
-                    addToArchived7zCompression(out, child, name);
+                    addTo7z(out, child, name);
                 }
             }
         } else {
