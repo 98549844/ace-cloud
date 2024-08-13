@@ -4,10 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.core.SpringVersion;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.ace.tools.MavenTool.*;
+//import static com.ace.tools.MavenTool.*;
 
 /**
  * @Classname: SpringUtil
@@ -32,13 +29,13 @@ public class VersionUtil {
         return springVersion;
     }
 
-    public static void mavenVersion() {
+/*    public static void mavenVersion() {
         String command = "-v";
         List<String> commands = new ArrayList<>();
         commands.add(mavenWindowsHome);
         commands.add(command);
         run(preparedCommands(commands));
-    }
+    }*/
 
 
 
