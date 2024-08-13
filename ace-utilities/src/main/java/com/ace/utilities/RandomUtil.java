@@ -47,7 +47,7 @@ public class RandomUtil {
     }
 
     private static boolean validate(Integer start, Integer end) {
-        if (NullUtil.isNull(start) || NullUtil.isNull(end) || start.equals(end)) {
+        if (NullUtil.isNull(start, end) || start.equals(end)) {
             return false;
         }
         return true;

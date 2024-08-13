@@ -56,6 +56,21 @@ public class NullUtil {
         return !isEmpty(text);
     }
 
+
+    public static boolean isNull(Object... objects) {
+        for (Object object : objects) {
+            isNull(object);
+        }
+        return false;
+    }
+
+    public static boolean nonNull(Object... objects) {
+        for (Object object : objects) {
+            nonNull(object);
+        }
+        return false;
+    }
+
     public static boolean isNull(Object object) {
         if (object == null) {
             return true;
