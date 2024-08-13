@@ -2,7 +2,6 @@ package com.ace.utilities;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.util.CollectionUtils;
 
 import java.text.MessageFormat;
 import java.util.*;
@@ -12,29 +11,9 @@ import java.util.regex.Pattern;
 import org.apache.commons.codec.binary.Base64;
 
 
-@SuppressWarnings("unchecked")
-public class StringUtil {
-    private static final Logger log = LogManager.getLogger(StringUtil.class);
-
-    private static String collectionToDelimitedString(Collection<?> coll, String denim, String prefix, String suffix) {
-        if (CollectionUtils.isEmpty(coll)) {
-            return "";
-        }
-        StringBuilder sb = new StringBuilder();
-        Iterator<?> it = coll.iterator();
-        while (it.hasNext()) {
-            sb.append(prefix).append(it.next()).append(suffix);
-            if (it.hasNext()) {
-                sb.append(denim);
-            }
-        }
-        return sb.toString();
-    }
-
-    private static String collectionToDelimitedString(Collection<?> coll, String symbol) {
-        return collectionToDelimitedString(coll, symbol, "", "");
-    }
-
+//@SuppressWarnings("unchecked")
+public class Strings {
+    private static final Logger log = LogManager.getLogger(Strings.class);
 
     /**
      * 带占位符功能的string工具
@@ -66,29 +45,6 @@ public class StringUtil {
     }
 
     /**
-     * @param coll   list转String并用符号拼接在一起
-     * @param symbol
-     * @return
-     */
-    private static String appendCollectionWithSymbol(Collection<?> coll, String symbol) {
-        if (NullUtil.isNull(symbol)) {
-            symbol = ",";
-            log.warn("symbol is NULL, default using comma");
-        }
-        return collectionToDelimitedString(coll, symbol);
-    }
-
-    /**
-     * @param coll list转String并用逗号拼接在一起
-     * @param ","
-     * @return
-     */
-    private static String appendCollectionWithComma(Collection<?> coll) {
-        return collectionToDelimitedString(coll, ",");
-    }
-
-
-    /**
      * 根据字符串长度由短到长排列
      *
      * @param arr
@@ -107,85 +63,6 @@ public class StringUtil {
     public static String trimAll(String content) {
         return content.replace(" ", "");
     }
-
-    /**
-     * @param input
-     * @param maxLength
-     * @param symbol
-     * @return
-     */
-    private static List<String> spiltStringBySymbol(String input, int maxLength, String symbol) {
-        int idx;
-        String tmpRemainingResult = input, tmpRow;
-        List<String> result = new ArrayList<String>();
-        while (tmpRemainingResult.length() > maxLength) {
-            idx = tmpRemainingResult.substring(0, maxLength).lastIndexOf(symbol);//assuming > -1
-            if (idx == -1) {
-                break;
-            } else {
-                tmpRow = tmpRemainingResult.substring(0, idx);
-                result.add(tmpRow);
-                tmpRemainingResult = tmpRemainingResult.substring(idx + symbol.length());
-            }
-        }
-        if (!tmpRemainingResult.isEmpty()) {
-            result.add(tmpRemainingResult);
-        }
-        return result;
-    }
-
-    private static List<String> spiltStringByComma(String input, int maxLength) {
-        int idx;
-        String tmpRemainingResult = input, tmpRow;
-        List<String> result = new ArrayList<String>();
-        while (tmpRemainingResult.length() > maxLength) {
-            idx = tmpRemainingResult.substring(0, maxLength).lastIndexOf(",");//assuming > -1
-            if (idx == -1) {
-                break;
-            } else {
-                tmpRow = tmpRemainingResult.substring(0, idx);
-                result.add(tmpRow);
-                tmpRemainingResult = tmpRemainingResult.substring(idx + 1);
-            }
-        }
-        if (tmpRemainingResult.length() > 0) {
-            result.add(tmpRemainingResult);
-        }
-        return result;
-    }
-
-    public static List<String> convertCollectionToStringList(Collection<?> collection, int maxLength, String symbol) {
-        List<String> result = new ArrayList<String>();
-        if (NullUtil.nonNull(collection) && !collection.isEmpty()) {
-            Iterator<?> it = collection.iterator();
-            StringBuilder sb = new StringBuilder(it.next().toString());
-            if (sb.length() > maxLength) {
-                System.out.println("Collection length > maxLength, Please check");
-                return result;
-            }
-            String tmpRemainingResult = appendCollectionWithSymbol(collection, symbol);
-            result = spiltStringBySymbol(tmpRemainingResult, maxLength, symbol);
-        }
-        return result;
-    }
-
-
-    public static List<String> convertCollectionToStringList(Collection<?> collection, int maxLength) {
-        List<String> result = new ArrayList<>();
-        if (NullUtil.nonNull(collection) && !collection.isEmpty()) {
-            Iterator<?> it = collection.iterator();
-            StringBuilder sb = new StringBuilder(it.next().toString());
-            if (sb.length() > maxLength) {
-                System.out.println("Collection length > maxLength, Please check");
-                return result;
-            }
-
-            String tmpRemainingResult = appendCollectionWithComma(collection);
-            result = spiltStringByComma(tmpRemainingResult, maxLength);
-        }
-        return result;
-    }
-
 
     //首字母大寫
     public static String toUpperFirstChar(String string) {
@@ -393,6 +270,7 @@ public class StringUtil {
     }
 
     /**
+     * 無需要正則表達式或转义符
      * 转义字符splitter
      *
      * @param s

@@ -29,14 +29,16 @@ import static com.ace.constants.constant.UTF_8;
  * @Description:
  */
 
-//java解析CSV文件三种方法(openCSV)
 //https://blog.csdn.net/lydms/article/details/118641389
 public class CsvUtil {
     private static final Logger log = LogManager.getLogger(CsvUtil.class.getName());
 
     public static void main(String[] args) throws IOException {
 
-
+        // 遍历表格数据
+        //for (Table.Cell<Integer, Integer, String> cell : table1.cellSet()) {
+        //    System.out.println(cell.getRowKey() + " : " + cell.getColumnKey() + " -> " + cell.getValue());
+        //}
     }
 
     public static Table<Integer, Integer, String> toTable(File file, boolean haveHeader) {
@@ -68,8 +70,6 @@ public class CsvUtil {
             System.out.println("CSV文件读取异常");
             return csvTable;
         }
-
-
     }
 
 

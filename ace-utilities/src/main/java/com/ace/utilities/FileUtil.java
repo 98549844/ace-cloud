@@ -308,7 +308,7 @@ public class FileUtil {
         ArrayList<String> fileList = FileUtil.getFileNamesWithExt(path);
         int i = 1;
         for (String s : fileList) {
-            String[] spiltFileName = StringUtil.split(s, ".");
+            String[] spiltFileName = Strings.split(s, ".");
             newExt = extension(newExt);
             String filePath = path + s;
             File oldFile = new File(filePath);
