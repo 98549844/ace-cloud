@@ -27,6 +27,12 @@ public class Strings {
      * @return
      */
     public static String fmt(String msg, Object... param) {
+        int length = param.length;
+        for (int i = 0; i < length; i++) {
+            if (!(param[i] instanceof String)) {
+                param[i] = String.valueOf(param[i]).replace(",", "");
+            }
+        }
         return MessageFormat.format(msg, param);
     }
 

@@ -136,7 +136,6 @@ public class TypeUtil {
 
     public static Long toLong(Integer i) {
         try {
-
             return i.longValue();
         } catch (Exception e) {
             e.printStackTrace();
