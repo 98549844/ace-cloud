@@ -38,6 +38,8 @@ public class FileUtil {
     public static final String ORIGINAL = "original"; //原文
     public static final String LINE = "line"; //压缩成一行
     public static final String LIST = "list";
+    public static final String STRING = "string";
+    public static final String MAP = "map";
 
     public static final String PATH = "path";
     public static final String FILENAME = "fileName";
@@ -670,13 +672,13 @@ public class FileUtil {
         Map contentMap = new HashMap();
         if (obj instanceof String) {
             content = new StringBuilder((String) obj);
-            type = "String";
+            type = STRING;
         } else if (obj instanceof List) {
             contentList = (List<StringBuilder>) obj;
-            type = "List";
+            type = LIST;
         } else if (obj instanceof Map<?, ?>) {
             contentMap = (Map) obj;
-            type = "Map";
+            type = MAP;
         } else {
             log.error("un-default type");
             return;
@@ -695,11 +697,11 @@ public class FileUtil {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fop, StandardCharsets.UTF_8);
             // get the content in bytes
             String contentInBytes = null;
-            if (type.equals("String")) {
+            if (type.equals(STRING)) {
                 contentInBytes = content.toString();
                 outputStreamWriter.append(contentInBytes);
                 outputStreamWriter.flush();
-            } else if (type.equals("List")) {
+            } else if (type.equals(LIST)) {
                 for (StringBuilder stringBuilder : contentList) {
                     // contentInBytes = contentList.get(i).toString().getBytes();
                     // fop.write(contentInBytes);
@@ -707,7 +709,7 @@ public class FileUtil {
                     outputStreamWriter.append(contentInBytes);
                     outputStreamWriter.flush();
                 }
-            } else if (type.equals("Map")) {
+            } else if (type.equals(MAP)) {
                 //寫成一pet野甘, 有時間優化
                 contentInBytes = contentMap.toString();
                 outputStreamWriter.append(contentInBytes);
@@ -725,6 +727,7 @@ public class FileUtil {
         } finally {
             try {
                 if (NullUtil.nonNull(fop)) {
+                    fop.flush();
                     fop.close();
                 }
             } catch (IOException e) {
