@@ -697,25 +697,28 @@ public class FileUtil {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fop, StandardCharsets.UTF_8);
             // get the content in bytes
             String contentInBytes = null;
-            if (type.equals(STRING)) {
-                contentInBytes = content.toString();
-                outputStreamWriter.append(contentInBytes);
-                outputStreamWriter.flush();
-            } else if (type.equals(LIST)) {
-                for (StringBuilder stringBuilder : contentList) {
-                    // contentInBytes = contentList.get(i).toString().getBytes();
-                    // fop.write(contentInBytes);
-                    contentInBytes = stringBuilder.toString();
+            switch (type) {
+                case STRING -> {
+                    contentInBytes = content.toString();
                     outputStreamWriter.append(contentInBytes);
                     outputStreamWriter.flush();
                 }
-            } else if (type.equals(MAP)) {
-                //寫成一pet野甘, 有時間優化
-                contentInBytes = contentMap.toString();
-                outputStreamWriter.append(contentInBytes);
-                outputStreamWriter.flush();
-            } else {
-                log.error("contentInBytes: {}", contentInBytes);
+                case LIST -> {
+                    for (StringBuilder stringBuilder : contentList) {
+                        // contentInBytes = contentList.get(i).toString().getBytes();
+                        // fop.write(contentInBytes);
+                        contentInBytes = stringBuilder.toString();
+                        outputStreamWriter.append(contentInBytes);
+                        outputStreamWriter.flush();
+                    }
+                }
+                case MAP -> {
+                    //寫成一pet野甘, 有時間優化
+                    contentInBytes = contentMap.toString();
+                    outputStreamWriter.append(contentInBytes);
+                    outputStreamWriter.flush();
+                }
+                default -> log.error("contentInBytes: {}", contentInBytes);
             }
 
             outputStreamWriter.close();
@@ -846,7 +849,7 @@ public class FileUtil {
         }
     }
 
-    public static long getFileSize(String filename) {
+    public static long getSize(String filename) {
         File file = new File(filename);
         if (!file.exists() || !file.isFile()) {
             log.info("File not exist");
@@ -855,12 +858,12 @@ public class FileUtil {
         DecimalFormat df = new DecimalFormat("#.00");
         if (file.length() / (1024L * 1024L) > 0) {
             double r = (double) file.length() / (1024L * 1024L);
-            log.info(df.format(r) + " mb");
+            log.info("{} mb", df.format(r));
         } else if (file.length() / (1024L) > 0) {
             double r = (double) file.length() / (1024L);
-            log.info(df.format(r) + " kb");
+            log.info("{} kb", df.format(r));
         } else {
-            log.info(file.length() + " bytes");
+            log.info("{} bytes", file.length());
         }
         return file.length();
     }
