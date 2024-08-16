@@ -28,7 +28,8 @@ import java.util.Iterator;
  * @Description:
  */
 
-
+//https://blog.csdn.net/sinat_31057219/article/details/119697422
+//base64圖片互換 //未實現
 public class ImageUtil {
     private static final Logger log = LogManager.getLogger(ImageUtil.class.getName());
 
@@ -45,7 +46,7 @@ public class ImageUtil {
     }
 
     // 二进制转换成base64字符串
-    public static String byteArray2String(byte[] byteArray) throws Exception {
+    public static String byteArrayToString(byte[] byteArray) throws Exception {
         String stringBase64;
         try {
             Base64 encoder = new Base64();
