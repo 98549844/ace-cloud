@@ -942,18 +942,18 @@ public class FileUtil {
     //    }
     //    return map;
     //}
+
     public static List getNameAndExt(String fileName) {
         File file = new File(fileName);
         List<String> list = new ArrayList<>();
+        String[] result;
         if (file.isFile()) {
-            String[] result = file.getName().split("\\.");
-            list.add(result[0]); //文件名
-            list.add("." + result[1]); //后缀
+            result = file.getName().split("\\.");
         } else {
-            String[] result = fileName.split("\\.");
-            list.add(result[0]);
-            list.add("." + result[1]);
+            result = fileName.split("\\.");
         }
+        list.add(result[0]); //文件名
+        list.add("." + result[1]); //后缀
         return list;
     }
 
