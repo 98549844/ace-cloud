@@ -945,7 +945,7 @@ public class FileUtil {
     public static List getNameAndExt(String fileName) {
         File file = new File(fileName);
         String[] result;
-        if (file.isFile()) {
+        if (file.isFile()) { //如果是文件
             result = file.getName().split("\\.");
         } else {
             result = fileName.split("\\.");
