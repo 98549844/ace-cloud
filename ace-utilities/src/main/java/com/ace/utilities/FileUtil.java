@@ -871,7 +871,7 @@ public class FileUtil {
 
     /**
      * Used to extract and return the extension of a given file.
-     * 後綴不包含"."
+     * 後綴不包含 "."
      *
      * @param f Incoming file to get the extension of
      * @return <code>String</code> representing the extension of the incoming
