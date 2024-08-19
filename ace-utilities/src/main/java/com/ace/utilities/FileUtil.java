@@ -1144,23 +1144,23 @@ public class FileUtil {
     public static Map<String, List<String>> findByType(String path, String... ext) throws IOException {
         FileUtil fileUtil = new FileUtil();
         List<String> fileList = fileUtil.getFilePaths(path);
-        log.info("searching file size: {}", fileList.size());
+        log.info("file size: {}", fileList.size());
 
         Map<String, List<String>> resultMap = new HashMap<>();
-        if (NullUtil.nonNull(ext) && ext.length > 0) {
+        if (NullUtil.nonNull((Object) ext) && ext.length > 0) {
             log.info("starting searching: {}", path);
             for (String f : fileList) {
                 String type = getExtension(FileUtil.getFileNameWithExt(f));
-                for (int i = 0; i < ext.length; i++) {
-                    List<String> resultList = resultMap.get(ext[i]) == null ? new ArrayList<>() : resultMap.get(ext[i]);
-                    if (type.equals(ext[i])) {
+                for (String s : ext) {
+                    List<String> resultList = resultMap.get(s) == null ? new ArrayList<>() : resultMap.get(s);
+                    if (type.equals(s)) {
                         Console.println(f, Console.BOLD); //print as console
                         resultList.add(f);
-                        resultMap.put(ext[i], resultList);
+                        resultMap.put(s, resultList);
                     }
                 }
             }
-            log.info("search complete !!!");
+            log.info("search complete !");
         }
         for (String s : ext) {
             int size = resultMap.get(s) == null ? 0 : resultMap.get(s).size();
