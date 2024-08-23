@@ -1,5 +1,6 @@
 package com.ace.utilities;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -242,6 +243,91 @@ public class DateTimeUtil {
             cal.add(Calendar.SECOND, second);
         }
         return cal.getTime();
+    }
+
+
+    /**
+     * 加一月
+     */
+    public static Date addMonths(final Date date, int amount) {
+        return DateUtils.addMonths(date, amount);
+    }
+
+    /**
+     * 减一月
+     */
+    public static Date subMonths(final Date date, int amount) {
+        return DateUtils.addMonths(date, -amount);
+    }
+
+    /**
+     * 加一周
+     */
+    public static Date addWeeks(final Date date, int amount) {
+        return DateUtils.addWeeks(date, amount);
+    }
+
+    /**
+     * 减一周
+     */
+    public static Date subWeeks(final Date date, int amount) {
+        return DateUtils.addWeeks(date, -amount);
+    }
+
+    /**
+     * 加一天
+     */
+    public static Date addDays(final Date date, final int amount) {
+        return DateUtils.addDays(date, amount);
+    }
+
+    /**
+     * 减一天
+     */
+    public static Date subDays(final Date date, int amount) {
+        return DateUtils.addDays(date, -amount);
+    }
+
+    /**
+     * 加一小时
+     */
+    public static Date addHours(final Date date, int amount) {
+        return DateUtils.addHours(date, amount);
+    }
+
+    /**
+     * 减一小时
+     */
+    public static Date subHours(final Date date, int amount) {
+        return DateUtils.addHours(date, -amount);
+    }
+
+    /**
+     * 加一分钟
+     */
+    public static Date addMinutes(final Date date, int amount) {
+        return DateUtils.addMinutes(date, amount);
+    }
+
+    /**
+     * 减一分钟
+     */
+    public static Date subMinutes(final Date date, int amount) {
+        return DateUtils.addMinutes(date, -amount);
+    }
+
+    /**
+     * 加一秒.
+     */
+    public static Date addSeconds(final Date date, int amount) {
+        return DateUtils.addSeconds(date, amount);
+    }
+
+    /**
+     * 减一秒.
+     */
+    public static Date subSeconds(final Date date, int amount) {
+        return DateUtils.addSeconds(date, -amount);
     }
 
 
