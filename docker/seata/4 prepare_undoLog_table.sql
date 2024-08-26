@@ -43,7 +43,7 @@ ALTER TABLE `undo_log`
 
 # ------------------------------------------------------------------------------
 #CREATE DATABASE if not exists ace_cloud;
-USE ace_cloud;
+USE ace_module;
 
 -- for AT mode you must to init this sql for you business database. the seata server not need it.
 CREATE TABLE IF NOT EXISTS `undo_log`

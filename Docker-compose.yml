@@ -71,6 +71,7 @@ services:
       --ui
       --node=consul-3
     depends_on:
+      - consul-1
       - consul-2
     networks:
       ace-network:
@@ -82,7 +83,7 @@ services:
     hostname: mysql8
     restart: always
     environment:
-    #  MYSQL_DATABASE: ace
+      # MYSQL_DATABASE: AceCloud
       MYSQL_USER: garlam
       MYSQL_PASSWORD: root
       MYSQL_ROOT_PASSWORD: root
@@ -164,6 +165,7 @@ services:
       - consul-1
       - consul-2
       - consul-3
+      - mysql8
       - zipkin
     networks:
       - ace-network
@@ -176,11 +178,12 @@ services:
     hostname: ace-client
     # restart: always
     ports:
-      - 80:8090
+      - 60:8099
     depends_on:
       - consul-1
       - consul-2
       - consul-3
+      - ace-gateway
       - zipkin
     networks:
       - ace-network
