@@ -49,11 +49,11 @@ public class AceGlobalFilter implements GlobalFilter, Ordered {
         return chain.filter(exchange).then(Mono.fromRunnable(() -> {
             Long beginVisitTime = exchange.getAttribute(BEGIN_VISIT_TIME);
             if (beginVisitTime != null) {
-                log.info("访问接口主机：" + exchange.getRequest().getURI().getHost());
-                log.info("访问接口端口：" + exchange.getRequest().getURI().getPort());
-                log.info("访问接口URL：" + exchange.getRequest().getURI().getPath());
-                log.info("访问接口URL后面参数：" + exchange.getRequest().getURI().getRawQuery());
-                log.info("访问接口时长：" + (System.currentTimeMillis() - beginVisitTime) + "毫秒");
+                log.info("访问接口主机：{}", exchange.getRequest().getURI().getHost());
+                log.info("访问接口端口：{}", exchange.getRequest().getURI().getPort());
+                log.info("访问接口URL：{}", exchange.getRequest().getURI().getPath());
+                log.info("访问接口URL后面参数：{}", exchange.getRequest().getURI().getRawQuery());
+                log.info("访问接口时长：{}毫秒", System.currentTimeMillis() - beginVisitTime);
                 System.out.println();
             }
         }));

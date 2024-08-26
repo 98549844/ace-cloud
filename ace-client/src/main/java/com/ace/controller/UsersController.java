@@ -37,6 +37,7 @@ public class UsersController {
     @GetMapping(value = "/userGenerator")
     public RespData userGenerator() {
         log.info("生成默认用户");
+        //如果报错, 表示数据已经存在, 无需重复生成
         RespData respData = usersApi.userGenerator();
         return respData;
     }
