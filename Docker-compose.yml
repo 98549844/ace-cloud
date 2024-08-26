@@ -183,6 +183,7 @@ services:
       - consul-1
       - consul-2
       - consul-3
+      - mysql8
       - ace-gateway
       - zipkin
     networks:
@@ -222,8 +223,8 @@ services:
       - consul-2
       - consul-3
       - mysql8
-      - zipkin
       - ace-gateway
+      - zipkin
     networks:
       - ace-network
 
@@ -244,8 +245,8 @@ services:
       - consul-2
       - consul-3
       - mysql8
-      - zipkin
       - ace-gateway
+      - zipkin
     networks:
       - ace-network
 
@@ -266,8 +267,8 @@ services:
       - consul-2
       - consul-3
       - mysql8
-      - zipkin
       - ace-gateway
+      - zipkin
     networks:
       - ace-network
 
