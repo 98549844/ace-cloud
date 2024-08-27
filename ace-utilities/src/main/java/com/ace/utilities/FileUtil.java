@@ -829,9 +829,9 @@ public class FileUtil {
         return isEquals;
     }
 
-    private static String getMD5(File file) {
+    public static String getMD5(File file) {
         MessageDigest digest;
-        FileInputStream in = null;
+        FileInputStream in;
         byte[] buffer = new byte[8192];
         int len;
         try {
