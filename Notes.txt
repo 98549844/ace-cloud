@@ -1,3 +1,7 @@
+https://www.bilibili.com/video/BV1gW421P7RD/?buvid=Z2429B2FE427C7BC4EAFA75EB329A29C20E0&is_story_h5=false&mid=W9zOMNof9JAMVrxJH6%2B2vw%3D%3D&p=1&plat_id=116&share_from=ugc&share_medium=iphone&share_plat=ios&share_session_id=AE990372-56A9-48E6-99EF-F6F144B978FF&share_source=COPY&share_tag=s_i&spmid=united.player-video-detail.0.0&timestamp=1724689187&unique_k=ygZzork&up_id=302417610&vd_source=442acae632b12b1e4918201eb3d30567
+【尚硅谷2024最新SpringCloud教程，springcloud从入门到大牛-哔哩哔哩】 https://b23.tv/ygZzork
+
+
 1.  consul =>       1. 服务注册和发现
                     2. config动态配置管理
 
