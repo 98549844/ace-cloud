@@ -45,7 +45,7 @@
         <dependency>
             <groupId>net.sourceforge.tess4j</groupId>
             <artifactId>tess4j</artifactId>
-            <version>5.12.0</version>
+            <version>5.13.0</version>
             <exclusions>
                 <exclusion>
                     <artifactId>slf4j-api</artifactId>
@@ -161,13 +161,13 @@
         <dependency>
             <groupId>org.apache.ant</groupId>
             <artifactId>ant</artifactId>
-            <version>1.10.14</version>
+            <version>1.10.15</version>
         </dependency>
         <!-- for 7z compression and decompression-->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
-            <version>1.26.2</version>
+            <version>1.27.1</version>
             <exclusions>
                 <exclusion>
                     <artifactId>commons-io</artifactId>
@@ -213,7 +213,7 @@
         <dependency>
             <groupId>org.xhtmlrenderer</groupId>
             <artifactId>flying-saucer-pdf</artifactId>
-            <version>9.9.0</version>
+            <version>9.9.1</version>
         </dependency>
         <dependency>
             <groupId>org.xhtmlrenderer</groupId>
@@ -243,7 +243,7 @@
         <dependency>
             <groupId>com.github.oshi</groupId>
             <artifactId>oshi-core</artifactId>
-            <version>6.6.2</version>
+            <version>6.6.3</version>
             <exclusions>
                 <exclusion>
                     <artifactId>slf4j-api</artifactId>
