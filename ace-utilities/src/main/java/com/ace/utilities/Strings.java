@@ -1,5 +1,7 @@
 package com.ace.utilities;
 
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -7,8 +9,6 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.commons.codec.binary.Base64;
 
 
 //@SuppressWarnings("unchecked")
@@ -20,20 +20,52 @@ public class Strings {
 
     /**
      * 带占位符功能的string工具
-     * "My name is {0} and I am {1} years old." , "John" , 25
+     * "My name is {} and I am {} years old." , "John" , 25
      *
-     * @param msg
+     * @param content
      * @param param
      * @return
      */
-    public static String fmt(String msg, Object... param) {
+    public static String fmt(StringBuilder content, Object... param) {
+        int count = StringUtils.countMatches(content, "{}");
+        if (count != param.length) {
+            throw new RuntimeException("placeholder not matched");
+        }
+        int i = 0;
+        while (content.toString().contains("{}")) {
+            int prefix = content.indexOf("{");
+            int suffix = content.indexOf("}");
+            if (!(param[i] instanceof String)) {
+                param[i] = String.valueOf(param[i]).replace(",", "");
+            }
+            content.replace(prefix, suffix + 1, param[i].toString());
+            ++i;
+        }
+        return content.toString();
+    }
+
+    /**
+     * 带占位符功能的string工具
+     * "My name is {0} and I am {1} years old." , "John" , 25
+     * 同时支持
+     * "My name is {} and I am {} years old." , "John" , 25
+     * 但两种占位符不能混用
+     *
+     * @param content
+     * @param param
+     * @return
+     */
+    public static String fmt(String content, Object... param) {
+        if (content.contains("{}")) {
+            return fmt(new StringBuilder(content), param);
+        }
         int length = param.length;
         for (int i = 0; i < length; i++) {
             if (!(param[i] instanceof String)) {
                 param[i] = String.valueOf(param[i]).replace(",", "");
             }
         }
-        return MessageFormat.format(msg, param);
+        return MessageFormat.format(content, param);
     }
 
     /**

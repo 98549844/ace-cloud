@@ -80,10 +80,10 @@ public class Console {
     }
 
 
-    private static String FMT(String txt, int... codes) {
+    private static String FMT(String txt, Integer... codes) {
         StringBuffer sb = new StringBuffer();
         for (int code : codes) {
-            sb.append(code + ";");
+            sb.append(code).append(";");
         }
         String code = sb.toString();
         if (code.endsWith(";")) {
@@ -95,14 +95,30 @@ public class Console {
     /**
      * 打印不换行
      */
-    public static void print(String txt, int... codes) {
+    public static void print(String txt, Integer... codes) {
         System.out.print(FMT(txt, codes));
+    }
+
+    /**
+     * 打印不换行, 默认粗体
+     */
+    public static void print(String txt) {
+        System.out.print(FMT(txt, BOLD));
+    }
+
+    /**
+     * 打印不换行, 默认粗体
+     * 支持占位符功能, 不支持颜色变化
+     */
+    public static void print(String txt, Object... args) {
+        String content = Strings.fmt(txt, args);
+        System.out.print(FMT(content, BOLD));
     }
 
     /**
      * 打印并换行
      */
-    public static void println(String txt, int... codes) {
+    public static void println(String txt, Integer... codes) {
         System.out.println(FMT(txt, codes));
     }
 
@@ -114,9 +130,18 @@ public class Console {
     }
 
     /**
+     * 默认打印粗體文字
+     * 支持占位符功能, 不支持颜色变化
+     */
+    public static void println(String txt, Object... args) {
+        String content = Strings.fmt(txt, args);
+        System.out.println(FMT(content, BOLD));
+    }
+
+
+    /**
      * 执行command
      *
-     * @param command
      * @return
      * @throws IOException
      */
@@ -130,7 +155,7 @@ public class Console {
                 result.append(line).append(PathUtil.newLine());
             }
         } catch (Exception e) {
-            // e.printStackTrace();
+            e.printStackTrace();
             String message = e.getMessage();
             log.error(message);
             return message;
