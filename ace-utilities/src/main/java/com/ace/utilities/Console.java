@@ -50,7 +50,7 @@ public class Console {
      */
     public static void printConsoleColor() {
         Console.println("default");
-        Console.println("白色粗体",Console.BOLD);
+        Console.println("白色粗体", Console.BOLD);
         Console.println("黑色 Console.BLACK", Console.BLACK);
         Console.println("白色 Console.WHITE", Console.WHITE);
         Console.println("红色 Console.RED", Console.RED);
@@ -107,13 +107,15 @@ public class Console {
     }
 
     /**
-     * 默认打印粗體白色文字
+     * 默认打印粗體文字
      */
     public static void println(String txt) {
-        System.out.println(FMT(txt, WHITE, BOLD));
+        System.out.println(FMT(txt, BOLD));
     }
 
-    /** 执行command
+    /**
+     * 执行command
+     *
      * @param command
      * @return
      * @throws IOException
