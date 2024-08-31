@@ -138,6 +138,10 @@ public class Console {
         System.out.println(FMT(content, BOLD));
     }
 
+    public static void println() {
+        System.out.println();
+    }
+
 
     /**
      * 执行command
