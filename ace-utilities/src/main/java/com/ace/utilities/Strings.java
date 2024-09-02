@@ -73,17 +73,17 @@ public class Strings {
      * <p>
      * "My name is {0} and I am {1} years old." , "John" , 25
      *
-     * @param msg
+     * @param content
      * @param param
      * @return
      */
-    public static String fmt(String msg, List<Object> param) {
+    public static String fmt(String content, List<Object> param) {
         int size = param.size();
         Object[] arr = new Object[size];
         for (int i = 0; i < size; i++) {
             arr[i] = param.get(i);
         }
-        return MessageFormat.format(msg, arr);
+        return MessageFormat.format(content, arr);
     }
 
     /**
