@@ -130,6 +130,13 @@ public class Console {
     }
 
     /**
+     * 默认打印粗體數字
+     */
+    public static void println(Integer txt) {
+        System.out.println(FMT(String.valueOf(txt), BOLD));
+    }
+
+    /**
      * 默认打印粗體文字
      * 支持占位符功能, 不支持颜色变化
      */
