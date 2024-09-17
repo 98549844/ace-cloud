@@ -32,7 +32,10 @@ public class FastJson2Util {
      * @return
      */
     public static String formatFastJson2(String json) {
-        return JSON.toJSONString(json, JSONWriter.Feature.PrettyFormat, JSONWriter.Feature.WriteMapNullValue, JSONWriter.Feature.WriteNulls);
+        return JSON.toJSONString(json,
+                JSONWriter.Feature.PrettyFormat,
+                JSONWriter.Feature.WriteMapNullValue,
+                JSONWriter.Feature.WriteNulls);
     }
 
     /**
