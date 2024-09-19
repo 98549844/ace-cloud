@@ -95,7 +95,8 @@ public class FTPUtil {
                 log.info("FTP连接成功!");
             }
         } catch (Exception e) {
-            log.info("登陆FTP失败,请检查FTP相关配置信息是否正确!" + e);
+            e.printStackTrace();
+            log.error("登陆FTP失败,请检查FTP相关配置信息是否正确! {}", e.getMessage());
             return null;
         }
         return ftpClient;
@@ -230,7 +231,6 @@ public class FTPUtil {
     private boolean uploadFile(FTPClient ftpClient, String remoteDir, String fileName, InputStream inputStream) {
         boolean result = true;
         try {
-            log.info("开始上传文件");
             ftpClient.setFileType(ftpClient.BINARY_FILE_TYPE);
             makeDirectories(ftpClient, remoteDir);
             ftpClient.makeDirectory(remoteDir);
@@ -240,7 +240,7 @@ public class FTPUtil {
             ftpClient.logout();
             log.info("上传文件成功");
         } catch (Exception e) {
-            log.error("上传文件失败" + e);
+            log.error("上传文件失败{}", e.getMessage());
         } finally {
             try {
                 if (ftpClient.isConnected()) {
@@ -264,10 +264,10 @@ public class FTPUtil {
         try {
             flag = ftpClient.changeWorkingDirectory(directory);
             if (flag) {
-                log.info("进入文件夹" + directory + " 成功!");
+                log.info("进入文件夹{} 成功!", directory);
 
             } else {
-                log.info("进入文件夹" + directory + " 失败!开始创建文件夹");
+                log.info("进入文件夹{} 失败!开始创建文件夹", directory);
             }
         } catch (IOException ioe) {
             ioe.printStackTrace();
@@ -290,7 +290,7 @@ public class FTPUtil {
             }
             end = directory.indexOf("/", start);
             String path = "";
-            String paths = "";
+            StringBuilder paths = new StringBuilder();
             do {
                 String subDirectory = new String(remote.substring(start, end).getBytes("GBK"), "iso-8859-1");
                 path = path + "/" + subDirectory;
@@ -305,7 +305,7 @@ public class FTPUtil {
                     changeWorkingDirectory(ftpClient, subDirectory);
                 }
 
-                paths = paths + "/" + subDirectory;
+                paths.append("/").append(subDirectory);
                 start = end + 1;
                 end = directory.indexOf("/", start);
                 // 检查所有目录是否创建完毕
@@ -330,9 +330,9 @@ public class FTPUtil {
         try {
             flag = ftpClient.makeDirectory(dir);
             if (flag) {
-                log.info("创建文件夹" + dir + " 成功!");
+                log.info("创建文件夹{} 成功!", dir);
             } else {
-                log.info("创建文件夹" + dir + " 失败!");
+                log.info("创建文件夹{} 失败!", dir);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -360,7 +360,7 @@ public class FTPUtil {
                 }
             }
         } catch (IOException e) {
-            log.error("错误" + e);
+            log.error("错误: {}", e.getMessage());
         }
         return list;
     }
