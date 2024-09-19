@@ -21,22 +21,23 @@ import java.util.regex.Pattern;
  * @Description:
  */
 
-
+//https://blog.csdn.net/qq_41243828/article/details/135340453
+//https://blog.csdn.net/qq_38322527/article/details/128741450
 //https://filezilla-project.org/
-//build filezilla FTp server
+//build filezilla FTP server
 //@Component 没有springboot
 public class FTPUtil {
     private static final Logger log = LogManager.getLogger(FTPUtil.class.getName());
 
     //读取properties value
     // @Value("${cw.ftp.host}")
-    private String host = "192.168.2.75";
+    private String host = "192.168.10.215";
     // @Value("${cw.ftp.username}")
-    private String username = "garlam";
+    private String username = "crushftpadmin";
     // @Value("${cw.ftp.password}")
-    private String password = "P@ssw0rd";
+    private String password = "0C6#!/[a";
     // @Value("${cw.ftp.port}")
-    private int port = 21;
+    private int port = 4434;
     // @Value("${cw.ftp.path}")
     private final String path = "./";
 
