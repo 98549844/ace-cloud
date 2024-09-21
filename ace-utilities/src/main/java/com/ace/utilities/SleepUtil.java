@@ -1,5 +1,6 @@
 package com.ace.utilities;
 
+import com.ace.utilities.datetime.DateUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -20,7 +21,7 @@ public class SleepUtil {
 
     public static void main(String[] args) throws ParseException, InterruptedException {
         while (true) {
-            DateTimeUtil.printCurrentDateTime();
+            DateUtil.printCurrentDate();
             SleepUtil.sleep(1);
         }
     }

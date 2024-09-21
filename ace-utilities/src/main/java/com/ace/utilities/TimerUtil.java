@@ -1,5 +1,6 @@
 package com.ace.utilities;
 
+import com.ace.utilities.datetime.DateUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,7 +29,7 @@ public class TimerUtil {
      */
     public void calc(long start, long end) {
         Long result = end - start;
-        DateTimeUtil.printDateTime(result);
+        DateUtil.printDateTime(result);
     }
 
     /** 比较start和现在的时间差
@@ -36,7 +37,7 @@ public class TimerUtil {
      */
     public void calc(long start) {
         Long result = System.currentTimeMillis() - start;
-        DateTimeUtil.printDateTime(result);
+        DateUtil.printDateTime(result);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.ace.utilities;
+package com.ace.utilities.datetime;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,8 +20,8 @@ import static java.time.format.DateTimeFormatter.ofPattern;
  */
 
 
-public class DateUtil {
-    private static final Logger log = LogManager.getLogger(DateUtil.class.getName());
+public class LocalDateUtil {
+    private static final Logger log = LogManager.getLogger(LocalDateUtil.class.getName());
 
     public static String DATE_PATTERN_yyyyMMdd = "yyyy-MM-dd";
 
