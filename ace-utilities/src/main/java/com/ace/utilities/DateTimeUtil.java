@@ -14,13 +14,16 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static java.time.format.DateTimeFormatter.ofPattern;
 
 
 public class DateTimeUtil {
     private static final Logger log = LogManager.getLogger(DateTimeUtil.class.getName());
-    public static String DATE_PATTERN = "yyyy-MM-dd";
-    public static String DATETIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
-    public static String DATETIME2_PATTERN = "yyyy-MM-dd HH:mm:ss SSSS";
+    public static String DATETIME_PATTERN_yyyyMMddHHmmss = "yyyy-MM-dd HH:mm:ss";
+    public static String DATETIME_PATTERN_yyyyMMddHHmmssSSS = "yyyy-MM-dd HH:mm:ss SSSS";
 
     public static void main(String[] args) {
         System.out.println(getUsedDateTime(System.currentTimeMillis()));
@@ -49,6 +52,11 @@ public class DateTimeUtil {
         return cal.toGregorianCalendar().getTime();
     }
 
+    /**
+     * 打印date
+     *
+     * @param time
+     */
     public static void printDateTime(Object time) {
         Date date = null;
         if (time instanceof Long) {
@@ -62,42 +70,41 @@ public class DateTimeUtil {
             System.out.println("input parameter not require");
         }
 
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSSS");
+        SimpleDateFormat formatter = new SimpleDateFormat(DATETIME_PATTERN_yyyyMMddHHmmssSSS);
         System.out.println(formatter.format(date));
     }
 
     public static void printCurrentDateTime() {
         Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSSS");
-        System.out.println(formatter.format(date));
+        SimpleDateFormat formatter = new SimpleDateFormat(DATETIME_PATTERN_yyyyMMddHHmmss);
+        log.info("时间：{}", formatter.format(date));
     }
 
     public static String getCurrentDateTime() {
         Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSSS");
+        SimpleDateFormat formatter = new SimpleDateFormat(DATETIME_PATTERN_yyyyMMddHHmmssSSS);
         String formattedDate = formatter.format(date);
-        System.out.println(formattedDate);
         return formattedDate;
     }
 
     public static String getCurrentDateTimeAsFileName() {
         Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd-HHmmss");
+        SimpleDateFormat formatter = new SimpleDateFormat(DATETIME_PATTERN_yyyyMMddHHmmssSSS);
         return formatter.format(date);
     }
 
-    public static String getDateTime(Timestamp timestamp) {
+    public static String toLocalDateTimeString(Timestamp timestamp) {
         // 使用toLocalDateTime()方法将Timestamp转换为LocalDateTime
         LocalDateTime dateTime = timestamp.toLocalDateTime();
         // 将LocalDateTime格式化为字符串
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = ofPattern(DATETIME_PATTERN_yyyyMMddHHmmssSSS);
         String formattedDateTime = formatter.format(dateTime);
         System.out.println("Timestamp: " + timestamp);
-        System.out.println("DateTime: " + formattedDateTime);
+        System.out.println("LocalDateTime: " + formattedDateTime);
         return formattedDateTime;
     }
 
-    public static Date getDate(Timestamp timestamp) {
+    public static Date toDate(Timestamp timestamp) {
         // 使用toInstant()方法将Timestamp转换为Instant
         Instant instant = timestamp.toInstant();
         // 使用Date.from()方法将Instant转换为Date
@@ -132,7 +139,7 @@ public class DateTimeUtil {
      * @param time
      * @return
      */
-    public static String getTime(Long time) {
+    public static String getTimeString(Long time) {
         Date date = new Date(time);
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss SSSS");
         return formatter.format(date);
@@ -142,9 +149,9 @@ public class DateTimeUtil {
      * @param time
      * @return
      */
-    public static String getDateTime(Long time) {
+    public static String getDateTimeString(Long time) {
         Date date = new Date(time);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSSS");
+        SimpleDateFormat formatter = new SimpleDateFormat(DATETIME_PATTERN_yyyyMMddHHmmssSSS);
         return formatter.format(date);
     }
 
@@ -172,7 +179,7 @@ public class DateTimeUtil {
     public static String getUsedDateTime(Long time) {
         TimeZone timeZone = TimeZone.getTimeZone("GMT+8");
         Date date = new Date(time - timeZone.getRawOffset());
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSSS");
+        SimpleDateFormat formatter = new SimpleDateFormat(DATETIME_PATTERN_yyyyMMddHHmmssSSS);
         return formatter.format(date);
     }
 
@@ -332,11 +339,11 @@ public class DateTimeUtil {
 
 
     /**
-     * 方法名：getStartDayOfWeekNo
-     * 功能：某周的开始日期
+     * 方法名:getStartDayOfWeekNo
+     * 功能:某周的开始日期, 以星期一开始
      */
     public static String getStartDayOfWeekNo(int year, int weekNo) {
-        Calendar cal = getCalendar(year);
+        Calendar cal = toCalendar(year);
         cal.set(Calendar.WEEK_OF_YEAR, weekNo);
         String month = (cal.get(Calendar.MONTH) + 1) < 10 ? "0" + (cal.get(Calendar.MONTH) + 1) : String.valueOf(cal.get(Calendar.MONTH) + 1);
         String day = cal.get(Calendar.DAY_OF_MONTH) < 10 ? "0" + cal.get(Calendar.DAY_OF_MONTH) : String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
@@ -344,11 +351,11 @@ public class DateTimeUtil {
     }
 
     /**
-     * 方法名：getEndDayOfWeekNo
-     * 功能：某周的结束日期
+     * 方法名:getEndDayOfWeekNo
+     * 功能:某周的结束日期, 以星期日结束
      */
     public static String getEndDayOfWeekNo(int year, int weekNo) {
-        Calendar cal = getCalendar(year);
+        Calendar cal = toCalendar(year);
         cal.set(Calendar.WEEK_OF_YEAR, weekNo);
         cal.add(Calendar.DAY_OF_WEEK, 6);
         String month = (cal.get(Calendar.MONTH) + 1) < 10 ? "0" + (cal.get(Calendar.MONTH) + 1) : String.valueOf(cal.get(Calendar.MONTH) + 1);
@@ -356,27 +363,13 @@ public class DateTimeUtil {
         return cal.get(Calendar.YEAR) + month + day;
     }
 
-    private static Calendar getCalendar(int year) {
+    private static Calendar toCalendar(int year) {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         cal.set(Calendar.YEAR, year);
         return cal;
     }
 
-    /**
-     * 方法名：getFirstDayOfMonth
-     * 功能：获取某月的第一天
-     */
-    public static String getFirstDayOfMonth(int year, int month) {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, year);
-        cal.set(Calendar.MONTH, month - 1);
-        int firstDay = cal.getMinimum(Calendar.DATE);
-        cal.set(Calendar.DAY_OF_MONTH, firstDay);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Console.println(sdf.format(cal.getTime()));
-        return sdf.format(cal.getTime());
-    }
 
     /**
      * 方法名：getLastDayOfMonth
@@ -394,21 +387,15 @@ public class DateTimeUtil {
     }
 
 
-    public static void printSimpleDate(Date date) {
+    public static void printSimpleDateTime(Date date) {
         if (NullUtil.isNull(date)) {
             date = new Date();
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat(DATETIME_PATTERN_yyyyMMddHHmmss);
         String dateformat = sdf.format(date);
         log.info("时间：{}", dateformat);
     }
 
-    public static void printCurrentDate() {
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String dateformat = sdf.format(date);
-        log.info("时间：{}", dateformat);
-    }
 
     private static Duration getDuration(LocalDateTime start, LocalDateTime end) {
         if (NullUtil.isNull(start, end)) {
@@ -528,14 +515,24 @@ public class DateTimeUtil {
         return years;
     }
 
-    public static LocalDateTime toLocalDate(String dateTimeString) throws Exception {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATETIME_PATTERN);
-        LocalDateTime dateTime = null;
-        try {
-            dateTime = formatter.parse(dateTimeString + " 00:00:00", LocalDateTime::from);
-        } catch (DateTimeParseException e) {
-            System.out.println("Failed to parse date and time: " + e.getMessage());
+    public static LocalDateTime toLocalDateTime(String localDateTimeString) {
+        DateTimeFormatter formatter = ofPattern(DATETIME_PATTERN_yyyyMMddHHmmss);
+        String dateTimeRegex = "\\b\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}\\b";
+        Pattern pattern = Pattern.compile(dateTimeRegex);
+        Matcher matcher = pattern.matcher(localDateTimeString);
+
+        if (matcher.find()) {
+            LocalDateTime localDateTime = LocalDateTime.parse(localDateTimeString, formatter);
+            return localDateTime;
+        } else {
+            throw new DateTimeParseException("日期时间格式不匹配", localDateTimeString, 0);
         }
-        return dateTime;
     }
+
+    public static String toLocalDateTimeString(LocalDateTime localDateTime) {
+        return localDateTime.format(DateTimeFormatter.ofPattern(DATETIME_PATTERN_yyyyMMddHHmmss));
+
+    }
+
+
 }

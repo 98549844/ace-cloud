@@ -20,7 +20,7 @@ public class SleepUtil {
 
     public static void main(String[] args) throws ParseException, InterruptedException {
         while (true) {
-            DateTimeUtil.printCurrentDate();
+            DateTimeUtil.printCurrentDateTime();
             SleepUtil.sleep(1);
         }
     }

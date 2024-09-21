@@ -5,9 +5,12 @@ import org.apache.logging.log4j.Logger;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.WeekFields;
 import java.util.*;
+
+import static java.time.format.DateTimeFormatter.ofPattern;
 
 /**
  * @Classname: DateUtil
@@ -20,10 +23,53 @@ import java.util.*;
 public class DateUtil {
     private static final Logger log = LogManager.getLogger(DateUtil.class.getName());
 
+    public static String DATE_PATTERN_yyyyMMdd = "yyyy-MM-dd";
+
+
     public static void main(String[] args) {
         System.out.println(getCurrentDate());
         System.out.println(getFirstDayOfCurrentMonth());
         System.out.println(getLastDayOfCurrentMonth());
+    }
+
+    /** 获取当月月份天数
+     * @return
+     */
+    public static int getCurrenMonthDays() {
+        LocalDate currentDate = LocalDate.now();
+        int daysInMonth = currentDate.lengthOfMonth();
+        System.out.println("当前月份的天数: " + daysInMonth);
+        return daysInMonth;
+    }
+
+    /** 获取月份天数
+     * @param localDate
+     * @return
+     */
+    public static int getMonthDays(LocalDate localDate) {
+        int daysInMonth = localDate.lengthOfMonth();
+        System.out.println("当前月份的天数: " + daysInMonth);
+        return daysInMonth;
+    }
+
+    /** localDate to string
+     * @param localDate
+     * @return
+     */
+    public static String toLocalDateString(LocalDate localDate) {
+        DateTimeFormatter dtf2 = ofPattern(DATE_PATTERN_yyyyMMdd);
+        String localDateString = dtf2.format(localDate);
+        return localDateString;
+    }
+
+    /** string to localDate
+     * @param localDateString
+     * @return
+     */
+    public static LocalDate toLocalDate(String localDateString) {
+        DateTimeFormatter dtf2 = ofPattern(DATE_PATTERN_yyyyMMdd);
+        LocalDate localDate = LocalDate.parse(localDateString, dtf2);
+        return localDate;
     }
 
     /**
