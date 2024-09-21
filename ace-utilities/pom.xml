@@ -12,7 +12,7 @@
     <artifactId>ace-utilities</artifactId>
 
     <properties>
-        <springframework.version>6.1.12</springframework.version>
+        <springframework.version>6.1.13</springframework.version>
         <!--编译文件时用UTF-8-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
@@ -84,7 +84,7 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>5.8.31</version>
+            <version>5.8.32</version>
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
@@ -213,7 +213,7 @@
         <dependency>
             <groupId>org.xhtmlrenderer</groupId>
             <artifactId>flying-saucer-pdf</artifactId>
-            <version>9.9.1</version>
+            <version>9.9.4</version>
         </dependency>
         <dependency>
             <groupId>org.xhtmlrenderer</groupId>
@@ -243,7 +243,7 @@
         <dependency>
             <groupId>com.github.oshi</groupId>
             <artifactId>oshi-core</artifactId>
-            <version>6.6.3</version>
+            <version>6.6.4</version>
             <exclusions>
                 <exclusion>
                     <artifactId>slf4j-api</artifactId>
@@ -254,7 +254,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>easyexcel</artifactId>
-            <version>4.0.2</version>
+            <version>4.0.3</version>
             <exclusions>
                 <exclusion>
                     <artifactId>commons-io</artifactId>
@@ -281,7 +281,7 @@
         <dependency>
             <groupId>com.alibaba.fastjson2</groupId>
             <artifactId>fastjson2</artifactId>
-            <version>2.0.52</version>
+            <version>2.0.53</version>
         </dependency>
     </dependencies>
 
