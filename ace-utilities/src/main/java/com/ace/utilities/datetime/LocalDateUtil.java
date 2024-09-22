@@ -1,5 +1,6 @@
 package com.ace.utilities.datetime;
 
+import com.ace.utilities.NullUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,7 +33,9 @@ public class LocalDateUtil {
         System.out.println(getLastDayOfCurrentMonth());
     }
 
-    /** 获取当月月份天数
+    /**
+     * 获取当月月份天数
+     *
      * @return
      */
     public static int getCurrenMonthDays() {
@@ -42,7 +45,9 @@ public class LocalDateUtil {
         return daysInMonth;
     }
 
-    /** 获取月份天数
+    /**
+     * 获取月份天数
+     *
      * @param localDate
      * @return
      */
@@ -52,7 +57,9 @@ public class LocalDateUtil {
         return daysInMonth;
     }
 
-    /** localDate to string
+    /**
+     * localDate to string
+     *
      * @param localDate
      * @return
      */
@@ -62,7 +69,9 @@ public class LocalDateUtil {
         return localDateString;
     }
 
-    /** string to localDate
+    /**
+     * string to localDate
+     *
      * @param localDateString
      * @return
      */
@@ -157,6 +166,13 @@ public class LocalDateUtil {
     public static Map<Integer, List<LocalDate>> countWeeks(LocalDate startDate, LocalDate endDate) {
         LocalDate monday = getMonday(startDate);
         final LocalDate friday = getFriday(endDate);
+        if (NullUtil.isNull(startDate, endDate)) {
+            throw new NullPointerException("startDate or endDate is null");
+        } else if (monday.isAfter(friday)) {
+            log.error("startDate: {} is after endDate: {}", startDate, endDate);
+            return new HashMap<>();
+        }
+
         Integer key = 1;
         Map<Integer, List<LocalDate>> result = new HashMap<>();
         while (getFriday(monday).isBefore(friday) || getFriday(monday).isEqual(friday)) {
