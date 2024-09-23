@@ -25,12 +25,21 @@ public class LocalDateUtil {
     private static final Logger log = LogManager.getLogger(LocalDateUtil.class.getName());
 
     public static String DATE_PATTERN_yyyyMMdd = "yyyy-MM-dd";
-
+    // 定义 ISO 格式日期时间字符串的格式
+    public static String ISO_DATE_PATTERN_yyyyMMdd = "yyyy-MM-dd'T'HH:mm:ss.SSSX";
 
     public static void main(String[] args) {
         System.out.println(getCurrentDate());
         System.out.println(getFirstDayOfCurrentMonth());
         System.out.println(getLastDayOfCurrentMonth());
+    }
+
+    public static LocalDate isoDateTimeStringToLocalDate(String isoDateTimeString) {
+        // 定义 ISO 格式日期时间字符串的格式
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(ISO_DATE_PATTERN_yyyyMMdd);
+        // 将 ISO 格式的时间字符串转换为 LocalDate 对象
+        LocalDate localDate = LocalDate.parse(isoDateTimeString, formatter);
+        return localDate;
     }
 
     /**
