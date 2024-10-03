@@ -1,13 +1,10 @@
 package com.ace;
 
 
-import com.ace.utilities.FileUtil;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
-import static com.ace.utilities.FileUtil.getFileMap;
+import static com.ace.utilities.ConsoleTable.println;
 
 /**
  * @Classname: ${NAME}
@@ -18,37 +15,24 @@ import static com.ace.utilities.FileUtil.getFileMap;
 public class Main {
     public static void main(String[] args) {
 
+        List<String> header = new ArrayList<>();
+        header.add("application");
+        header.add("external port");
+        header.add("internal port");
+        header.add("protocol");
+        header.add("internal ip");
 
-        String aa = "/Users/garlam/IdeaProjects/ace-cloud/ace-utilities/src/main/resources/file/images/temp/img_cat2.png";
+        List<String[]> body = new ArrayList<>();
+        body.add(new String[]{"openvpn-1194", "1194", "1194","both","192.168.1.100"});
+        body.add(new String[]{"openvpn-943", "943", "943","both","192.168.1.100"});
+        body.add(new String[]{"openvpn-9090", "9090", "1194","both","192.168.1.100"});
 
-        Map<String, String> map = getFileMap(aa);
-        System.out.println(map.get(FileUtil.PATH));
-        System.out.println(map.get(FileUtil.FILENAME_WITH_EXT));
-        System.out.println(map.get(FileUtil.FILENAME));
-        System.out.println(map.get(FileUtil.EXT));
-
+        println(header, body);
 
 
 
     }
 
-    public static Map<String, String> getPathAndFileMap(String f) {
-        int i = f.lastIndexOf(File.separator);
-        String p = f.substring(0, i);
-        String fNameWithExt = f.substring(i + 1); // +1 为了去除分隔符
 
-        String name;
-        String ext;
-        int k = fNameWithExt.lastIndexOf('.');
-        Map<String, String> map = new HashMap<>();
-        if (i > 0 && k < f.length() - 1) {
-            name = fNameWithExt.substring(0, k);
-            ext = fNameWithExt.substring(k);
-            map.put(FileUtil.PATH, p);
-            map.put(FileUtil.FILENAME_WITH_EXT, fNameWithExt);
-            map.put(FileUtil.FILENAME, name);
-            map.put(FileUtil.EXT, ext);
-        }
-        return map;
-    }
+
 }
