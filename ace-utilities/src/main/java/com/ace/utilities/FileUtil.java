@@ -351,13 +351,33 @@ public class FileUtil {
     public static ArrayList<String> getFileNamesWithExt(String path) {
         path = getParent(path);
         log.info("Folder: {}", path);
-
         ArrayList<String> files = new ArrayList<>();
         File file = new File(path);
         File[] fileLists = file.listFiles();
         for (File f : fileLists) {
             if (f.isFile() && !f.getName().equals(".DS_Store")) {
                 files.add(f.getName());//file name
+            }
+        }
+        return files;
+    }
+
+    /**
+     * get map key 和 value 都是file name
+     *
+     *
+     * @param path
+     * @return
+     */
+    public static Map getFileNamesWithExtMap(String path) {
+        path = getParent(path);
+        log.info("Folder: {}", path);
+        Map files = new HashMap();
+        File file = new File(path);
+        File[] fileLists = file.listFiles();
+        for (File f : fileLists) {
+            if (f.isFile() && !f.getName().equals(".DS_Store")) {
+                files.put(f.getName(), f.getName());//file name
             }
         }
         return files;
