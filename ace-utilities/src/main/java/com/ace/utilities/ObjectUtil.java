@@ -7,6 +7,7 @@ import org.springframework.util.StringUtils;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,8 @@ public class ObjectUtil {
 
     private static final String GET_METHOD_PREFIX = "get";
     private static final String SET_METHOD_PREFIX = "set";
+
+
 
     public static <T, E> boolean compareFieldValue(T t, E e, String fieldName) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         if (NullUtil.isNull(t) || NullUtil.isNull(e)) {
@@ -43,6 +46,27 @@ public class ObjectUtil {
         Class<?> clazz = t.getClass();
         Method getMethod = clazz.getMethod(methodName);
         return getMethod.invoke(t);
+    }
+
+    public static List<String> getGetterMethodsName(Class<?> clazz) {
+        List<String> getterNames = new ArrayList<>();
+
+        Method[] methods = clazz.getMethods();
+
+        for (Method method : methods) {
+            if (isGetter(method)) {
+                getterNames.add(method.getName());
+            }
+        }
+
+        return getterNames;
+    }
+
+    private static boolean isGetter(Method method) {
+        return method.getName().startsWith("get") &&
+                method.getParameterCount() == 0 &&
+                !void.class.equals(method.getReturnType()) &&
+                Modifier.isPublic(method.getModifiers());
     }
 
     private static String getMethodNameStartsWithGet(String fieldName) {
@@ -167,12 +191,13 @@ public class ObjectUtil {
     }
 
 
-
-    /** 获取对像内存地址hashCode
+    /**
+     * 获取对像内存地址hashCode
+     *
      * @param object
      * @return
      */
-    public static int getObjectHashAddress(Object object){
+    public static int getObjectHashAddress(Object object) {
         return System.identityHashCode(object);
     }
 
