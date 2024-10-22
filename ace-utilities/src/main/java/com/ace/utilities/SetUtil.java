@@ -29,7 +29,7 @@ public class SetUtil {
         return ls;
     }
 
-    public static <T extends Number> void iterateSet(Set<T> tSet) {
+    public static <T extends Object> void iterateSet(Set<T> tSet) {
         Iterator<T> iterator = tSet.iterator();
         int i = 1;
         while (iterator.hasNext()) {
