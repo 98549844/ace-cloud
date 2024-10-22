@@ -7,7 +7,7 @@ import org.apache.poi.ss.formula.functions.T;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@SuppressWarnings(("unchecked"))
+//@SuppressWarnings(("unchecked"))
 public class SetUtil {
     private static final Logger log = LogManager.getLogger(SetUtil.class.getName());
 
@@ -17,7 +17,7 @@ public class SetUtil {
         return set;
     }
 
-    public static List setToList(Set set) {
+    public static List toList(Set set) {
         List ls = new ArrayList();
         if (NullUtil.isNull(set)) {
             log.error("Set is null");
@@ -46,10 +46,9 @@ public class SetUtil {
         return iterator;
     }
 
-    public static Object getSetFirstValue(Set set) {
+    public static Object getSetFirstValue(Set set) throws Exception {
         if (NullUtil.isNull(set)) {
-            log.error("Set is null");
-            return null;
+            throw new Exception("Set is null");
         }
         return set.iterator().next();
     }
