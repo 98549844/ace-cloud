@@ -23,13 +23,15 @@ public class SetUtil {
             log.error("Set is null");
             return ls;
         }
-        for (Object o : set) {
-            ls.add(o);
-        }
+        ls.addAll(set);
         return ls;
     }
 
-    public static <T extends Object> void iterateSet(Set<T> tSet) {
+    public static Set toSet(List list) {
+        return new HashSet<>(list);
+    }
+
+    public static <T> void iterateSet(Set<T> tSet) {
         Iterator<T> iterator = tSet.iterator();
         int i = 1;
         while (iterator.hasNext()) {
@@ -57,7 +59,9 @@ public class SetUtil {
         return Arrays.deepEquals(new Set[]{set1}, new Set[]{set2});
     }
 
-    /** 检查大小写
+    /**
+     * 检查大小写
+     *
      * @param arr
      * @param target
      * @return
