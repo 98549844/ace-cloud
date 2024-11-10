@@ -117,6 +117,33 @@ public class LocalDateUtil {
         return LocalDate.now().with(TemporalAdjusters.lastDayOfMonth()); // 获取当前月的最后一天
     }
 
+
+    /**
+     * @param year
+     * @param month
+     * @return
+     */
+    public static LocalDate getFirstDayOfMonth(int year, int month) {
+        // 创建该年份和月份的第一天的LocalDate对象
+        return LocalDate.of(year, month, 1);
+    }
+
+    /**
+     * @param year
+     * @param month
+     * @return
+     */
+    public static LocalDate getLastDayOfMonth(int year, int month) {
+        // 创建该年份和月份的第一天的LocalDate对象
+        LocalDate firstDayOfMonth = LocalDate.of(year, month, 1);
+
+        // 获取下个月的第一天，然后减去1天得到该月的最后一天
+        LocalDate firstDayOfNextMonth = firstDayOfMonth.plusMonths(1);
+        return firstDayOfNextMonth.minusDays(1);
+    }
+
+
+
     /**
      * 计算localDate是第几周
      *
