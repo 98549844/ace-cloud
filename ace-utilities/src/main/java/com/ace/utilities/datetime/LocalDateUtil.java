@@ -90,6 +90,25 @@ public class LocalDateUtil {
         return localDate;
     }
 
+
+    public static LocalDate getPrevMonth(LocalDate localDate) {
+        return localDate.minusMonths(1);
+    }
+
+    public static LocalDate getFirstDayOfPrevMonth(LocalDate localDate) {
+        return localDate.minusMonths(1).withDayOfMonth(1);
+    }
+
+    public static LocalDate getNextMonth(LocalDate localDate) {
+        return localDate.plusMonths(1);
+    }
+
+    public static LocalDate getLastDayOfNextMonth(LocalDate localDate) {
+        return localDate.plusMonths(1).with(TemporalAdjusters.lastDayOfMonth());
+    }
+
+
+
     /**
      * 这一刻的localDate
      *
@@ -141,7 +160,6 @@ public class LocalDateUtil {
         LocalDate firstDayOfNextMonth = firstDayOfMonth.plusMonths(1);
         return firstDayOfNextMonth.minusDays(1);
     }
-
 
 
     /**
