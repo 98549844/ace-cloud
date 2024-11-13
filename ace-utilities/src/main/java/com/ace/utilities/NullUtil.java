@@ -59,14 +59,18 @@ public class NullUtil {
 
     public static boolean isNull(Object... objects) {
         for (Object object : objects) {
-            isNull(object);
+            if (isNull(object)) {
+                return true;
+            }
         }
         return false;
     }
 
     public static boolean nonNull(Object... objects) {
         for (Object object : objects) {
-            nonNull(object);
+            if (nonNull(object)) {
+                return true;
+            }
         }
         return false;
     }

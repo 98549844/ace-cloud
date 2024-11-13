@@ -228,6 +228,29 @@ public class Strings {
         return type;
     }
 
+    public static boolean isCn(String n) {
+        char[] chars = n.toCharArray();
+        for (char c : chars) {
+            if (!(c >= 0x0391 && c <= 0xFFE5)) {
+                return false;
+            }
+        }
+        //中文字符
+        return true;
+    }
+
+    public static boolean isEn(String n) {
+        char[] chars = n.toCharArray();
+        for (char c : chars) {
+            if (c > 0x00FF) {
+                return false;
+            }
+        }
+        //英文字符
+        return true;
+    }
+
+
     /**
      * @param source
      * @return
