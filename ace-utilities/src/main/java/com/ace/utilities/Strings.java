@@ -209,29 +209,48 @@ public class Strings {
     /**
      * 检查中英文
      *
-     * @param n
+     * @param c
      * @return
      */
-    public static String isCnOrEn(String n) {
-        String type = null;
+    public static String isCnOrEn(char c) {
+        if (c >= 0x0391 && c <= 0xFFE5) {
+            //中文字符
+            return CN;
+        }
+        if (c <= 0x00FF) {
+            //英文字符
+            return EN;
+        }
+        return null;
+    }
+
+    public static boolean isMixEnCn(String n) throws Exception {
         char[] chars = n.toCharArray();
+        Set<String> result = new HashSet<>();
         for (char c : chars) {
             if (c >= 0x0391 && c <= 0xFFE5) {
                 //中文字符
-                type = CN;
+                result.add(CN);
             }
             if (c <= 0x00FF) {
-                //英文字符
-                type = EN;
+                //英文字符, 包括数字和字符
+                result.add(EN);
             }
         }
-        return type;
+        if (result.size() == 1) {
+            return false;
+        } else if (result.size() == 2) {
+            return true;
+        } else {
+            throw new Exception("undefined String");
+        }
     }
+
 
     public static boolean isCn(String n) {
         char[] chars = n.toCharArray();
         for (char c : chars) {
-            if (!(c >= 0x0391 && c <= 0xFFE5)) {
+            if (c < 0x0391 || c > 0xFFE5) {
                 return false;
             }
         }
