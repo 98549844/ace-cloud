@@ -12,6 +12,11 @@ public class SetUtil {
     private static final Logger log = LogManager.getLogger(SetUtil.class.getName());
 
 
+    public static Object getFirst(Set s) {
+        return s.iterator().next();
+    }
+
+
     public static Set arrayIntToHashSet(int[] nums) {
         Set<Integer> set = Arrays.stream(nums).boxed().collect(Collectors.toSet());
         return set;
