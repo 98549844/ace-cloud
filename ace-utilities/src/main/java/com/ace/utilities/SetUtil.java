@@ -13,7 +13,10 @@ public class SetUtil {
 
 
     public static Object getFirst(Set s) {
-        return s.iterator().next();
+        if (NullUtil.nonNull(s)) {
+            return s.iterator().next();
+        }
+        return null;
     }
 
 
