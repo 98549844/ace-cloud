@@ -17,6 +17,7 @@ public class Strings {
 
     public static String EN = "en";
     public static String CN = "cn";
+    public static String MIX = "mix";
 
     /**
      * 带占位符功能的string工具
@@ -224,10 +225,13 @@ public class Strings {
         return null;
     }
 
-    public static boolean isMixEnCn(String n) throws Exception {
+    public static String isMixEnCn(String n) {
         char[] chars = n.toCharArray();
         Set<String> result = new HashSet<>();
         for (char c : chars) {
+            if (result.size() == 2) {
+                return MIX;
+            }
             if (c >= 0x0391 && c <= 0xFFE5) {
                 //中文字符
                 result.add(CN);
@@ -237,13 +241,7 @@ public class Strings {
                 result.add(EN);
             }
         }
-        if (result.size() == 1) {
-            return false;
-        } else if (result.size() == 2) {
-            return true;
-        } else {
-            throw new Exception("undefined String");
-        }
+        return result.iterator().next();
     }
 
 
