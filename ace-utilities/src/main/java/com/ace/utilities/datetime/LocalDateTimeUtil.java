@@ -1,6 +1,7 @@
 package com.ace.utilities.datetime;
 
 import com.ace.utilities.NullUtil;
+import com.ace.utilities.Strings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -144,7 +145,8 @@ public class LocalDateTimeUtil {
 
     private static Duration getDuration(LocalDateTime start, LocalDateTime end) {
         if (NullUtil.isNull(start, end)) {
-            throw new NullPointerException("Start or End is null");
+            String msg = Strings.fmt("Start: {} || End: {} ", start, end);
+            throw new NullPointerException(msg);
         }
         return Duration.between(start, end);
     }
