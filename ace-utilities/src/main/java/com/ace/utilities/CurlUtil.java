@@ -20,12 +20,9 @@ public class CurlUtil {
     private static final Logger log = LogManager.getLogger(CurlUtil.class.getName());
 
     public static void main(String[] args) {
-        String url = "https://api.github.com/users/octocat";
-        String curl = "https://api.tatum.io/v3/blockchain/fee/ETH";
-        String response = sendGetRequest(url);
-        String response1 = sendGetRequest(curl);
-      //  System.out.println(response);
-        System.out.println(FastJson2Util.formatJson(response1));
+        String curl = "https://www.google.com/";
+        String response = sendGetRequest(curl);
+        System.out.println(response);
     }
 
     public static String sendGetRequest(String url) {
