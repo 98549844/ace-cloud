@@ -12,6 +12,7 @@ import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("unchecked")
@@ -21,6 +22,20 @@ public class ListUtil {
     public final static String LIST_1 = "LIST_1";
     public final static String LIST_2 = "LIST_2";
 
+
+    /**
+     * list转换成map
+     * 入参格式 (Users::getUserId, users)
+     *
+     * @param keyExtractor
+     * @param list
+     * @param <T>
+     * @param <K>
+     * @return
+     */
+    public static <T, K> Map<K, T> toMap(Function<T, K> keyExtractor, List<T> list) {
+        return list.stream().collect(Collectors.toMap(keyExtractor, obj -> obj));
+    }
 
     /** 所有字符串转换成大写
      * @param in

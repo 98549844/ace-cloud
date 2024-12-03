@@ -5,11 +5,28 @@ import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("unchecked")
 public class MapUtil {
     private static final Logger log = LogManager.getLogger(MapUtil.class.getName());
+
+
+    /**
+     * list转换成map
+     * 入参格式 (Users::getUserId, users)
+     *
+     * @param keyExtractor
+     * @param list
+     * @param <T>
+     * @param <K>
+     * @return
+     */
+    public static <T, K> Map<K, T> toMap(Function<T, K> keyExtractor, List<T> list) {
+        return list.stream().collect(Collectors.toMap(keyExtractor, obj -> obj));
+    }
+
 
     public static Map<Object, List<Map.Entry<String, String>>> groupElement(Map<String, String> m) {
         Map<Object, List<Map.Entry<String, String>>> result = m.entrySet().stream().collect(Collectors.groupingBy(c -> c.getValue()));
