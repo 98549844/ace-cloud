@@ -688,13 +688,13 @@ public class FileUtil {
         //boolean isOk = false;
         String type;
         StringBuilder content = null;
-        List<StringBuilder> contentList = new ArrayList<>();
+        List<String> contentList = new ArrayList<>();
         Map contentMap = new HashMap();
         if (obj instanceof String) {
             content = new StringBuilder((String) obj);
             type = STRING;
         } else if (obj instanceof List) {
-            contentList = (List<StringBuilder>) obj;
+            contentList = (List<String>) obj;
             type = LIST;
         } else if (obj instanceof Map<?, ?>) {
             contentMap = (Map) obj;
@@ -724,10 +724,10 @@ public class FileUtil {
                     outputStreamWriter.flush();
                 }
                 case LIST -> {
-                    for (StringBuilder stringBuilder : contentList) {
+                    for (String s : contentList) {
                         // contentInBytes = contentList.get(i).toString().getBytes();
                         // fop.write(contentInBytes);
-                        contentInBytes = stringBuilder.toString();
+                        contentInBytes = s;
                         outputStreamWriter.append(contentInBytes);
                         outputStreamWriter.flush();
                     }

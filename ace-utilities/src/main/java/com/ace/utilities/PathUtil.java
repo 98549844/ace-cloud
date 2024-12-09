@@ -107,7 +107,7 @@ public class PathUtil {
     }
 
     public static String newLine() {
-        return System.getProperty("line.separator");
+        return System.lineSeparator();
     }
 
     public static String getSystemPath(String empty) throws IOException {
