@@ -53,6 +53,20 @@ public class FileUtil {
 
 
     /**
+     * 系统路径分隔符 相当于"/"
+     */
+    public static String separator() {
+        return File.separator;
+    }
+
+    /**
+     * 通用换行符
+     */
+    public static String newLine() {
+        return System.lineSeparator();
+    }
+
+    /**
      * 转半角的函数(DBC case)<br/><br/>
      * 全角空格为12288，半角空格为32
      * 其他字符半角(33-126)与全角(65281-65374)的对应关系是：均相差65248
