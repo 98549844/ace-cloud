@@ -5,7 +5,6 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.poi.hpsf.Decimal;
-import org.apache.poi.ss.formula.functions.T;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -37,14 +36,16 @@ public class ListUtil {
         return list.stream().collect(Collectors.toMap(keyExtractor, obj -> obj));
     }
 
-    /** 所有字符串转换成大写
+    /**
+     * 所有字符串转换成大写
+     *
      * @param in
      * @return
      */
     public static List<String> convertToUpperCase(List<String> in) {
         if (NullUtil.isNull(in)) {
             log.error("List size is 0");
-            return in;
+            throw new NullPointerException();
         }
         List<String> out = new ArrayList<>();
         for (String s : in) {
@@ -53,14 +54,16 @@ public class ListUtil {
         return out;
     }
 
-    /** 所有字符串转换成小写
+    /**
+     * 所有字符串转换成小写
+     *
      * @param in
      * @return
      */
     public static List<String> convertToLowerCase(List<String> in) {
         if (NullUtil.isNull(in)) {
             log.error("List size is 0");
-            return in;
+            throw new NullPointerException();
         }
         List<String> out = new ArrayList<>();
         for (String s : in) {
@@ -83,7 +86,7 @@ public class ListUtil {
      * @param nums
      * @return
      */
-    public static List arrayIntToList(int[] nums) {
+    public static List<Integer> arrayIntToList(int[] nums) {
         return Arrays.asList(ArrayUtils.toObject(nums));
     }
 
@@ -93,7 +96,7 @@ public class ListUtil {
      * @param i
      * @return
      */
-    public static List intArrayToList(int[] i) {
+    public static List<Integer> intArrayToList(int[] i) {
         return Arrays.stream(i).boxed().collect(Collectors.toList());
     }
 
@@ -104,8 +107,8 @@ public class ListUtil {
      * @param ls
      * @return
      */
-    public static boolean isDuplicate(List ls) {
-        HashSet<Integer> hashSet = new HashSet<>(ls);
+    public static <T> boolean isDuplicate(List<T> ls) {
+        HashSet<T> hashSet = new HashSet<>(ls);
         return ls.size() != hashSet.size();
     }
 
@@ -139,7 +142,7 @@ public class ListUtil {
 
 
     //根据长度把list拆分
-    public static List<List<T>> splitList(List<T> list, int len) {
+    public static <T> List<List<T>> splitList(List<T> list, int len) {
         if (NullUtil.isNull(list) || list.isEmpty() || len < 1) {
             return null;
         }
@@ -160,10 +163,10 @@ public class ListUtil {
      * @param list
      * @return
      */
-    public static List<T> removeDuplicate(List<T> list) {
+    public static <T> List<T> removeDuplicate(List<T> list) {
         if (NullUtil.isNull(list)) {
             log.error("list is empty !");
-            return null;
+            throw new NullPointerException();
         }
         Set<T> set = new HashSet<>(list);
         return new ArrayList<>(set);
@@ -261,7 +264,7 @@ public class ListUtil {
      * @param list
      * @return 重复元素list
      */
-    public static List getDuplicated(List list) {
+    public static <T> List getDuplicated(List<T> list) {
         Set<T> listSet = new HashSet<>(list);
         Collection<T> sub = CollectionUtils.subtract(list, listSet);
         HashSet<T> hSet = new HashSet<>(sub);
@@ -400,13 +403,13 @@ public class ListUtil {
 
     //--------------------------------- 下面方法没有double check -----------------------------------------------
 
-/*
+    /*
 
-    */
+     */
 /**
-     * just a sample
-     * need override
-     *//*
+ * just a sample
+ * need override
+ *//*
 
     public static void sortList(List<Users> ls) {
         if (ls == null) {
@@ -442,7 +445,8 @@ public class ListUtil {
     }
 
     */
-/**
+
+    /**
      * just a sample
      * need override
      *//*
@@ -489,7 +493,6 @@ public class ListUtil {
         }
     }
 */
-
     public static String listToString(List list, String separator) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < list.size(); i++) {
@@ -500,7 +503,7 @@ public class ListUtil {
         return result;
     }
 
-    public static List<T> removeElementByIterator(List<T> ls, T removalVal) {
+    public static <T> List<T> removeElementByIterator(List<T> ls, T removalVal) {
         if (NullUtil.isNull(ls)) {
             log.error("List is null");
         }
@@ -513,7 +516,7 @@ public class ListUtil {
         return ls;
     }
 
-    public static List<T> removeElementByLooping(List<T> ls, T removalVal) {
+    public static <T> List<T> removeElementByLooping(List<T> ls, T removalVal) {
         if (NullUtil.isNull(ls)) {
             log.error("List is null");
         } else {
@@ -527,7 +530,7 @@ public class ListUtil {
         return ls;
     }
 
-    public static List<T> removeElementByLoop(List<T> ls, T removalVal) {
+    public static <T> List<T> removeElementByLoop(List<T> ls, T removalVal) {
         if (NullUtil.isNull(ls)) {
             log.error("List is null");
         } else {

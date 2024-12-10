@@ -706,7 +706,6 @@ public class FileUtil {
 
         FileOutputStream fop = null;
         try {
-            log.info("writing start: {}{}", filePath, fileName);
             File file = new File(filePath + fileName);
             if (append) {
                 fop = new FileOutputStream(file, true);
@@ -744,7 +743,6 @@ public class FileUtil {
             outputStreamWriter.close();
             // fop.flush();
             // fop.close();
-            log.info("writing complete !");
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
