@@ -21,12 +21,12 @@ public class ThreadUtil extends Thread {
 
 
     public static void stackTrace() {
-        Console.println("[ ====== start to stack trace ====== ]");
+        log.info("[ ====== start to stack trace ====== ]");
         StackTraceElement[] a = Thread.currentThread().getStackTrace();
         for (int i = 0; i < a.length; i++) {
-            System.out.println(LocalDateTimeUtil.getCurrentDatetime() + "  " + i + ": " + a[i]);
+            log.info("{}: {}", i, a[i]);
         }
-        Console.println("[ ====== end to stack trace ====== ]");
+        log.info("[ ====== end to stack trace ====== ]");
     }
 
     //https://blog.csdn.net/qq_40132294/article/details/134173984
