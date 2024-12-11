@@ -22,7 +22,7 @@ public class ThreadUtil {
     private static final Logger log = LogManager.getLogger(ThreadUtil.class.getName());
 
 
-    public static void printStackTrace() {
+    public static void stackTrace() {
         Console.println("[ ====== start to stack trace ====== ]");
         StackTraceElement[] a = Thread.currentThread().getStackTrace();
         for (int i = 0; i < a.length; i++) {
