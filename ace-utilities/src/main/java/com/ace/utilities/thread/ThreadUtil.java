@@ -1,7 +1,9 @@
-package com.ace.utilities.multiThread;
+package com.ace.utilities.thread;
 
+import com.ace.utilities.Console;
 import com.ace.utilities.RandomUtil;
 import com.ace.utilities.SleepUtil;
+import com.ace.utilities.datetime.LocalDateTimeUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,6 +18,16 @@ import org.apache.logging.log4j.Logger;
 
 public class ThreadUtil extends Thread {
     private static final Logger log = LogManager.getLogger(ThreadUtil.class.getName());
+
+
+    public static void stackTrace() {
+        Console.println("[ ====== start to stack trace ====== ]");
+        StackTraceElement[] a = Thread.currentThread().getStackTrace();
+        for (int i = 0; i < a.length; i++) {
+            System.out.println(LocalDateTimeUtil.getCurrentDatetime() + "  " + i + ": " + a[i]);
+        }
+        Console.println("[ ====== end to stack trace ====== ]");
+    }
 
     //https://blog.csdn.net/qq_40132294/article/details/134173984
     //继承java.lang.Thread类，
@@ -33,6 +45,7 @@ public class ThreadUtil extends Thread {
         SleepUtil.sleep(RandomUtil.getRangeInt(1, 6));
         System.out.println("当前运行的线程名为： " + Thread.currentThread().getName());
     }
+
 
     public static void main(String[] args) throws Exception {
         new ThreadUtil("MyThread1: ").start();

@@ -1,4 +1,4 @@
-package com.ace.utilities.multiThread;
+package com.ace.utilities.thread;
 
 import com.ace.utilities.RandomUtil;
 import com.ace.utilities.SleepUtil;

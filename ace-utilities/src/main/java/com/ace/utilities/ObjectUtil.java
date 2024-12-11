@@ -20,6 +20,41 @@ public class ObjectUtil {
     private static final String SET_METHOD_PREFIX = "set";
 
 
+    public static String getType(Object obj) {
+        // 获取对象的类
+        Class<?> objClass = obj.getClass();
+        // 输出对象的类名
+        System.out.println("Object type: " + objClass.getName());
+        return objClass.getName();
+    }
+
+    public static String getObjectType(Object obj) {
+        if (NullUtil.isNull(obj)) {
+            Console.println("Object NullException", Console.RED, Console.BOLD);
+        }
+        if (obj instanceof Boolean) {
+            Console.println("Type : Boolean", Console.BLUE);
+            return "Boolean";
+        }
+        if (obj instanceof Integer) {
+            Console.println("Type : Integer", Console.BLUE);
+            return "Integer";
+        }
+        if (obj instanceof String) {
+            Console.println("Type : String", Console.BLUE);
+            return "String";
+        }
+        if (obj instanceof List<?>) {
+            Console.println("Type : List<?>", Console.BLUE);
+            return "List";
+        }
+        if (obj instanceof Map<?, ?>) {
+            Console.println("Type : Map<?,?>", Console.BLUE);
+            return "Map";
+        }
+        return "UNKNOWN TYPE";
+    }
+
 
     public static <T, E> boolean compareFieldValue(T t, E e, String fieldName) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         if (NullUtil.isNull(t) || NullUtil.isNull(e)) {
@@ -63,10 +98,7 @@ public class ObjectUtil {
     }
 
     private static boolean isGetter(Method method) {
-        return method.getName().startsWith("get") &&
-                method.getParameterCount() == 0 &&
-                !void.class.equals(method.getReturnType()) &&
-                Modifier.isPublic(method.getModifiers());
+        return method.getName().startsWith("get") && method.getParameterCount() == 0 && !void.class.equals(method.getReturnType()) && Modifier.isPublic(method.getModifiers());
     }
 
     private static String getMethodNameStartsWithGet(String fieldName) {
@@ -152,32 +184,6 @@ public class ObjectUtil {
         }
     }
 
-    public static String checkObjectType(Object obj) {
-        if (NullUtil.isNull(obj)) {
-            Console.println("Object NullException", Console.RED, Console.BOLD);
-        }
-        if (obj instanceof Boolean) {
-            Console.println("Type : Boolean", Console.BLUE);
-            return "Boolean";
-        }
-        if (obj instanceof Integer) {
-            Console.println("Type : Integer", Console.BLUE);
-            return "Integer";
-        }
-        if (obj instanceof String) {
-            Console.println("Type : String", Console.BLUE);
-            return "String";
-        }
-        if (obj instanceof List<?>) {
-            Console.println("Type : List<?>", Console.BLUE);
-            return "List";
-        }
-        if (obj instanceof Map<?, ?>) {
-            Console.println("Type : Map<?,?>", Console.BLUE);
-            return "Map";
-        }
-        return "UNKNOWN TYPE";
-    }
 
     public static List toList(Object os) {
         List result = new ArrayList();
