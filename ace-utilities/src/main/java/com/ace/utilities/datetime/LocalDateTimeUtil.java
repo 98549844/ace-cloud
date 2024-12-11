@@ -27,6 +27,7 @@ import static java.time.format.DateTimeFormatter.ofPattern;
 public class LocalDateTimeUtil {
     private static final Logger log = LogManager.getLogger(LocalDateTimeUtil.class.getName());
     public static String DATETIME_PATTERN_yyyyMMddHHmmss = "yyyy-MM-dd HH:mm:ss";
+    public static String DATETIME_PATTERN_yyyyMMddHHmmssS = "yyyy-MM-dd HH:mm:ssS";
 
     // 定义 ISO 格式日期时间字符串的格式
     public static String ISO_DATE_PATTERN_yyyyMMdd = "yyyy-MM-dd'T'HH:mm:ss.SSSX";
@@ -167,7 +168,10 @@ public class LocalDateTimeUtil {
 
     public static String toLocalDateTimeString(LocalDateTime localDateTime) {
         return localDateTime.format(DateTimeFormatter.ofPattern(DATETIME_PATTERN_yyyyMMddHHmmss));
+    }
 
+    public static String getCurrentDatetime() {
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern(DATETIME_PATTERN_yyyyMMddHHmmssS));
     }
 
 }
