@@ -59,6 +59,10 @@ public class FileUtil {
         return File.separator;
     }
 
+    public static String tab() {
+        return "\t";
+    }
+
     /**
      * 通用换行符
      */

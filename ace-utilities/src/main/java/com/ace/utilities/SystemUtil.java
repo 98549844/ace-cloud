@@ -103,6 +103,10 @@ public class SystemUtil {
         return System.lineSeparator();
     }
 
+    public static String tab() {
+        return "\t";
+    }
+
     /**
      * 退回到当前行的行首
      */

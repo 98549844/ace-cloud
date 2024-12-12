@@ -110,6 +110,10 @@ public class PathUtil {
         return System.lineSeparator();
     }
 
+    public static String tab() {
+        return "\t";
+    }
+
     public static String getSystemPath(String empty) throws IOException {
         if (NullUtil.isNotEmpty(empty)) {
             empty = "";
