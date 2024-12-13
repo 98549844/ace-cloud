@@ -48,7 +48,7 @@ public class GetterSetterUtil {
         for (Method method : m) {
             if (method.getName().contains("get")) {
                 try {
-                    Console.println(num + ". " + method.getName() + ": " + method.invoke(object), Console.BOLD);
+                    Console.println(num + "." + FileUtil.tab() + method.getName() + ": " + method.invoke(object), Console.BOLD);
                     ++num;
                 } catch (Exception e) {
                     e.printStackTrace();

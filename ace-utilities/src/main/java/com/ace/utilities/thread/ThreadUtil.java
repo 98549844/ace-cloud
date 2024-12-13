@@ -23,8 +23,11 @@ public class ThreadUtil extends Thread {
     public static void stackTrace() {
         log.info("[ ====== start to stack trace ====== ]");
         StackTraceElement[] a = Thread.currentThread().getStackTrace();
-        for (int i = 0; i < a.length; i++) {
-            log.info("{}: {}", i, a[i]);
+        int size = a.length;
+        for (int i = 0; i < size; i++) {
+            log.info("{}: {}", i, a[size - (i + 1)]); // 倒序输出
+            // log.info("{}: {}", i, a[i]); // 正序输出
+
         }
         log.info("[ ====== end to stack trace ====== ]");
     }
