@@ -486,7 +486,7 @@ public class FileUtil {
         br.close();
         reader.close();
 
-        Map<String, Object> map = new HashMap();
+        Map<String, Object> map = new HashMap<>();
         map.put(FileUtil.ORIGINAL, content1.toString()); // 返回原文
         map.put(FileUtil.LINE, content2.toString()); // 返回一行
         map.put(FileUtil.LIST, content3); // 返回一个list
