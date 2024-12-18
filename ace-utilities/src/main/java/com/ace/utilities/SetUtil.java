@@ -26,16 +26,17 @@ public class SetUtil {
     }
 
     public static List toList(Set set) {
-        List ls = new ArrayList();
-        if (NullUtil.isNull(set)) {
-            log.error("Set is null");
+        try {
+            List ls = new ArrayList();
+            ls.addAll(set);
             return ls;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList();
         }
-        ls.addAll(set);
-        return ls;
     }
 
-    public static Set toSet(List list) {
+    public static <T> Set<T> toSet(List<T> list) {
         return new HashSet<>(list);
     }
 
