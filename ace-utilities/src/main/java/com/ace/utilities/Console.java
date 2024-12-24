@@ -32,7 +32,7 @@ public class Console {
 
     public static final int FLUORESCENT_ORANGE = 91; // 萤光橙
     public static final int FLUORESCENT_GREEN = 92;  // 萤光绿
-    public static final int FLUORESCENT_YELLOW = 94; // 萤光黄
+    public static final int BRIGHT_BLUE = 94; // 亮蓝
     public static final int FLUORESCENT_PURPLE = 95; // 萤光紫
     public static final int FLUORESCENT_BLUE = 96;   // 萤光蓝
 
@@ -51,8 +51,8 @@ public class Console {
     public static void printConsoleColor() {
         Console.println("default");
         Console.println("白色粗体", Console.BOLD);
-        Console.println("黑色 Console.BLACK", Console.BLACK);
-        Console.println("白色 Console.WHITE", Console.WHITE);
+        Console.println("黑色 Console.BLACK (depends on background)", Console.BLACK);
+        Console.println("白色 Console.WHITE (depends on background)", Console.WHITE);
         Console.println("红色 Console.RED", Console.RED);
         Console.println("绿色 Console.GREEN", Console.GREEN);
         Console.println("黄色 Console.YELLOW", Console.YELLOW);
@@ -62,13 +62,13 @@ public class Console {
 
         Console.println("萤光橙 Console.FLUORESCENT_ORANGE", Console.FLUORESCENT_ORANGE);
         Console.println("萤光绿 Console.FLUORESCENT_GREEN", Console.FLUORESCENT_GREEN);
-        Console.println("萤光黄 Console.FLUORESCENT_YELLOW", Console.FLUORESCENT_YELLOW);
+        Console.println("萤光黄 Console.BRIGHT_BLUE", Console.BRIGHT_BLUE);
         Console.println("萤光紫 Console.FLUORESCENT_PURPLE", Console.FLUORESCENT_PURPLE);
         Console.println("萤光蓝 Console.FLUORESCENT_BLUE", Console.FLUORESCENT_BLUE);
 
 
-        Console.println("黑底白字 Console.WHITE, Console.BLACK_BACKGROUND", Console.WHITE, Console.BLACK_BACKGROUND);
-        Console.println("白底黑字 Console.BLACK, Console.WHITE_BACKGROUND", Console.BLACK, Console.WHITE_BACKGROUND);
+        Console.println("黑底白字 Console.WHITE (depends on background), Console.BLACK_BACKGROUND", Console.WHITE, Console.BLACK_BACKGROUND);
+        Console.println("白底黑字 Console.BLACK (depends on background), Console.WHITE_BACKGROUND", Console.BLACK, Console.WHITE_BACKGROUND);
         Console.println("蓝底红字 Console.RED, Console.BLUE_BACKGROUND", Console.RED, Console.BLUE_BACKGROUND);
         Console.println("加粗倾斜 Console.BOLD, Console.ITATIC", Console.BOLD, Console.ITATIC);
         Console.println("黄底白字下划线 Console.WHITE, Console.YELLOW_BACKGROUND, Console.UNDERLINE", Console.WHITE, Console.YELLOW_BACKGROUND, Console.UNDERLINE);
@@ -81,7 +81,7 @@ public class Console {
 
 
     private static String FMT(String txt, Integer... codes) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int code : codes) {
             sb.append(code).append(";");
         }
