@@ -34,7 +34,7 @@ public class EasyExcelUtil extends AnalysisEventListener<Map<Integer, String>> {
 
     public static void main(String[] args) {
         EasyExcelUtil easyExcelUtil = new EasyExcelUtil();
-        easyExcelUtil.read("C:\\dmop\\template\\template.xlsx");
+        easyExcelUtil.read("C:\\Users\\garlam.au\\IdeaProjects\\ace\\src\\main\\java\\W1065_LCO MPO Detail1735542410262.xlsx");
     }
 
     public void read(String fileName) {
@@ -61,6 +61,10 @@ public class EasyExcelUtil extends AnalysisEventListener<Map<Integer, String>> {
         EasyExcel.read(fileName, new EasyExcelUtil()).sheet(sheetName).doRead();
     }
 
+
+    public ExcelReaderSheetBuilder getSheet(String fileName) {
+        return EasyExcel.read(fileName, new EasyExcelUtil()).sheet(0);
+    }
 
     public ExcelReaderSheetBuilder getSheet(String fileName, Integer sheetNo) {
         return EasyExcel.read(fileName, new EasyExcelUtil()).sheet(sheetNo);

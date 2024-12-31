@@ -12,7 +12,7 @@ public class SetUtil {
     private static final Logger log = LogManager.getLogger(SetUtil.class.getName());
 
 
-    public static Object getFirst(Set s) {
+    public static <T> Object getFirst(Set<T> s) {
         if (NullUtil.nonNull(s)) {
             return s.iterator().next();
         }
@@ -20,19 +20,18 @@ public class SetUtil {
     }
 
 
-    public static Set arrayIntToHashSet(int[] nums) {
+    public static Set<Integer> arrayIntToHashSet(int[] nums) {
         Set<Integer> set = Arrays.stream(nums).boxed().collect(Collectors.toSet());
         return set;
     }
 
-    public static List toList(Set set) {
+    public static <T> List<T> toList(Set<T> set) {
         try {
-            List ls = new ArrayList();
-            ls.addAll(set);
+            List<T> ls = new ArrayList<>(set);
             return ls;
         } catch (Exception e) {
             e.printStackTrace();
-            return new ArrayList();
+            return new ArrayList<>();
         }
     }
 
@@ -42,9 +41,9 @@ public class SetUtil {
 
     public static <T> void iterateSet(Set<T> tSet) {
         Iterator<T> iterator = tSet.iterator();
-        int i = 1;
+        int i = 0;
         while (iterator.hasNext()) {
-            log.info("{}: {}", i, iterator.next());
+            log.info("{}: {}", ++i, iterator.next());
         }
     }
 
@@ -57,14 +56,14 @@ public class SetUtil {
         return iterator;
     }
 
-    public static Object getSetFirstValue(Set set) throws Exception {
+    public static <T> Object getSetFirstValue(Set<T> set) throws Exception {
         if (NullUtil.isNull(set)) {
             throw new Exception("Set is null");
         }
         return set.iterator().next();
     }
 
-    public static boolean compareSet(Set<T> set1, Set<T> set2) {
+    public static <T> boolean compareSet(Set<T> set1, Set<T> set2) {
         return Arrays.deepEquals(new Set[]{set1}, new Set[]{set2});
     }
 
