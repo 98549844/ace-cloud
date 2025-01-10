@@ -191,12 +191,11 @@ public class PdfUtil {
     public void concatPDFs(List<InputStream> streamOfPdfFiles, OutputStream outputStream, boolean pagination) {
         Document document = new Document();
         try {
-            List<InputStream> pdfs = streamOfPdfFiles;
             List<PdfReader> readers = new LinkedList<>();
             int totalPages = 0;
 
             // Create Readers for the pdfs.
-            for (InputStream pdf : pdfs) {
+            for (InputStream pdf : streamOfPdfFiles) {
                 PdfReader pdfReader = new PdfReader(pdf);
                 readers.add(pdfReader);
                 totalPages += pdfReader.getNumberOfPages();
@@ -221,7 +220,7 @@ public class PdfUtil {
                     currentPageNumber++;
                     page = writer.getImportedPage(pdfReader, pageOfCurrentReaderPDF);
                     cb.addTemplate(page, 0, 0);
-                    // Code for pagination.
+                    // Code for pagination. 显示页脚
                     if (pagination) {
                         cb.beginText();
                         cb.setFontAndSize(bf, 9);
