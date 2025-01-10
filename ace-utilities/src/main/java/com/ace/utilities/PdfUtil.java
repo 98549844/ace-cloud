@@ -46,33 +46,31 @@ public class PdfUtil {
 
     public static void main(String[] args) throws IOException {
         PdfUtil pdfUtil = new PdfUtil();
-        String p = "C:\\Users\\Garlam.Au\\IdeaProjects\\ace-cloud\\ace-utilities\\src\\main\\resources\\file\\images\\img.png";
-        String p2 = "C:\\Users\\Garlam.Au\\IdeaProjects\\ace-cloud\\ace-utilities\\src\\main\\resources\\file\\images\\img1.png";
-        List<String> ls = new ArrayList<>();
-        ls.add(p);
-        ls.add(p2);
+        String p1 = "C:\\Users\\garlam.au\\IdeaProjects\\documents\\doc\\_hkmu\\notes\\2010SED\\COMP-2010SED_U01_249.pdf";
+        String p2 = "C:\\Users\\garlam.au\\IdeaProjects\\documents\\doc\\_hkmu\\notes\\2010SED\\COMP 2010SED-Tutorial(15Sep2024).pdf";
+        String p3 = "C:\\Users\\garlam.au\\IdeaProjects\\documents\\doc\\_hkmu\\notes\\2010SED\\COMP 2010SED-Surgery(26Oct2024).pdf";
+        InputStream[] inputStreams = new InputStream[3];
+        inputStreams[0] = new FileInputStream(p1);
+        inputStreams[1] = new FileInputStream(p2);
+        inputStreams[2] = new FileInputStream(p3);
 
-        String dest = "C:\\Users\\Garlam.Au\\IdeaProjects\\ace-cloud\\ace-utilities\\src\\main\\resources\\file\\images\\aaa.pdf";
-        PdfUtil.toPdf(ls, dest);
+        //List<InputStream> ls = new ArrayList<>();
+        //ls.add(new FileInputStream(p1));
+        //ls.add(new FileInputStream(p2));
+        //ls.add(new FileInputStream(p3));
 
-        //jpgsMergeToPdf(p, dest);
-        //try {
-        //    List<InputStream> pdfs = new LinkedList<>();
-        //    pdfs.add(new FileInputStream("C:\\Users\\Garlam.Au\\IdeaProjects\\ace\\src\\main\\java\\com\\ace\\utils\\PdfUtil-Sample.pdf"));
-        //    pdfs.add(new FileInputStream("C:\\Users\\Garlam.Au\\IdeaProjects\\ace\\src\\main\\java\\com\\ace\\utils\\PdfUtil-Sample1.pdf"));
-        //    pdfs.add(new FileInputStream("C:\\Users\\Garlam.Au\\IdeaProjects\\ace\\src\\main\\java\\com\\ace\\utils\\PdfUtil-Sample2.pdf"));
-        //    OutputStream output = new FileOutputStream("C:\\ace\\misc\\merge.pdf");
-        //    pdfUtil.concatPDFs(pdfs, output, true);
-        //} catch (Exception e) {
-        //    e.printStackTrace();
-        //}
+        String target = "C:\\Users\\garlam.au\\IdeaProjects\\ace-cloud\\ace-utilities\\src\\main\\java\\com\\ace\\utilities\\PdfUtil.pdf";
+
+        pdfUtil.concatPDFs(inputStreams, target, true);
     }
 
-    /** pdf转excel
+    /**
+     * pdf转excel
+     *
      * @param filePath
      * @param outputExcel
      */
-    public static void toExcel(String filePath, String outputExcel){
+    public static void toExcel(String filePath, String outputExcel) {
         PdfDocument pdfDocument = new PdfDocument();
         pdfDocument.loadFromFile(filePath);
         pdfDocument.saveToFile(outputExcel, FileFormat.XLSX);
@@ -172,12 +170,12 @@ public class PdfUtil {
      * 重載concatPDFs方法, 功能是一樣的
      *
      * @param streamArrayOfPdfFiles
-     * @param outputStream
-     * @param pagination
+     * @param mergedPdfPath
+     * @param showFooter
      */
-    public void concatPDFs(InputStream[] streamArrayOfPdfFiles, OutputStream outputStream, boolean pagination) {
+    public void concatPDFs(InputStream[] streamArrayOfPdfFiles, String mergedPdfPath, boolean showFooter) throws FileNotFoundException {
         List<InputStream> streamOfPdfFiles = new LinkedList<>(Arrays.asList(streamArrayOfPdfFiles));
-        concatPDFs(streamOfPdfFiles, outputStream, pagination);
+        concatPDFs(streamOfPdfFiles, new FileOutputStream(mergedPdfPath), showFooter);
     }
 
 
@@ -186,9 +184,9 @@ public class PdfUtil {
      *
      * @param streamOfPdfFiles
      * @param outputStream
-     * @param pagination
+     * @param showFooter
      */
-    public void concatPDFs(List<InputStream> streamOfPdfFiles, OutputStream outputStream, boolean pagination) {
+    public void concatPDFs(List<InputStream> streamOfPdfFiles, OutputStream outputStream, boolean showFooter) {
         Document document = new Document();
         try {
             List<PdfReader> readers = new LinkedList<>();
@@ -221,7 +219,7 @@ public class PdfUtil {
                     page = writer.getImportedPage(pdfReader, pageOfCurrentReaderPDF);
                     cb.addTemplate(page, 0, 0);
                     // Code for pagination. 显示页脚
-                    if (pagination) {
+                    if (showFooter) {
                         cb.beginText();
                         cb.setFontAndSize(bf, 9);
                         cb.showTextAligned(PdfContentByte.ALIGN_CENTER, currentPageNumber + " of " + totalPages, 520, 5, 0);
