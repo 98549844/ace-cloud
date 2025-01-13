@@ -12,12 +12,15 @@ import com.spire.pdf.FileFormat;
 import com.spire.pdf.PdfDocument;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.multipdf.Splitter;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.graphics.image.LosslessFactory;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import org.apache.pdfbox.rendering.PDFRenderer;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.xhtmlrenderer.pdf.ITextFontResolver;
 import org.xhtmlrenderer.pdf.ITextRenderer;
@@ -26,11 +29,14 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import static com.ace.constants.constant.JPG;
 import static com.ace.constants.constant.PDF;
 
 /**
@@ -62,7 +68,74 @@ public class PdfUtil {
         String target = "C:\\Users\\garlam.au\\IdeaProjects\\ace-cloud\\ace-utilities\\src\\main\\java\\com\\ace\\utilities\\PdfUtil.pdf";
 
         pdfUtil.concatPDFs(inputStreams, target, true);
+
     }
+
+    public static void spiltPdf(String targetPdf) throws IOException {
+        spiltPdf(targetPdf, null);
+    }
+
+    /**
+     *
+     * @param targetPdf
+     * @param dest
+     * @throws IOException
+     */
+    public static void spiltPdf(String targetPdf, String dest) throws IOException {
+        String fileName = FileUtil.getName(targetPdf);
+        if (NullUtil.isNull(dest)) {
+            dest = FileUtil.getParent(targetPdf) + FileUtil.separator();
+        }
+
+
+        // load pdf file
+        PDDocument document = Loader.loadPDF(new File(targetPdf));
+        // instantiating Splitter
+        Splitter splitter = new Splitter();
+        // split the pages of a PDF document
+        List<PDDocument> Pages = splitter.split(document);
+        // Creating an iterator
+        Iterator<PDDocument> iterator = Pages.listIterator();
+
+        // saving splits as pdf
+        int i = 0;
+        while (iterator.hasNext()) {
+            PDDocument pDdocument = iterator.next();
+            // provide destination path to the PDF split
+            StringBuilder destBuilder = new StringBuilder();
+            destBuilder.append(dest).append(FileUtil.separator()).append(fileName).append("_").append(++i).append(".pdf");// 生成文件名
+            pDdocument.save(destBuilder.toString());
+        }
+        document.close();
+
+    }
+
+    public static void spiltPdfToImages(String targetPdf) throws IOException {
+        spiltPdfToImages(targetPdf, null);
+    }
+
+    public static void spiltPdfToImages(String targetPdf, String dest) throws IOException {
+        String fileName = FileUtil.getName(targetPdf);
+        if (NullUtil.isNull(dest)) {
+            dest = FileUtil.getParent(targetPdf) + FileUtil.separator();
+        }
+
+        // 加载pdf文件
+        PDDocument doc = Loader.loadPDF(new File(targetPdf));
+        // 2.x版本的pdfbox写法
+        // PDDocument doc = PDDocument.load(new File(targetPdf));
+        PDFRenderer renderer = new PDFRenderer(doc);
+
+        StringBuilder destBuilder = new StringBuilder();
+        destBuilder.append(dest).append(FileUtil.separator()).append(fileName).append("_");
+        // 遍历每页pdf
+        for (int i = 0; i < doc.getNumberOfPages(); i++) {
+            // dpi调到300左右即可，太小会模糊，太大会使图片变得很大
+            BufferedImage image = renderer.renderImageWithDPI(i, 300);
+            ImageIO.write(image, JPG, Files.newOutputStream(Paths.get(destBuilder.toString() + i + "." + JPG)));
+        }
+    }
+
 
     /**
      * pdf转excel
