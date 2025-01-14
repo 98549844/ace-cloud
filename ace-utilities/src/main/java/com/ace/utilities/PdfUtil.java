@@ -76,7 +76,6 @@ public class PdfUtil {
     }
 
     /**
-     *
      * @param targetPdf
      * @param dest
      * @throws IOException
@@ -86,7 +85,6 @@ public class PdfUtil {
         if (NullUtil.isNull(dest)) {
             dest = FileUtil.getParent(targetPdf) + FileUtil.separator();
         }
-
 
         // load pdf file
         PDDocument document = Loader.loadPDF(new File(targetPdf));
@@ -102,12 +100,9 @@ public class PdfUtil {
         while (iterator.hasNext()) {
             PDDocument pDdocument = iterator.next();
             // provide destination path to the PDF split
-            StringBuilder destBuilder = new StringBuilder();
-            destBuilder.append(dest).append(FileUtil.separator()).append(fileName).append("_").append(++i).append(".pdf");// 生成文件名
-            pDdocument.save(destBuilder.toString());
+            pDdocument.save(dest + FileUtil.separator() + fileName + "_" + ++i + ".pdf"); // 生成文件名
         }
         document.close();
-
     }
 
     public static void spiltPdfToImages(String targetPdf) throws IOException {
