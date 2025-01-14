@@ -95,12 +95,13 @@ public class PdfUtil {
         // Creating an iterator
         Iterator<PDDocument> iterator = Pages.listIterator();
 
+        String destPdf = dest + FileUtil.separator() + fileName + "_";
         // saving splits as pdf
         int i = 0;
         while (iterator.hasNext()) {
             PDDocument pDdocument = iterator.next();
             // provide destination path to the PDF split
-            pDdocument.save(dest + FileUtil.separator() + fileName + "_" + ++i + ".pdf"); // 生成文件名
+            pDdocument.save(destPdf + ++i + "." + PDF); // 生成文件名
         }
         document.close();
     }
@@ -124,7 +125,8 @@ public class PdfUtil {
         StringBuilder destBuilder = new StringBuilder();
         destBuilder.append(dest).append(FileUtil.separator()).append(fileName).append("_");
         // 遍历每页pdf
-        for (int i = 0; i < doc.getNumberOfPages(); i++) {
+        int pageSize = doc.getNumberOfPages();
+        for (int i = 0; i < pageSize; i++) {
             // dpi调到300左右即可，太小会模糊，太大会使图片变得很大
             BufferedImage image = renderer.renderImageWithDPI(i, 300);
             ImageIO.write(image, JPG, Files.newOutputStream(Paths.get(destBuilder.toString() + i + "." + JPG)));
