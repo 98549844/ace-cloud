@@ -69,6 +69,36 @@ public class Strings {
         return MessageFormat.format(content, param);
     }
 
+    /** input number, return letter
+     * @param n
+     * @return
+     */
+    public static String getLetter(int n) {
+        StringBuilder result = new StringBuilder();
+        while (n > 0) {
+            n--; // 因为A对应1，而不是0，所以需要减1
+            char ch = (char) (n % 26 + 'A');
+            result.insert(0, ch);
+            n = n / 26;
+        }
+
+        return result.toString();
+    }
+
+
+    /** input letter, return number
+     * @param alpha
+     * @return
+     */
+    public static int getNumber(String alpha) {
+        int num = 0;
+        int len = alpha.length();
+        for (int i = 0; i < len; i++) {
+            num = num * 26 + (alpha.charAt(i) - 'A' + 1);
+        }
+        return num;
+    }
+
     /**
      * 带占位符功能的string工具
      * <p>
