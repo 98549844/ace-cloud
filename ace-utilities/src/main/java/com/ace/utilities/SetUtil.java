@@ -56,7 +56,7 @@ public class SetUtil {
         return iterator;
     }
 
-    public static <T> Object getSetFirstValue(Set<T> set) throws Exception {
+    public static <T> Object getFirstValue(Set<T> set) throws Exception {
         if (NullUtil.isNull(set)) {
             throw new Exception("Set is null");
         }
