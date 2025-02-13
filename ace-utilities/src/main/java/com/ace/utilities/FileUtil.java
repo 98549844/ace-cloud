@@ -40,6 +40,7 @@ public class FileUtil {
     public static final String LIST = "list";
     public static final String STRING = "string";
     public static final String MAP = "map";
+    public static final String SET = "set";
 
     public static final String PATH = "path";
     public static final String FILENAME = "fileName";
@@ -97,7 +98,6 @@ public class FileUtil {
     public static boolean exist(String path) {
         return new File(path).exists();
     }
-
 
     /**
      * 创建文件
@@ -383,7 +383,6 @@ public class FileUtil {
     /**
      * get map key 和 value 都是file name
      *
-     *
      * @param path
      * @return
      */
@@ -476,9 +475,9 @@ public class FileUtil {
         while (NullUtil.nonNull(line) || "".equals(line)) {
             // 一次读入一行数据,并显示行数
             // content1.append(i + ". ");
-            content1.append(line).append(SystemUtil.newLine());
-            content2.append(line);
-            content3.add(line);
+            content1.append(line.trim()).append(SystemUtil.newLine());
+            content2.append(line.trim());
+            content3.add(line.trim());
             i++;
             // 把所有内容在一行显示
             line = br.readLine();
@@ -706,8 +705,9 @@ public class FileUtil {
         //boolean isOk = false;
         String type;
         StringBuilder content = null;
+        Set<?> contentSet = null;
         List<String> contentList = new ArrayList<>();
-        Map contentMap = new HashMap();
+        Map<?, ?> contentMap = new HashMap<>();
         if (obj instanceof String) {
             content = new StringBuilder((String) obj);
             type = STRING;
@@ -715,8 +715,11 @@ public class FileUtil {
             contentList = (List<String>) obj;
             type = LIST;
         } else if (obj instanceof Map<?, ?>) {
-            contentMap = (Map) obj;
+            contentMap = (Map<?, ?>) obj;
             type = MAP;
+        } else if (obj instanceof Set<?>) {
+            contentSet = (Set<?>) obj;
+            type = SET;
         } else {
             log.error("un-default type");
             return;
@@ -730,8 +733,8 @@ public class FileUtil {
             } else {
                 fop = new FileOutputStream(file);
             }
-
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fop, StandardCharsets.UTF_8);
+
             // get the content in bytes
             String contentInBytes = null;
             switch (type) {
@@ -755,6 +758,16 @@ public class FileUtil {
                     outputStreamWriter.append(contentInBytes);
                     outputStreamWriter.flush();
                 }
+                case SET -> {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("[").append(SystemUtil.newLine());
+                    for (Object s : contentSet) {
+                        sb.append(s.toString()).append(",").append(SystemUtil.newLine());
+                    }
+                    sb.append("]");
+                    outputStreamWriter.append(sb.toString());
+                    outputStreamWriter.flush();
+                }
                 default -> log.error("contentInBytes: {}", contentInBytes);
             }
 
@@ -774,6 +787,7 @@ public class FileUtil {
             }
         }
     }
+
 
     //check file and dir status
     public static void fileStatus(String path, String fileName) {
