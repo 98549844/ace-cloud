@@ -33,14 +33,16 @@ public class SqlUtil {
         return s + "%";
     }
 
+    @SuppressWarnings("unchecked")
     public static Set<String> getDistinct(String target) throws IOException {
         List<String> targetList = (List<String>) FileUtil.read(target).get(FileUtil.LIST);
         return SetUtil.toSet(targetList);
     }
 
-    /** 
+    /**
      * 写入集合到文件
-     * @param filePath 
+     *
+     * @param filePath
      * @param fileName
      * @param set
      * @param <T>
@@ -50,9 +52,10 @@ public class SqlUtil {
         FileUtil.write(filePath, fileName, set, false);
     }
 
-    /** 
+    /**
      * 写入集合到文件, 并拼入单引号
-     * @param filePath 
+     *
+     * @param filePath
      * @param fileName
      * @param set
      * @param <T>
@@ -61,7 +64,7 @@ public class SqlUtil {
     public static <T> void writeDistinctString(String filePath, String fileName, Set<T> set) throws IOException {
         Set<String> setString = new HashSet<>();
         for (T t : set) {
-            setString.add("'" + t.toString().trim() + "'");
+            setString.add("'" + t.toString() + "'");
         }
         FileUtil.write(filePath, fileName, setString, false);
     }

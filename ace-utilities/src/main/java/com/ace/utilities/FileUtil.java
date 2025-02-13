@@ -698,8 +698,7 @@ public class FileUtil {
      */
     public static void write(String filePath, String fileName, Object obj, boolean append) {
         if (NullUtil.isNull(obj)) {
-            log.error("Object is null !");
-            return;
+            throw new NullPointerException("Object is null !");
         }
         create(filePath + fileName);
         //boolean isOk = false;

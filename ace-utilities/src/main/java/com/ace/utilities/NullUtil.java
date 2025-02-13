@@ -6,54 +6,21 @@ import org.apache.logging.log4j.Logger;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class NullUtil {
     private static final Logger log = LogManager.getLogger(NullUtil.class);
 
-    public static boolean isEmpty(Collection<?> collection) {
-        return isNull(collection) || collection.isEmpty();
-    }
-
-
-    public static boolean isEmpty(Map<?, ?> map) {
-        return isNull(map) || map.isEmpty();
-    }
 
     public static boolean isEmpty(Object object) {
-        if (object instanceof Collection) {
-            return isEmpty((Collection<?>) object);
-        } else if (object instanceof Map) {
-            return isEmpty((Map<?, ?>) object);
+        if (object == null) {
+            throw new NullPointerException("Object is null");
         }
-        return isNull(object) || "".equals(object);
+        return isNull(object);
     }
 
-    public static boolean isEmpty(Object[] object) {
-        return isNull(object) || object.length < 1;
-    }
-
-    public static boolean isEmpty(String text) {
-        return isNull(text) || text.trim().isEmpty();
-    }
-
-    public static boolean isNotEmpty(Collection<?> collection) {
-        return !isEmpty(collection);
-    }
-
-    public static boolean isNotEmpty(Map<?, ?> map) {
-        return !isEmpty(map);
-    }
-
-    public static boolean isNotEmpty(Object object) {
-        return !isEmpty(object);
-    }
-
-    public static boolean isNotEmpty(Object[] object) {
-        return !isEmpty(object);
-    }
-
-    public static boolean isNotEmpty(String text) {
-        return !isEmpty(text);
+    public static boolean notEmpty(Object object) {
+        return !isNull(object);
     }
 
 
@@ -78,15 +45,14 @@ public class NullUtil {
     public static boolean isNull(Object object) {
         if (object == null) {
             return true;
-        } else if (object instanceof String) {
-            String s = (String) object;
+        } else if (object instanceof String s) {
             return s.isEmpty();
-        } else if (object instanceof List) {
-            List ls = (List) object;
+        } else if (object instanceof List<?> ls) {
             return ls.isEmpty();
-        } else if (object instanceof Map) {
-            Map m = (Map) object;
-            return m.keySet().isEmpty();
+        } else if (object instanceof Map<?, ?> m) {
+            return m.isEmpty();
+        } else if (object instanceof Set<?> s) {
+            return s.isEmpty();
         }
         return false;
     }
@@ -94,27 +60,20 @@ public class NullUtil {
     public static boolean nonNull(Object object) {
         if (object == null) {
             return false;
-        } else if (object instanceof String) {
-            String s = (String) object;
-            if (s.isEmpty()) {
-                return false;
-            }
-        } else if (object instanceof List) {
-            List ls = (List) object;
-            if (ls.isEmpty()) {
-                return false;
-            }
-        } else if (object instanceof Map) {
-            Map m = (Map) object;
-            if (m.keySet().isEmpty()) {
-                return false;
-            }
+        } else if (object instanceof String s) {
+            return !s.isEmpty();
+        } else if (object instanceof List<?> ls) {
+            return !ls.isEmpty();
+        } else if (object instanceof Map<?, ?> m) {
+            return !m.isEmpty();
+        } else if (object instanceof Set<?> s) {
+            return !s.isEmpty();
         }
         return true;
     }
 
     public static boolean hasLength(String text) {
-        return text != null && text.length() > 0;
+        return text != null && !text.isEmpty();
     }
 
     public static boolean hasText(String text) {
@@ -131,27 +90,15 @@ public class NullUtil {
     }
 
     public static boolean isContain(String textToSearch, String substring) {
-        if (hasLength(textToSearch) && hasLength(substring) && textToSearch.contains(substring)) {
-            return true;
-        } else {
-            return false;
-        }
+        return hasLength(textToSearch) && hasLength(substring) && textToSearch.contains(substring);
     }
 
     public static boolean isAssignable(Class<?> superType, Class<?> subType) {
-        if (nonNull(superType) && nonNull(subType) && superType.isAssignableFrom(subType)) {
-            return true;
-        } else {
-            return false;
-        }
+        return nonNull(superType) && nonNull(subType) && superType.isAssignableFrom(subType);
     }
 
     public static boolean isInstanceOf(Class<?> type, Object object) {
-        if (nonNull(type) && type.isInstance(object)) {
-            return true;
-        } else {
-            return false;
-        }
+        return nonNull(type) && type.isInstance(object);
     }
 
 

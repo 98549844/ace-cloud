@@ -115,7 +115,7 @@ public class PathUtil {
     }
 
     public static String getSystemPath(String empty) throws IOException {
-        if (NullUtil.isNotEmpty(empty)) {
+        if (NullUtil.nonNull(empty)) {
             empty = "";
         }
         File directory = new File(empty);//参数为空
