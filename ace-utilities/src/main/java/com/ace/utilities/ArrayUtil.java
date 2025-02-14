@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
  * @Description:
  */
 
-@SuppressWarnings("unchecked")
 public class ArrayUtil {
     private static final Logger log = LogManager.getLogger(ArrayUtil.class.getName());
 
@@ -39,7 +38,7 @@ public class ArrayUtil {
      * @param nums
      * @return
      */
-    public static Set toHashSet(int[] nums) {
+    public static Set<Integer> toHashSet(int[] nums) {
         return Arrays.stream(nums).boxed().collect(Collectors.toSet());
     }
 
@@ -49,7 +48,7 @@ public class ArrayUtil {
      * @param nums
      * @return
      */
-    public static Set toHashSetAsc(int[] nums) {
+    public static Set<Integer> toHashSetAsc(int[] nums) {
         int[] arrayInt = Arrays.stream(nums).sorted().toArray();
         return Arrays.stream(arrayInt).boxed().collect(Collectors.toSet());
     }
@@ -60,7 +59,7 @@ public class ArrayUtil {
      * @param nums
      * @return
      */
-    public static Set toHashSetDesc(int[] nums) {
+    public static Set<Integer> toHashSetDesc(int[] nums) {
         Set<Integer> sortedSet = new TreeSet<>(Comparator.reverseOrder());
         sortedSet.addAll(toHashSet(nums));
         return sortedSet;
@@ -70,11 +69,11 @@ public class ArrayUtil {
         return ls.stream().mapToInt(Integer::valueOf).toArray();
     }
 
-    public static Integer[] listToIntegerArray(List ls) {
-        return (Integer[]) ls.toArray(new Integer[0]);
+    public static Integer[] toIntegerArray(List<Integer> ls) {
+        return ls.toArray(new Integer[0]);
     }
 
-    public static String[] stringToStringArray(String s) {
+    public static String[] toStringArray(String s) {
         char[] c = s.toCharArray();
         int size = c.length;
         String[] ss = new String[size];
