@@ -26,8 +26,8 @@ import java.util.regex.Pattern;
 //https://filezilla-project.org/
 //build filezilla FTP server
 //@Component 没有springboot
-public class FTPUtil {
-    private static final Logger log = LogManager.getLogger(FTPUtil.class.getName());
+public class FtpUtil {
+    private static final Logger log = LogManager.getLogger(FtpUtil.class.getName());
 
     //读取properties value
     // @Value("${cw.ftp.host}")
@@ -51,7 +51,7 @@ public class FTPUtil {
      */
     public static void main(String[] args) throws IOException {
 
-        final FTPUtil ftpUtils = new FTPUtil();
+        final FtpUtil ftpUtils = new FtpUtil();
 
         FTPClient ftpClient = ftpUtils.getFTPConnection();
         System.out.println(ftpClient.getDataConnectionMode());

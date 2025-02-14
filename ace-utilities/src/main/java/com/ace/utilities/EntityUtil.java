@@ -32,9 +32,9 @@ public class EntityUtil  {
      * @param <T>
      * @return
      */
-    public static <T> List<T> listMapToEntity(List<Map> list, Class<T> clazz) {
+    public static <T> List<T> listMapToEntity(List<Map<String, Object>> list, Class<T> clazz) {
         List<T> tList = new ArrayList<>();
-        for (Map stringObjectMap : list) {
+        for (Map<String, Object> stringObjectMap : list) {
             T t = JSON.parseObject(JSON.toJSONString(stringObjectMap), clazz);
             tList.add(t);
         }

@@ -29,7 +29,7 @@ public class HtmlUtil {
      * @return
      */
     public String convertToXHtml(String renderHtmlContent) {
-        log.info("convert to xhtml......!");
+        log.info("convert to xhtml ...");
         Tidy tidy = new Tidy();
         tidy.setInputEncoding(UTF_8);
         tidy.setOutputEncoding(UTF_8);
