@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class CsvUtil {
         int i = 0;
         try {
             InputStream inputStream = new FileInputStream(file);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, UTF_8));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
             CSVReader csvReader = new CSVReaderBuilder(reader).build();
             for (String[] next : csvReader) { // 第一行必讀, 暫時不支持去除表頭
                 int j = 0;
@@ -67,7 +68,7 @@ public class CsvUtil {
             return csvTable;
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("CSV文件读取异常");
+            log.error("CSV文件读取异常: {}", e.getMessage());
             return csvTable;
         }
     }
@@ -99,7 +100,7 @@ public class CsvUtil {
             return list;
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("CSV文件读取异常");
+            log.error("CSV文件读取异常: {}", e.getMessage());
             return list;
         }
     }
@@ -120,7 +121,7 @@ public class CsvUtil {
         CsvToBean<T> csvToBean;
         try {
             InputStream inputStream = new FileInputStream(file);
-            in = new InputStreamReader(inputStream, UTF_8);
+            in = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
             HeaderColumnNameMappingStrategy<T> strategy = new HeaderColumnNameMappingStrategy<>();
             strategy.setType(clazz);
             csvToBean = new CsvToBeanBuilder<T>(in).withMappingStrategy(strategy).build();
