@@ -141,7 +141,7 @@ public class DateUtil {
         return getDateTimeString(time, DATETIME_PATTERN_yyyyMMddHHmmssSSS);
     }
 
-    /**
+    /** 只接受两个param参数: String pattern, String timezone
      * @param time
      * @return
      */
