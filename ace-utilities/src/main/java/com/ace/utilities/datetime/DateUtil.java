@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -22,6 +23,11 @@ public class DateUtil {
     private static final Logger log = LogManager.getLogger(DateUtil.class.getName());
     public static String DATETIME_PATTERN_yyyyMMddHHmmss = "yyyy-MM-dd HH:mm:ss";
     public static String DATETIME_PATTERN_yyyyMMddHHmmssSSS = "yyyy-MM-dd HH:mm:ss SSSS";
+    public static String DATETIME_PATTERN_yyyyMMdd = "yyyy-MM-dd";
+
+    public static String GMT = "GMT";
+    public static String GMT_8 = "GMT+8";
+    public static String CST = "CST";
 
     public static void main(String[] args) {
         System.out.println(getUsedDateTime(System.currentTimeMillis()));
@@ -79,7 +85,6 @@ public class DateUtil {
     }
 
 
-
     public static Date toDate(Timestamp timestamp) {
         // 使用toInstant()方法将Timestamp转换为Instant
         Instant instant = timestamp.toInstant();
@@ -89,7 +94,6 @@ public class DateUtil {
         System.out.println("Date: " + date);
         return date;
     }
-
 
 
     public static void differenceSystemCurrentTimeMillis(Long start, Long end) {
@@ -107,6 +111,19 @@ public class DateUtil {
         }
     }
 
+    
+    public static long getLong(String dateTime, String pattern) throws ParseException {
+        SimpleDateFormat sf = new SimpleDateFormat(pattern);
+        Date date = sf.parse(dateTime);
+        return date.getTime();
+    }
+
+    public static long getLong(String dateTime) throws ParseException {
+        SimpleDateFormat sf = new SimpleDateFormat(DATETIME_PATTERN_yyyyMMddHHmmssSSS);
+        Date date = sf.parse(dateTime);
+        return date.getTime();
+    }
+    
 
     /**
      * @param time
@@ -123,8 +140,50 @@ public class DateUtil {
      * @return
      */
     public static String getDateTimeString(Long time) {
+        return getDateTimeString(time, DATETIME_PATTERN_yyyyMMddHHmmssSSS);
+    }
+
+    /**
+     * @param time
+     * @return
+     */
+    public static String getDateTimeString(Long time, String... param) {
+        if (NullUtil.nonNull((Object) param) && param.length > 2) {
+            throw new IllegalArgumentException("Illegal param, more than 2 param");
+        }
+
+        String result;
+        if (param.length == 1) {
+            if (param[0].contains("yyyy") || param[0].contains("MM") || param[0].contains("dd")) {
+                result = getDateTimeString(time, param[0], null);
+            } else {
+                result = getDateTimeString(time, null, param[0]);
+            }
+        } else {
+            if (param[0].contains("yyyy") || param[0].contains("MM") || param[0].contains("dd")) {
+                result = getDateTimeString(time, param[0], param[1]);
+            } else {
+                result = getDateTimeString(time, param[1], param[0]);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * @param time
+     * @return
+     */
+    private static String getDateTimeString(Long time, String pattern, String timezone) {
+        if (NullUtil.isNull(pattern)) {
+            pattern = DATETIME_PATTERN_yyyyMMddHHmmssSSS;
+        }
+        if (NullUtil.isNull(timezone)) {
+            timezone = GMT_8;
+        }
+
         Date date = new Date(time);
-        SimpleDateFormat formatter = new SimpleDateFormat(DATETIME_PATTERN_yyyyMMddHHmmssSSS);
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+        formatter.setTimeZone(TimeZone.getTimeZone(timezone));
         return formatter.format(date);
     }
 
@@ -354,7 +413,7 @@ public class DateUtil {
         cal.set(Calendar.MONTH, month - 1);
         int lastDay = cal.getActualMaximum(Calendar.DATE);
         cal.set(Calendar.DAY_OF_MONTH, lastDay);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(DATETIME_PATTERN_yyyyMMdd);
         Console.println(sdf.format(cal.getTime()));
         return sdf.format(cal.getTime());
     }
@@ -370,7 +429,6 @@ public class DateUtil {
     }
 
 
-
     /**
      * 以今年为标识，获取上N年的年份List列表
      */
@@ -383,7 +441,6 @@ public class DateUtil {
         }
         return years;
     }
-
 
 
 }
