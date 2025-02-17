@@ -119,9 +119,7 @@ public class DateUtil {
     }
 
     public static long getLong(String dateTime) throws ParseException {
-        SimpleDateFormat sf = new SimpleDateFormat(DATETIME_PATTERN_yyyyMMddHHmmssSSS);
-        Date date = sf.parse(dateTime);
-        return date.getTime();
+        return getLong(dateTime, DATETIME_PATTERN_yyyyMMddHHmmssSSS);
     }
     
 
