@@ -31,13 +31,13 @@ public class FtpUtil {
 
     //读取properties value
     // @Value("${cw.ftp.host}")
-    private String host = "192.168.10.215";
+    private final String host = "192.168.10.215";
     // @Value("${cw.ftp.username}")
-    private String username = "crushftpadmin";
+    private final String username = "crushftpadmin";
     // @Value("${cw.ftp.password}")
-    private String password = "0C6#!/[a";
+    private final String password = "0C6#!/[a";
     // @Value("${cw.ftp.port}")
-    private int port = 4434;
+    private final int port = 4434;
     // @Value("${cw.ftp.path}")
     private final String path = "./";
 
