@@ -32,7 +32,7 @@ public class ConsoleTable {
     }
 
     private static List setContent(List<String> header, List<String[]> body) {
-        List content = new ArrayList();
+        List content = new ArrayList<>();
 
         List<Cell> contentHeader = new ArrayList<>();
         for (String h : header) {
@@ -52,6 +52,7 @@ public class ConsoleTable {
         content.add(contentBody);
         return content;
     }
+    
 
     private static List<List<Cell>> setBody(List<String[]> body) {
         List<List<Cell>> contentBody = new ArrayList<>();

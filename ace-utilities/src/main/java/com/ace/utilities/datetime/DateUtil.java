@@ -29,12 +29,26 @@ public class DateUtil {
     public static String GMT_8 = "GMT+8";
     public static String CST = "CST";
 
+    private static final String ASIA_HONGKONG = "Asia/Hong_Kong";
+
     public static void main(String[] args) {
         System.out.println(getUsedDateTime(System.currentTimeMillis()));
 
 
     }
 
+
+    public static String getHostTimeZone() {
+        // 获取本地默认时区
+        TimeZone localTimeZone = TimeZone.getDefault();
+        // 获取时区的标识符
+        String timeZoneId = localTimeZone.getID();
+
+        if (ASIA_HONGKONG.equals(timeZoneId)) {
+            return GMT_8;
+        }
+        return timeZoneId;
+    }
 
     public static Date convertXMLGregorianCalendarToDate(XMLGregorianCalendar cal) {
         return cal.toGregorianCalendar().getTime();
@@ -111,7 +125,7 @@ public class DateUtil {
         }
     }
 
-    
+
     public static long getLong(String dateTime, String pattern) throws ParseException {
         SimpleDateFormat sf = new SimpleDateFormat(pattern);
         Date date = sf.parse(dateTime);
@@ -121,7 +135,7 @@ public class DateUtil {
     public static long getLong(String dateTime) throws ParseException {
         return getLong(dateTime, DATETIME_PATTERN_yyyyMMddHHmmssSSS);
     }
-    
+
 
     /**
      * @param time
@@ -141,7 +155,9 @@ public class DateUtil {
         return getDateTimeString(time, DATETIME_PATTERN_yyyyMMddHHmmssSSS);
     }
 
-    /** 只接受两个param参数: String pattern, String timezone
+    /**
+     * 只接受两个param参数: String pattern, String timezone
+     *
      * @param time
      * @return
      */

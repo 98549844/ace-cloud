@@ -196,6 +196,37 @@ public class ListUtil {
         return result;
     }
 
+
+    /**
+     * 比较两个list, 把重复的元素找出来, 并再过filter掉重复的元素, return list
+     *
+     * @param ls1
+     * @param ls2
+     * @param <T>
+     * @return
+     */
+    public static <T> List<Object> getDeduplicatedList(List<T> ls1, List<T> ls2) {
+        if (NullUtil.isNull(ls1, ls2)) {
+            throw new NullPointerException("list is null");
+        }
+
+        List<T> t = ls1;
+        if (ls2.size() > ls1.size()) {
+            //保证ls1的长度大于ls2
+            ls1 = ls2;
+            ls2 = t;
+        }
+        Set<T> result = new HashSet<>();
+        for (T t2 : ls2) {
+            for (T t1 : ls1) {
+                if (t2.equals(t1)) {
+                    result.add(t2);
+                }
+            }
+        }
+        return Arrays.asList(result.toArray());
+    }
+
     /**
      * 比较两个list, 把不相同的找出来
      * 返回独立list
@@ -204,23 +235,23 @@ public class ListUtil {
      * @param ls2
      * @return
      */
-    public static Map getNonDeduplicateElements(List ls1, List ls2) {
-        Map map = new HashMap();
-        List ls = new ArrayList();
-        for (Object obj : ls1) {
-            if (!ls2.contains(obj)) {
-                log.info("List1 独立元素: " + obj.toString());
-                ls.add(obj);
+    public static <T> Map<String, List<T>> getNonDeduplicateElements(List<T> ls1, List<T> ls2) {
+        Map<String, List<T>> map = new HashMap<>();
+        List<T> ls = new ArrayList<>();
+        for (T t : ls1) {
+            if (!ls2.contains(t)) {
+                log.info("List1 独立元素: " + t.toString());
+                ls.add(t);
             }
         }
         if (!ls.isEmpty()) {
             map.put(ListUtil.LIST_1, ls);
         }
-        ls = new ArrayList();
-        for (Object obj : ls2) {
-            if (!ls1.contains(obj)) {
-                log.info("List2 独立元素: " + obj.toString());
-                ls.add(obj);
+        ls = new ArrayList<>();
+        for (T t : ls2) {
+            if (!ls1.contains(t)) {
+                log.info("List2 独立元素: " + t.toString());
+                ls.add(t);
             }
         }
         if (!ls.isEmpty()) {
@@ -264,12 +295,11 @@ public class ListUtil {
      * @param list
      * @return 重复元素list
      */
-    public static <T> List getDuplicated(List<T> list) {
+    public static <T> List<T> getDuplicated(List<T> list) {
         Set<T> listSet = new HashSet<>(list);
         Collection<T> sub = CollectionUtils.subtract(list, listSet);
         HashSet<T> hSet = new HashSet<>(sub);
-        List ls = new ArrayList<>(hSet);
-        return ls;
+        return new ArrayList<>(hSet);
     }
 
 
