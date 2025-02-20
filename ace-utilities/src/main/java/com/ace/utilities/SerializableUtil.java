@@ -42,11 +42,11 @@ public class SerializableUtil {
      *
      * @param file
      */
-    public static <T> T deserializationFromFile(String file) {
+    public static Object deserializationFromFile(String file) {
         try {
             FileInputStream fis = new FileInputStream(file);
             ObjectInputStream objectInputStream = new ObjectInputStream(fis);
-            return (T) objectInputStream.readObject();
+            return objectInputStream.readObject();
         } catch (Exception e) {
             log.error(e.getMessage());
             e.printStackTrace();
@@ -80,13 +80,12 @@ public class SerializableUtil {
 
     /**
      * byte[]内容反序列化, 用作数据反序列
-     *
      */
-    public static <T> T deserialize(byte[] objectBytes) {
+    public static Object deserialize(byte[] objectBytes) {
         try {
             ByteArrayInputStream bais = new ByteArrayInputStream(objectBytes);
             ObjectInputStream objectInputStream = new ObjectInputStream(bais);
-            return (T) objectInputStream.readObject();
+            return objectInputStream.readObject();
         } catch (Exception e) {
             log.error(e.getMessage());
             e.printStackTrace();
