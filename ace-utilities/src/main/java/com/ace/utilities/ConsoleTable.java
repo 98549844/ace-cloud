@@ -22,7 +22,7 @@ public class ConsoleTable {
 
     //打印console table
     public static void println(List<String> header, List<String[]> body) {
-        List content = setContent(header, body);
+        List<Object> content = setContent(header, body);
         new ConsoleTableImpl.ConsoleTableBuilder().addHeaders((List<Cell>) content.get(0))
                 .addRows((List<List<Cell>>) content.get(1)).build().print(); // default
     }
@@ -31,8 +31,8 @@ public class ConsoleTable {
         new ConsoleTableImpl.ConsoleTableBuilder().addRows(setBody(body)).build().print();//no header
     }
 
-    private static List setContent(List<String> header, List<String[]> body) {
-        List content = new ArrayList<>();
+    private static List<Object> setContent(List<String> header, List<String[]> body) {
+        List<Object> content = new ArrayList<>();
 
         List<Cell> contentHeader = new ArrayList<>();
         for (String h : header) {
@@ -58,8 +58,8 @@ public class ConsoleTable {
         List<List<Cell>> contentBody = new ArrayList<>();
         for (String[] ss : body) {
             List<Cell> contentCell = new ArrayList<>();
-            for (int i = 0; i < ss.length; i++) {
-                Cell cell = new Cell(ss[i]);
+            for (String s : ss) {
+                Cell cell = new Cell(s);
                 contentCell.add(cell);
             }
             contentBody.add(contentCell);

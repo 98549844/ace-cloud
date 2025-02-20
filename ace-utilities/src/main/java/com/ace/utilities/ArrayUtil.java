@@ -65,7 +65,7 @@ public class ArrayUtil {
         return sortedSet;
     }
 
-    public static int[] toIntArray(List<Integer> ls) {
+    public static int[] toArray(List<Integer> ls) {
         return ls.stream().mapToInt(Integer::valueOf).toArray();
     }
 
