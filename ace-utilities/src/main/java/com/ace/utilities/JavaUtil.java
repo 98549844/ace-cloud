@@ -17,7 +17,7 @@ public class JavaUtil {
     }
 
     @SuppressWarnings("static-access")
-    public static List getCurrentJdkInfo() throws IOException {
+    public static List<String> getCurrentJdkInfo() throws IOException {
         List<String> jdkInfo = new ArrayList<>();
         String command = "java -version";
         log.info("Current Java Version On " + OsUtil.getOsName());

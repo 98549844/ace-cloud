@@ -42,7 +42,7 @@ public class ListUtil {
      * @param in
      * @return
      */
-    public static List<String> convertToUpperCase(List<String> in) {
+    public static List<String> toUpperCase(List<String> in) {
         if (NullUtil.isNull(in)) {
             log.error("List size is 0");
             throw new NullPointerException();
@@ -60,7 +60,7 @@ public class ListUtil {
      * @param in
      * @return
      */
-    public static List<String> convertToLowerCase(List<String> in) {
+    public static List<String> toLowerCase(List<String> in) {
         if (NullUtil.isNull(in)) {
             log.error("List size is 0");
             throw new NullPointerException();

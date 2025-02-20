@@ -34,17 +34,17 @@ public class MapUtil {
     }
 
 
-    public static Map getDuplicatedMap(List list) {
-        List temp1 = new ArrayList();
-        List temp2 = new ArrayList();
-        for (int i = 0; i < list.size(); i++) {
-            if (!temp1.contains(list.get(i))) {
-                temp1.add(list.get(i));
+    public static <T> Map<String, List<T>> getDuplicatedMap(List<T> list) {
+        List<T> temp1 = new ArrayList<>();
+        List<T> temp2 = new ArrayList<>();
+        for (T t : list) {
+            if (!temp1.contains(t)) {
+                temp1.add(t);
             } else {
-                temp2.add(list.get(i));
+                temp2.add(t);
             }
         }
-        Map map = new HashMap();
+        Map<String, List<T>> map = new HashMap<>();
         map.put("nonDuplicate", temp1);
         map.put("duplicate", temp2);
         return map;
@@ -56,15 +56,13 @@ public class MapUtil {
      *
      * @param map
      */
-    public static void iterateMapKeySet(Map map) {
+    public static <K, V> void iterateMapKeySet(Map<K, V> map) {
         List<String> header = new ArrayList<>();
         header.add("key:");
         header.add("value:");
         List<String[]> body = new ArrayList<>();
 
-        Iterator iter = map.entrySet().iterator();
-        while (iter.hasNext()) {
-            Map.Entry entry = (Map.Entry) iter.next();
+        for (Map.Entry<K, V> entry : map.entrySet()) {
             Object key = entry.getKey();
             Object val = entry.getValue();
             body.add(new String[]{key.toString(), val.toString()});
@@ -75,23 +73,23 @@ public class MapUtil {
     }
 
 
-    public static List getKeySet(Map map) {
-        Iterator iter = map.entrySet().iterator();
-        List ls = new ArrayList();
+    public static <K, V> List<K> getKeySet(Map<K, V> map) {
+        Iterator<Map.Entry<K, V>> iter = map.entrySet().iterator();
+        List<K> ls = new ArrayList<>();
         while (iter.hasNext()) {
-            Map.Entry entry = (Map.Entry) iter.next();
-            Object key = entry.getKey();
+            Map.Entry<K, V> entry = iter.next();
+            K key = entry.getKey();
             ls.add(key);
         }
         return ls;
     }
 
-    public static List getValueSet(Map map) {
-        Iterator iter = map.entrySet().iterator();
-        List ls = new ArrayList();
+    public static <K, V> List<V> getValueSet(Map<K, V> map) {
+        Iterator<Map.Entry<K, V>> iter = map.entrySet().iterator();
+        List<V> ls = new ArrayList<>();
         while (iter.hasNext()) {
-            Map.Entry entry = (Map.Entry) iter.next();
-            Object key = entry.getValue();
+            Map.Entry<K, V> entry = iter.next();
+            V key = entry.getValue();
             ls.add(key);
         }
         return ls;
@@ -111,14 +109,14 @@ public class MapUtil {
         }
     }
 
-    public static Object mapToObject(Map<String, Object> map, Class<?> beanClass) throws Exception {
+    public static Object toObject(Map<String, Object> map, Class<?> beanClass) throws Exception {
         if (NullUtil.isNull(map)) return null;
         Object obj = beanClass.getDeclaredConstructor().newInstance();
         org.apache.commons.beanutils.BeanUtils.populate(obj, map);
         return obj;
     }
 
-    public static Map<?, ?> objectToMap(Object obj) {
+    public static Map<?, ?> toMap(Object obj) {
         if (NullUtil.isNull(obj)) {
             return null;
         }
