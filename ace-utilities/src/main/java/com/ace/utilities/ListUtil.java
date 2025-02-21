@@ -44,8 +44,7 @@ public class ListUtil {
      */
     public static List<String> toUpperCase(List<String> in) {
         if (NullUtil.isNull(in)) {
-            log.error("List size is 0");
-            throw new NullPointerException();
+            throw new NullPointerException("List is null");
         }
         List<String> out = new ArrayList<>();
         for (String s : in) {
@@ -62,8 +61,7 @@ public class ListUtil {
      */
     public static List<String> toLowerCase(List<String> in) {
         if (NullUtil.isNull(in)) {
-            log.error("List size is 0");
-            throw new NullPointerException();
+            throw new NullPointerException("List is null");
         }
         List<String> out = new ArrayList<>();
         for (String s : in) {
@@ -86,7 +84,7 @@ public class ListUtil {
      * @param nums
      * @return
      */
-    public static List<Integer> arrayIntToList(int[] nums) {
+    public static List<Integer> toList(int[] nums) {
         return Arrays.asList(ArrayUtils.toObject(nums));
     }
 
@@ -96,7 +94,7 @@ public class ListUtil {
      * @param i
      * @return
      */
-    public static List<Integer> intArrayToList(int[] i) {
+    public static List<Integer> intToList(int[] i) {
         return Arrays.stream(i).boxed().collect(Collectors.toList());
     }
 
@@ -119,7 +117,7 @@ public class ListUtil {
      * @param
      * @return
      */
-    public static boolean compareList(List ls1, List ls2) {
+    public static <T extends Comparable<? super T>> boolean compareList(List<T> ls1, List<T> ls2) {
         boolean result = false;
         int size1 = ls1.size();
         int size2 = ls2.size();
@@ -142,11 +140,11 @@ public class ListUtil {
 
 
     //根据长度把list拆分
-    public static <T> List<List<T>> splitList(List<T> list, int len) {
+    public static <T> List<List<T>> split(List<T> list, int len) {
         if (NullUtil.isNull(list) || list.isEmpty() || len < 1) {
             return null;
         }
-        List<List<T>> result = new ArrayList<List<T>>();
+        List<List<T>> result = new ArrayList<>();
         int size = list.size();
         int count = (size + len - 1) / len;
         for (int i = 0; i < count; i++) {
@@ -165,16 +163,15 @@ public class ListUtil {
      */
     public static <T> List<T> removeDuplicate(List<T> list) {
         if (NullUtil.isNull(list)) {
-            log.error("list is empty !");
-            throw new NullPointerException();
+            throw new NullPointerException("list is empty !");
         }
         Set<T> set = new HashSet<>(list);
         return new ArrayList<>(set);
     }
 
 
-    public static List getResultList(List<String> ls, String criteria, boolean include) {
-        List result = new ArrayList();
+    public static List<String> getResult(List<String> ls, String criteria, boolean include) {
+        List<String> result = new ArrayList();
         if (include) {
             // list 内容含有criteria
             if (!ls.contains(criteria)) {
@@ -274,19 +271,15 @@ public class ListUtil {
      * @param ls2
      * @return
      */
-    public static Map getNonDeduplicateElementsIgnoreSpace(List ls1, List ls2) {
-
-        List list1 = new ArrayList();
-        List list2 = new ArrayList();
-
-        for (int i = 0; i < ls1.size(); i++) {
-            list1.add(ls1.get(i).toString().replace(" ", ""));
+    public static Map getNonDeduplicateElementsIgnoreSpace(List<String> ls1, List<String> ls2) {
+        List<String> list1 = new ArrayList<>();
+        List<String> list2 = new ArrayList<>();
+        for (Object o : ls1) {
+            list1.add(o.toString().replace(" ", ""));
         }
-
-        for (int i = 0; i < ls2.size(); i++) {
-            list2.add(ls2.get(i).toString().replace(" ", ""));
+        for (Object o : ls2) {
+            list2.add(o.toString().replace(" ", ""));
         }
-
         return getNonDeduplicateElements(list1, list2);
     }
 
@@ -309,7 +302,7 @@ public class ListUtil {
      * @param list
      * @return
      */
-    public static List sortAsc(List list) {
+    public static List sortAsc(List<Integer> list) {
         Collections.sort(list);
         return list;
     }
@@ -321,7 +314,7 @@ public class ListUtil {
      * @param list
      * @return
      */
-    public static List sortDesc(List list) {
+    public static List sortDesc(List<Integer> list) {
         Collections.reverse(list);
         return list;
     }
@@ -332,7 +325,7 @@ public class ListUtil {
      * @param ls
      * @return
      */
-    public static List getSynchronizedList(List ls) {
+    public static <T> List<T> getSynchronizedList(List<T> ls) {
         return Collections.synchronizedList(ls);
     }
 
@@ -342,7 +335,7 @@ public class ListUtil {
      * @param ls
      * @return
      */
-    public static List getUnmodifiableList(List ls) {
+    public static <T> List<T> getUnmodifiableList(List<T> ls) {
         return Collections.unmodifiableList(ls);
     }
 
@@ -389,13 +382,13 @@ public class ListUtil {
      * @param percentage
      * @return
      */
-    public static List getRandomListByPercent(List ls, Integer percentage) {
+    public static List<Integer> getRandomListByPercent(List<Integer> ls, Integer percentage) {
         if (NullUtil.isNull(percentage)) {
             return null;
         }
         int percentItems = ls.size() * percentage / 100;
 
-        List resultLs = new ArrayList();
+        List<Integer> resultLs = new ArrayList<>();
         SecureRandom random = new SecureRandom();
         for (int i = 0; i < percentItems; i++) {
             int n = random.nextInt(ls.size());
@@ -412,14 +405,14 @@ public class ListUtil {
      * @param percentage
      * @return
      */
-    public static List getRandomListByPercentNonRepeatable(List ls, Integer percentage) {
+    public static List<Integer> getRandomListByPercentNonRepeatable(List<Integer> ls, Integer percentage) {
         if (NullUtil.isNull(percentage)) {
             return null;
         }
 
         int percentItems = ls.size() * percentage / 100;
 
-        List resultLs = new ArrayList();
+        List<Integer> resultLs = new ArrayList<>();
         SecureRandom random = new SecureRandom();
         while (resultLs.size() < percentItems) {
             int n = random.nextInt(ls.size());
@@ -523,10 +516,10 @@ public class ListUtil {
         }
     }
 */
-    public static String listToString(List list, String separator) {
+    public static <T> String listToString(List<T> list, String separator) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < list.size(); i++) {
-            sb.append(list.get(i)).append(separator);
+        for (T t : list) {
+            sb.append(t).append(separator);
         }
         String result = list.isEmpty() ? "" : sb.substring(0, sb.toString().length() - 1);
         System.out.println(result);
@@ -574,53 +567,40 @@ public class ListUtil {
     }
 
 
-    public static List stringArrayToList(String[] array) {
+    public static List<String> arrayToList(String[] array) {
         List<String> list = Arrays.asList(array);
         return list;
     }
 
 
-    public static void printListObjectSet(List list) {
+    public static void printListObjectSet(List<Object[]> list) {
         if (NullUtil.isNull(list)) {
-            log.error("List is null");
-            return;
+            throw new NullPointerException("List is null");
         }
-        List<Object[]> ls = list;
         log.info("List<Object[]> printing ...");
-        for (Object[] objs : ls) {
+        for (Object[] objs : list) {
             for (Object o : objs) {
-                if (o instanceof String) {
-                    String result = (String) o;
+                if (o instanceof String result) {
                     log.info("type: String ; value: " + result);
-                } else if (o instanceof Long) {
-                    Long result = (Long) o;
+                } else if (o instanceof Long result) {
                     log.info("type: Long ; value: " + result);
-                } else if (o instanceof BigInteger) {
-                    BigInteger result = (BigInteger) o;
+                } else if (o instanceof BigInteger result) {
                     log.info("type: BigInteger ; value: " + result);
-                } else if (o instanceof Decimal) {
-                    Decimal result = (Decimal) o;
+                } else if (o instanceof Decimal result) {
                     log.info("type: Decimal ; value: " + result);
-                } else if (o instanceof Integer) {
-                    Integer result = (Integer) o;
+                } else if (o instanceof Integer result) {
                     log.info("type: Integer ; value: " + result);
-                } else if (o instanceof Double) {
-                    Double result = (Double) o;
+                } else if (o instanceof Double result) {
                     log.info("type: Double ; value: " + result);
-                } else if (o instanceof Float) {
-                    Float result = (Float) o;
+                } else if (o instanceof Float result) {
                     log.info("type: Float ; value: " + result);
-                } else if (o instanceof Boolean) {
-                    Boolean result = (Boolean) o;
+                } else if (o instanceof Boolean result) {
                     log.info("type: Boolean ; value: " + result);
-                } else if (o instanceof Date) {
-                    Date result = (Date) o;
+                } else if (o instanceof Date result) {
                     log.info("type: Date ; value: " + result);
-                } else if (o instanceof LocalDate) {
-                    LocalDate result = (LocalDate) o;
+                } else if (o instanceof LocalDate result) {
                     log.info("type: LocalDate ; value: " + result);
-                } else if (o instanceof LocalDateTime) {
-                    LocalDateTime result = (LocalDateTime) o;
+                } else if (o instanceof LocalDateTime result) {
                     log.info("type: LocalDateTime ; value: " + result);
                 } else if (o == null) {
                     log.info("Object value is NULL !");
@@ -640,7 +620,7 @@ public class ListUtil {
      * @param target
      * @return
      */
-    public static List removeElement(List source, Object target) {
+    public static List<Object> removeElement(List<Object> source, Object target) {
         source.removeIf(o -> o.equals(target));
         return source;
     }

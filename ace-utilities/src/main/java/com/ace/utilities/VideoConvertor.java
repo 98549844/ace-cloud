@@ -54,7 +54,7 @@ public class VideoConvertor {
             oldVideoUrl = video.substring(0, video.lastIndexOf("/") + 1);
             video = video.substring(video.lastIndexOf("/") + 1);
         } else {
-            log.error("inputPath is null ：" + inputPath);
+            log.error("inputPath is null: {}", inputPath);
             return;
         }
         String oldFileName = video;
@@ -62,10 +62,10 @@ public class VideoConvertor {
         boolean status;
         log.info("直接转成mp4格式");
         status = processMp4(inputPath, inputPath, ffmpegPath, outputPath, newFileName);// 直接转成mp4格式
+        File folder = new File(oldVideoUrl);
+        File[] files = folder.listFiles();
 
-        if (status) {
-            File folder = new File(oldVideoUrl);
-            File[] files = folder.listFiles();
+        if (status && files != null) {
             for (File file : files) {
                 if (file.getName().equals(oldFileName)) {
                     file.delete();
@@ -73,11 +73,11 @@ public class VideoConvertor {
             }
             log.info("视频转MP4成功!");
         } else {
-            log.error("视频转换失败，重试！");
+            log.error("视频转换失败,重试!");
             status = processMp4(inputPath, inputPath, ffmpegPath, outputPath, newFileName);// 直接转成mp4格式
             if (status) {
-                File folder = new File(oldVideoUrl);
-                File[] files = folder.listFiles();
+                //File folder = new File(oldVideoUrl);
+                //File[] files = folder.listFiles();
                 for (File file : files) {
                     if (file.getName().equals(oldFileName)) {
                         file.delete();
@@ -92,7 +92,7 @@ public class VideoConvertor {
     private static boolean checkFile(String path) {
         File file = new File(path);
         if (!file.isFile()) {
-            log.error(path + "不是文件夹！");
+            log.error("{} 不是文件夹!", path);
             return false;
         }
         return true;
@@ -100,7 +100,7 @@ public class VideoConvertor {
 
     private boolean processMp4(String inputPath, String oldFilePath, String ffmpegPath, String outputPath, String fileName) throws IOException {
         if (!checkFile(inputPath)) {
-            log.error(oldFilePath + " is not file");
+            log.error("{} is not file", oldFilePath);
             return false;
         }
 
