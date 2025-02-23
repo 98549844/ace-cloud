@@ -19,40 +19,17 @@ public class ObjectUtil {
     private static final String GET_METHOD_PREFIX = "get";
     private static final String SET_METHOD_PREFIX = "set";
 
-
-    public static String getType(Object obj) {
-        // 获取对象的类
-        Class<?> objClass = obj.getClass();
-        // 输出对象的类名
-        System.out.println("Object type: " + objClass.getName());
-        return objClass.getName();
+    public static String getType(Object object) {
+        Class<?> objClass = object.getClass();
+        String type = objClass.getName();
+        log.info("Object type: " + type);
+        return type;
     }
 
-    public static String getObjectType(Object obj) {
-        if (NullUtil.isNull(obj)) {
-            Console.println("Object NullException", Console.RED, Console.BOLD);
-        }
-        if (obj instanceof Boolean) {
-            Console.println("Type : Boolean", Console.BLUE);
-            return "Boolean";
-        }
-        if (obj instanceof Integer) {
-            Console.println("Type : Integer", Console.BLUE);
-            return "Integer";
-        }
-        if (obj instanceof String) {
-            Console.println("Type : String", Console.BLUE);
-            return "String";
-        }
-        if (obj instanceof List<?>) {
-            Console.println("Type : List<?>", Console.BLUE);
-            return "List";
-        }
-        if (obj instanceof Map<?, ?>) {
-            Console.println("Type : Map<?,?>", Console.BLUE);
-            return "Map";
-        }
-        return "UNKNOWN TYPE";
+    public static String getSimpleType(Object o) {
+        String type = o.getClass().getSimpleName();
+        log.info("Object type: " + type);
+        return type;
     }
 
 
@@ -60,9 +37,7 @@ public class ObjectUtil {
         if (NullUtil.isNull(t) || NullUtil.isNull(e)) {
             String val1 = String.valueOf(ObjectUtil.getFieldValue(t, fieldName));
             String val2 = String.valueOf(ObjectUtil.getFieldValue(e, fieldName));
-            if (StringUtils.hasText(val1) && StringUtils.hasText(val2) && val1.equals(val2)) {
-                return true;
-            }
+            return StringUtils.hasText(val1) && StringUtils.hasText(val2) && val1.equals(val2);
         }
         return false;
     }
@@ -93,7 +68,6 @@ public class ObjectUtil {
                 getterNames.add(method.getName());
             }
         }
-
         return getterNames;
     }
 
@@ -110,7 +84,6 @@ public class ObjectUtil {
         String getMethodRealName;
         if (fieldName.startsWith("get")) {
             getMethodRealName = GET_METHOD_PREFIX + fieldName.substring(3, 4).toUpperCase() + fieldName.substring(4);
-
         } else {
             getMethodRealName = GET_METHOD_PREFIX + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
 
