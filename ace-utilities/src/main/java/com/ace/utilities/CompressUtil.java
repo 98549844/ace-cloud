@@ -14,6 +14,7 @@ import org.apache.tools.zip.ZipFile;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -69,6 +70,8 @@ public class CompressUtil {
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -76,7 +79,7 @@ public class CompressUtil {
     public static void decompressGZFiles(String path) {
         path = FileUtil.getParent(path);
         System.out.println(path);
-        ArrayList<String> files = FileUtil.getFileNamesWithExt(path);
+        List<String> files = FileUtil.getFileNamesWithExt(path);
         for (String f : files) {
             f = path + f;
             decompressGZFile(f);
@@ -86,7 +89,7 @@ public class CompressUtil {
     public static void decompressAndDeleteGZFile(String path) {
         path = FileUtil.getParent(path);
         System.out.println(path);
-        ArrayList<String> files = FileUtil.getFileNamesWithExt(path);
+        List<String> files = FileUtil.getFileNamesWithExt(path);
         for (String f : files) {
             f = path + f;
             decompressGZFile(f);

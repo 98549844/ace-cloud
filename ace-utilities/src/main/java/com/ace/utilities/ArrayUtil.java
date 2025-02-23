@@ -65,7 +65,11 @@ public class ArrayUtil {
         return sortedSet;
     }
 
+    // 将List<Integer>转换为int[]数组
     public static int[] toArray(List<Integer> ls) {
+        // 使用stream()方法将List转换为流
+        // 使用mapToInt()方法将流中的元素转换为int类型
+        // 使用toArray()方法将流转换为int[]数组
         return ls.stream().mapToInt(Integer::valueOf).toArray();
     }
 
@@ -74,12 +78,18 @@ public class ArrayUtil {
     }
 
     public static String[] toStringArray(String s) {
+        // 将字符串转换为字符数组
         char[] c = s.toCharArray();
+        // 获取字符数组的长度
         int size = c.length;
+        // 创建一个与字符数组长度相同的字符串数组
         String[] ss = new String[size];
+        // 遍历字符数组
         for (int i = 0; i < size; i++) {
+            // 将字符数组中的每个字符转换为字符串，并存储到字符串数组中
             ss[i] = String.valueOf(c[i]);
         }
+        // 返回字符串数组
         return ss;
     }
 

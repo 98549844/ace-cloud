@@ -5,6 +5,7 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.util.TextUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.checkerframework.checker.units.qual.K;
 import org.mozilla.universalchardet.UniversalDetector;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mock.web.MockMultipartFile;
@@ -118,26 +119,31 @@ public class FileUtil {
         return result;
     }
 
-    public static Map getCurrentFolderList(String path) {
+    public static Map<String, List<String>> getCurrentFolderList(String path) throws Exception {
         log.info("get current: {}", path);
 
         File file = new File(path);
-        Map map = new HashMap();
+        Map<String, List<String>> map = new HashMap<>();
         if (!file.exists() || !file.isDirectory()) {
             log.warn("not directory or not exist !");
             return map;
         }
         File[] files = file.listFiles();
-        List fullFolderList = new ArrayList();
-        List folderList = new ArrayList();
-        List fileList = new ArrayList();
-        for (File f : files) {
-            if (f.isDirectory()) {
-                fullFolderList.add(f.getAbsolutePath() + File.separator);
-                folderList.add(f.getName());
-            } else if (f.isFile()) {
-                fileList.add(f.getAbsolutePath());
+        List<String> fullFolderList = new ArrayList<>();
+        List<String> folderList = new ArrayList<>();
+        List<String> fileList = new ArrayList<>();
+
+        if (files != null) {
+            for (File f : files) {
+                if (f.isDirectory()) {
+                    fullFolderList.add(f.getAbsolutePath() + File.separator);
+                    folderList.add(f.getName());
+                } else if (f.isFile()) {
+                    fileList.add(f.getAbsolutePath());
+                }
             }
+        } else {
+            throw new Exception("File list is null!");
         }
         map.put(FOLDER_LIST, fullFolderList);
         map.put(FOLDER_NAME, folderList);
@@ -186,7 +192,7 @@ public class FileUtil {
      * @param path
      * @return
      */
-    public static LinkedList getFolderAndSubFolderList(String path) {
+    public static LinkedList<String> getFolderAndSubFolderList(String path) {
         LinkedList<String> list = new LinkedList<>();
         path = getParent(path);
         //考虑到会打成jar包发布 new File()不能使用改用FileSystemResource
@@ -273,13 +279,12 @@ public class FileUtil {
     public static void renameFilesName(String path, List<String> newNameList) throws Exception {
         log.info("Start rename file");
         path = getParent(path);
-        ArrayList<String> fileList = FileUtil.getFileNamesWithExt(path);
+        List<String> fileList = FileUtil.getFileNamesWithExt(path);
         if (fileList.size() != newNameList.size()) {
             log.error("List size not equal");
             return;
         }
         for (int i = 0; i < newNameList.size(); i++) {
-            //   path = slash(path);
             File oldFile = new File(path + fileList.get(i));
             File newFile = new File(path + newNameList.get(i));
             if (newFile.exists()) {
@@ -297,20 +302,21 @@ public class FileUtil {
         // 新的文件或目录
         File newName = new File(desc);
         if (newName.exists()) {  //  确保新的文件名不存在
-            throw new IOException("target file exists !!!");
+            throw new IOException("target file exists!");
         }
-        if (oldName.renameTo(newName)) {
+        boolean success = oldName.renameTo(newName);
+        if (success) {
             log.info("File renamed success => {}", desc);
         } else {
             if (src.equals(desc)) {
-                log.error("New file name same with original !!!");
+                log.error("New file name same with original!");
             }
-            log.error("File rename fail !!!");
+            log.error("File rename fail!");
         }
     }
 
 
-    private static String extension(String ext) throws Exception {
+    private static String extension(String ext) {
         if (NullUtil.isNull(ext)) {
             throw new NullPointerException("extension is null");
         } else {
@@ -325,7 +331,7 @@ public class FileUtil {
     public static void renameFilesExt(String path, String newExt) throws Exception {
         log.info("Start rename ext");
         path = getParent(path);
-        ArrayList<String> fileList = FileUtil.getFileNamesWithExt(path);
+        List<String> fileList = FileUtil.getFileNamesWithExt(path);
         int i = 1;
         for (String s : fileList) {
             String[] spiltFileName = Strings.split(s, ".");
@@ -340,10 +346,10 @@ public class FileUtil {
             }
             boolean isSuccess = oldFile.renameTo(newFile);
             if (!isSuccess) {
-                log.info("rename fail: " + oldFile);
+                log.info("rename fail: {}", oldFile);
             }
         }
-        log.info("Rename success, total renamed files:" + fileList.size());
+        log.info("Rename success, total renamed files: {}", fileList.size());
     }
 
 
@@ -366,12 +372,13 @@ public class FileUtil {
      * @param path
      * @return
      */
-    public static ArrayList<String> getFileNamesWithExt(String path) {
+    public static List<String> getFileNamesWithExt(String path) {
         path = getParent(path);
         log.info("Folder: {}", path);
         ArrayList<String> files = new ArrayList<>();
         File file = new File(path);
         File[] fileLists = file.listFiles();
+        assert fileLists != null;
         for (File f : fileLists) {
             if (f.isFile() && !f.getName().equals(".DS_Store")) {
                 files.add(f.getName());//file name
@@ -386,10 +393,10 @@ public class FileUtil {
      * @param path
      * @return
      */
-    public static Map getFileNamesWithExtMap(String path) {
+    public static Map<String, String> getFileNamesWithExtMap(String path) {
         path = getParent(path);
         log.info("Folder: {}", path);
-        Map files = new HashMap();
+        Map<String, String> files = new HashMap<>();
         File file = new File(path);
         File[] fileLists = file.listFiles();
         for (File f : fileLists) {
@@ -410,10 +417,9 @@ public class FileUtil {
     public static String getFileNameWithExt(String path) throws IOException {
         File file = new File(path);
         if (file.isDirectory() || !file.exists()) {
-            log.error("Is directory or file not exist !");
-            throw new IOException();
+            throw new IOException("Is directory or file not exist !");
         }
-        return path.substring(path.lastIndexOf(File.separator) + 1);
+        return file.getName();
     }
 
 
@@ -457,8 +463,7 @@ public class FileUtil {
 
     public static Map<String, Object> read(String path) throws IOException {
         if (!isFile(path)) {
-            log.warn("can't read this file, please check !");
-            return null;
+            throw new IOException("can't read this file, please check !");
         }
         File f = new File(path);
         // 建立一个输入流对象reader
@@ -507,7 +512,7 @@ public class FileUtil {
      * @param path
      * @return
      */
-    public static Map getFileNamesMap(String path) {
+    public static Map<String, List<String>> getFileNamesMap(String path) {
         List<String> ls = getFolderAndSubFolderList(path);
         Map<String, List<String>> result = new HashMap<>();
         for (String folder : ls) {
@@ -518,9 +523,8 @@ public class FileUtil {
     }
 
 
-    public static LinkedHashMap getFullPathDirTree(String path) throws IOException {
-        //   LinkedList<String> list = new LinkedList<>();
-        LinkedHashMap m = new LinkedHashMap();
+    public static Map<Object, Object> getFullPathDirTree(String path) {
+        Map<Object, Object> m = new LinkedHashMap<>();
         path = getParent(path);
         File file = new FileSystemResource(path).getFile();
         // 获取路径下的所有文件及文件夹
@@ -529,7 +533,7 @@ public class FileUtil {
         for (int i = 0; i < size; i++) {
             if (files[i].isDirectory()) {
                 String folder = files[i].getPath();
-                Map t = getFullPathDirTree(folder);
+                Map<Object, Object> t = getFullPathDirTree(folder);
                 m.put(folder, t);
             } else {
                 String fPath = files[i].getPath();
@@ -641,7 +645,12 @@ public class FileUtil {
      * @return
      */
     public static boolean canWrite(String path) {
-        return !new File(path).canWrite();
+        return new File(path).canWrite();
+    }
+
+    public static boolean setWritable(String path, boolean writable) {
+        File file = new File(path);
+        return file.setWritable(writable);
     }
 
     /**
@@ -650,7 +659,7 @@ public class FileUtil {
      * @param path
      * @return
      */
-    public static boolean fileInUse(String path) {
+    public static boolean isUsed(String path) {
         try (RandomAccessFile file = new RandomAccessFile(path, "rw"); FileChannel channel = file.getChannel()) {
             FileLock lock = channel.tryLock();
             if (lock == null) {
@@ -668,12 +677,9 @@ public class FileUtil {
 
     /**
      * 清空原文并写入新内容
-     *
-     * @param filePath
-     * @param Content
-     * @return
      */
-    public static boolean rewrite(String filePath, String Content) {
+     /*
+        public static boolean rewrite(String filePath, String Content) {
         boolean flag = false;
         create(filePath);
         try {
@@ -688,6 +694,12 @@ public class FileUtil {
             e.printStackTrace();
         }
         return flag;
+    }
+    */
+    public static void write(String path, Object object, boolean append) throws IOException {
+        String filePath = getParent(path) + FileUtil.separator();
+        String fileName = getFileNameWithExt(path);
+        write(filePath, fileName, object, append);
     }
 
     /**
@@ -720,7 +732,7 @@ public class FileUtil {
             contentSet = (Set<?>) obj;
             type = SET;
         } else {
-            log.error("un-default type");
+            log.error("UN-DEFAULT TYPE!");
             return;
         }
 
@@ -769,7 +781,6 @@ public class FileUtil {
                 }
                 default -> log.error("contentInBytes: {}", contentInBytes);
             }
-
             outputStreamWriter.close();
             // fop.flush();
             // fop.close();
@@ -793,27 +804,19 @@ public class FileUtil {
         path = getParent(path);
         //check dir exist
         File folder = new File(path);
-        if (!folder.exists() && !folder.isDirectory()) {
-            folder.mkdirs();
-            System.out.print("Directory created. ");
+        if (!folder.exists()) {
+            System.out.print("Path not exist!");
+        }
+        if (folder.isDirectory()) {
+            System.out.print("Path is not directory!");
         }
         //check file exist
         File file = new File(path + fileName);
         if (!file.exists()) {
-            try {
-                file.createNewFile();
-                file.setWritable(true);
-                System.out.print("File created. ");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            System.out.println("file not exist!");
         } else {
             if (file.exists() && file.length() == 0) {
                 System.out.print("File is empty. ");
-            }
-            if (file.canWrite()) {
-            } else {
-                System.out.println("File can't write. ");
             }
         }
     }
@@ -864,15 +867,17 @@ public class FileUtil {
         return ENCODING;
     }
 
-    public static boolean compareFile(String fileA, String fileB) {
+    public static boolean compareFile(String fileA, String fileB) throws IOException {
         File fileX = new File(fileA);
         File fileY = new File(fileB);
         if (!fileX.isFile() || !fileY.isFile()) {
-            log.error("File not exist!");
-            return false;
+            throw new IOException("File not exist!");
         }
         String md5X = getMD5(fileX);
         String md5Y = getMD5(fileY);
+        if (NullUtil.isNull(md5X, md5Y)) {
+            throw new NullPointerException("get MD5 value false!");
+        }
         boolean isEquals = md5X.equals(md5Y);
         log.info("Compare result: {}", isEquals);
         return isEquals;
@@ -894,15 +899,14 @@ public class FileUtil {
             return bigInt.toString(16);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return "";
         }
     }
 
-    public static long getSize(String filename) {
+    public static long getSize(String filename) throws IOException {
         File file = new File(filename);
         if (!file.exists() || !file.isFile()) {
-            log.info("File not exist");
-            return -1;
+            throw new IOException("File not exist");
         }
         DecimalFormat df = new DecimalFormat("#.00");
         if (file.length() / (1024L * 1024L) > 0) {
@@ -919,6 +923,7 @@ public class FileUtil {
 
 
     /**
+     * 技持完整路径和文件名
      * Used to extract and return the extension of a given file.
      * 後綴不包含 "."
      *
@@ -929,7 +934,6 @@ public class FileUtil {
     public static String getExtension(String f) {
         String ext = "";
         int i = f.lastIndexOf('.');
-
         if (i > 0 && i < f.length() - 1) {
             ext = f.substring(i + 1);
         }
@@ -939,12 +943,7 @@ public class FileUtil {
     public static List<String> getExtensions(List<String> fs) {
         List<String> extensions = new ArrayList<>();
         for (String f : fs) {
-            String ext = "";
-            int i = f.lastIndexOf('.');
-            if (i > 0 && i < f.length() - 1) {
-                ext = f.substring(i + 1);
-            }
-            extensions.add(ext);
+            extensions.add(getExtension(f));
         }
         return extensions;
     }
@@ -958,10 +957,6 @@ public class FileUtil {
      * extension.
      */
     public static String getName(String f) {
-        File file = new File(f);
-        if (file.isFile()) {
-            return file.getName().split("\\.")[0];
-        }
         String fName = "";
         int i = f.lastIndexOf('.');
         if (i > 0 && i < f.length() - 1) {
@@ -971,27 +966,7 @@ public class FileUtil {
     }
 
 
-    /**
-     * Used to extract the filename and its extension.
-     *
-     * @param fileName Incoming file to get the filename
-     * @return <code>String</code> representing the filename without its
-     * extension.
-     */
-    //public static Map getNameAndExt(String fileName) {
-    //    String fName;
-    //    String ext;
-    //    int i = fileName.lastIndexOf('.');
-    //    Map map = new HashMap();
-    //    if (i > 0 && i < fileName.length() - 1) {
-    //        fName = fileName.substring(0, i);
-    //        ext = fileName.substring(i);
-    //        map.put(FileUtil.FILENAME, fName);
-    //        map.put(FileUtil.EXT, ext);
-    //    }
-    //    return map;
-    //}
-    public static List getNameAndExt(String fileName) {
+    public static List<String> getNameAndExt(String fileName) {
         File file = new File(fileName);
         String[] result;
         if (file.isFile()) { //如果是文件
@@ -1001,7 +976,7 @@ public class FileUtil {
         }
         List<String> list = new ArrayList<>();
         list.add(result[0]); //文件名
-        list.add("." + result[1]); //后缀
+        list.add(FileUtil.EXT + result[1]); //后缀
         return list;
     }
 
@@ -1085,7 +1060,7 @@ public class FileUtil {
         return isSuccess;
     }
 
-    public Map<String, Integer> countByType(String path, String... ext) throws IOException {
+    public Map<String, Integer> countByType(String path, String... ext) throws Exception {
         Map<String, Integer> result = new HashMap<>();
         Map<String, Integer> accumulateCount = new HashMap<>();
         countByTypeRecursive(path, accumulateCount);
@@ -1108,7 +1083,7 @@ public class FileUtil {
      * @param path 路经 xxx/xxx/xxx/xxx/
      * @throws IOException
      */
-    private static void countByTypeRecursive(String path, Map<String, Integer> accumulateCount) throws IOException {
+    private static void countByTypeRecursive(String path, Map<String, Integer> accumulateCount) throws Exception {
         File folder = new File(path);
         Map<String, Integer> resultMap = new HashMap<>();
         File[] files = folder.listFiles();
@@ -1124,7 +1099,7 @@ public class FileUtil {
                 countByTypeRecursive(f.getAbsolutePath(), accumulateCount);
             }
         }
-        List ls = MapUtil.getKeySet(resultMap);
+        List<String> ls = MapUtil.getKeySet(resultMap);
         System.out.println(folder.getAbsolutePath());
         for (Object object : ls) {
             String key = object.toString();
@@ -1133,7 +1108,6 @@ public class FileUtil {
             Integer newValue = (accumulateCount.get(key) == null ? 0 : accumulateCount.get(key)) + value;
             accumulateCount.put(key, newValue);
         }
-        System.out.println();
     }
 
     /**
@@ -1170,10 +1144,10 @@ public class FileUtil {
             folder = new File(folder.getParent());
         }
         FileUtil fileUtil = new FileUtil();
-        List ls = fileUtil.getFilePaths(folder.getPath());
+        List<String> ls = fileUtil.getFilePaths(folder.getPath());
         int count = 0;
-        for (Object object : ls) {
-            File temp = new File(object.toString());
+        for (String object : ls) {
+            File temp = new File(object);
             if (temp.isFile()) {
                 ++count;
             } else {
@@ -1190,7 +1164,7 @@ public class FileUtil {
      * @param ext
      * @throws IOException
      */
-    public static Map<String, List<String>> findByType(String path, String... ext) throws IOException {
+    public static Map<String, List<String>> findByType(String path, String... ext) throws Exception {
         FileUtil fileUtil = new FileUtil();
         List<String> fileList = fileUtil.getFilePaths(path);
         log.info("file size: {}", fileList.size());
@@ -1214,9 +1188,7 @@ public class FileUtil {
         for (String s : ext) {
             int size = resultMap.get(s) == null ? 0 : resultMap.get(s).size();
             Console.println("type: " + s + " found: " + size, Console.BOLD); //print as console
-
         }
-
         return resultMap;
     }
 
@@ -1257,17 +1229,17 @@ public class FileUtil {
 
         if (directory.isDirectory()) {
             File[] fileList = directory.listFiles();
-            /**如果当前是文件夹，进入递归扫描文件夹**/
-            /**递归扫描下面的文件夹**/
-            /**非文件夹**/
+            /*如果当前是文件夹，进入递归扫描文件夹*/
+            /*递归扫描下面的文件夹*/
+            /*非文件夹*/
             for (File file : fileList) {
-                /**如果当前是文件夹，进入递归扫描文件夹**/
+                /*如果当前是文件夹，进入递归扫描文件夹*/
                 if (file.isDirectory()) {
                     directories.add(file.getAbsolutePath());
-                    /**递归扫描下面的文件夹**/
+                    /*递归扫描下面的文件夹*/
                     getAccumulatedFilesLocation(file.getAbsolutePath());
                 } else {
-                    /**非文件夹**/
+                    /*非文件夹*/
                     scanFiles.add(file.getAbsolutePath());
                 }
             }
@@ -1282,13 +1254,12 @@ public class FileUtil {
      * @return ArrayList<Object>
      * @time 2017年11月3日
      */
-    public ArrayList<String> getFilePaths(String folderPath) {
-        ArrayList<String> scanFiles = new ArrayList<>();
+    public List<String> getFilePaths(String folderPath) throws IOException {
+        List<String> scanFiles = new ArrayList<>();
         LinkedList<File> queueFiles = new LinkedList<>();
         File directory = new File(folderPath);
         if (!directory.isDirectory()) {
-            log.error("incorrect folder path !!!");
-            return null;
+            throw new IOException("incorrect folder path!");
         } else {
             //首先将第一层目录扫描一遍
             File[] files = directory.listFiles();
@@ -1301,7 +1272,6 @@ public class FileUtil {
                     scanFiles.add(file.getAbsolutePath());
                 }
             }
-
             //如果linkedList非空遍历linkedList
             while (!queueFiles.isEmpty()) {
                 //移出linkedList中的第一个
@@ -1330,8 +1300,8 @@ public class FileUtil {
     public static List<String> getNamesOrderByName(String filePath, boolean sorting) {
         File file = new File(filePath);
         File[] files = file.listFiles();
-        List fileList = Arrays.asList(files);
-        Collections.sort(fileList, new Comparator<File>() {
+        List<File> fileList = Arrays.asList(files);
+        Collections.sort(fileList, new Comparator<>() {
             @Override
             public int compare(File o1, File o2) {
                 if (o1.isDirectory() && o2.isFile()) {
@@ -1366,7 +1336,7 @@ public class FileUtil {
      * @return
      */
 //按 文件修改日期: 递增
-    public static List<Map> getNamesOrderByLastModifiedDate(String filePath, boolean sorting) {
+    public static List<Map<String, String>> getNamesOrderByLastModifiedDate(String filePath, boolean sorting) throws Exception {
         File file = new File(filePath);
         File[] files = file.listFiles();
         Arrays.sort(files, new Comparator<>() {
@@ -1386,22 +1356,21 @@ public class FileUtil {
                     return -1;
                 } //如果 if 中修改为 返回-1 同时此处修改为返回 1  排序就会是递减
             }
-
             public boolean equals(Object obj) {
                 return true;
             }
         });
 
-        List<Map> ls = new ArrayList<>();
-        int size = files.length;
-        for (int i = 0; i < size; i++) {
-            Map map = new HashMap();
-            String fileName = files[i].getName();
+        List<Map<String, String>> ls = new ArrayList<>();
+        // int size = files.length;
+        for (File value : files) {
+            Map<String, String> map = new HashMap<>();
+            String fileName = value.getName();
             map.put(FileUtil.FILENAME, getName(fileName));
             map.put(FileUtil.EXT, getExtension(fileName));
             ls.add(map);
-            System.out.print(files[i].getName() + " => ");
-            System.out.println(new Date(files[i].lastModified()));
+            System.out.print(value.getName() + " => ");
+            System.out.println(new Date(value.lastModified()));
         }
         return ls;
     }
@@ -1434,7 +1403,6 @@ public class FileUtil {
                 }
                 //如果 if 中修改为 返回-1 同时此处修改为返回 1  排序就会是递减
             }
-
             public boolean equals(Object obj) {
                 return true;
             }
@@ -1513,25 +1481,38 @@ public class FileUtil {
     }
 
 
-    public static List getDirsName(String path) {
+// 获取指定路径下的所有文件夹名称
+    public static List<String> getDirsName(String path) {
+        // 创建File对象，指定路径
         File f = new File(path);
-        List folderList = new ArrayList();
+        // 创建List对象，用于存储文件夹名称
+        List<String> folderList = new ArrayList<>();
+        // 遍历指定路径下的所有文件
         for (File file : f.listFiles()) {
+            // 判断文件是否为文件夹
             if (file.isDirectory()) {
+                // 将文件夹名称添加到List中
                 folderList.add(file.getName());
             }
         }
+        // 返回文件夹名称List
         return folderList;
     }
 
-    public static List getCurrentDirs(String path) {
+    public static List<String> getCurrentDirs(String path) {
+        // 创建一个File对象，表示指定路径的文件或目录
         File f = new File(path);
-        List folderList = new ArrayList();
+        // 创建一个List对象，用于存储当前目录下的所有文件夹的绝对路径
+        List<String> folderList = new ArrayList();
+        // 遍历指定路径下的所有文件和目录
         for (File file : f.listFiles()) {
+            // 如果当前文件是一个目录
             if (file.isDirectory()) {
+                // 将该目录的绝对路径添加到List中
                 folderList.add(file.getAbsolutePath());
             }
         }
+        // 返回List对象
         return folderList;
     }
 
