@@ -69,7 +69,9 @@ public class Strings {
         return MessageFormat.format(content, param);
     }
 
-    /** input number, return letter
+    /**
+     * input number, return letter
+     *
      * @param n
      * @return
      */
@@ -86,7 +88,9 @@ public class Strings {
     }
 
 
-    /** input letter, return number
+    /**
+     * input letter, return number
+     *
      * @param alpha
      * @return
      */
@@ -365,18 +369,15 @@ public class Strings {
      * @return
      */
     public static boolean isNumeric(String text) {
-        if (NullUtil.isEmpty(text)) {
-            return false;
+        if (NullUtil.isNull(text)) {
+            throw new NullPointerException("text is null!");
         }
-        int size = text.length();
-        for (int i = 0; i < size; i++) {
-            if (!Character.isDigit(text.charAt(i))) {
-                return false;
-            }
-        }
-        return true;
+        return text.matches("-?\\d+(\\.\\d+)?");
     }
 
+
+    
+    
     public static char[] toCharset(String s) {
         return s.toCharArray();
     }

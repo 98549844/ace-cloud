@@ -4,10 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @Classname: SqlUtil
@@ -107,5 +104,26 @@ public class SqlUtil {
     }
 
 
+    public static List<String> listJoin(String path) throws IOException {
+        List<String> targetList = (List<String>) FileUtil.read(path).get(FileUtil.LIST);
+        boolean isNumeric = false;
+        for (String s : targetList) {
+            if (isNumeric) {
+                break;
+            }
+            isNumeric = Strings.isNumeric(s);
+        }
+        List<String> result = new ArrayList<>();
+        if (isNumeric) {
+            for (String s : targetList) {
+                result.add("'" + s + "',");
+            }
+        } else {
+            for (String s : targetList) {
+                result.add(s + ",");
+            }
+        }
+        return result;
+    }
 }
 
