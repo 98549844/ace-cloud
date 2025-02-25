@@ -20,7 +20,7 @@ public class BallMap {
 
     private List<List<Ball>> generateDate() {
         for (int i = 0; i < x; i++) {
-            List<Ball> rowball = new ArrayList<>();
+            List<Ball> rowBall = new ArrayList<>();
             for (int j = 0; j < y; j++) {
                 int color = RandomUtil.getInt(10);
                 while (color == 0 || color > 6) {
@@ -53,10 +53,10 @@ public class BallMap {
                         break;
                     default:
                 }
-                rowball.add(ball);
+                rowBall.add(ball);
             }
             System.out.println();
-            ballmap.add(rowball);
+            ballmap.add(rowBall);
         }
         return ballmap;
     }
