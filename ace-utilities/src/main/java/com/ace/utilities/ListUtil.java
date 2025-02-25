@@ -302,7 +302,7 @@ public class ListUtil {
      * @param list
      * @return
      */
-    public static List sortAsc(List<Integer> list) {
+    public static List<Integer> sortAsc(List<Integer> list) {
         Collections.sort(list);
         return list;
     }
@@ -314,7 +314,7 @@ public class ListUtil {
      * @param list
      * @return
      */
-    public static List sortDesc(List<Integer> list) {
+    public static List<Integer> sortDesc(List<Integer> list) {
         Collections.reverse(list);
         return list;
     }
