@@ -79,7 +79,7 @@ public class SetUtil {
      * @param target
      * @return
      */
-    public static boolean containsString(String[] arr, String target) {
+    public static boolean exist(String[] arr, String target) {
         for (String str : arr) {
             if (str.equals(target)) {
                 return true;

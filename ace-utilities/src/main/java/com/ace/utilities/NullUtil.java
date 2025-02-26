@@ -11,19 +11,19 @@ import java.util.Set;
 public class NullUtil {
     private static final Logger log = LogManager.getLogger(NullUtil.class);
 
-    public static <T>boolean isEmpty(T object) {
+    public static <T> boolean isEmpty(T object) {
         if (object == null) {
             throw new NullPointerException("Object is null");
         }
         return isNull(object);
     }
 
-    public static <T>boolean notEmpty(T object) {
+    public static <T> boolean notEmpty(T object) {
         return !isNull(object);
     }
 
 
-    public static <T>boolean isNull(T... objects) {
+    public static <T> boolean isNull(T... objects) {
         for (Object object : objects) {
             if (isNull(object)) {
                 return true;
@@ -32,7 +32,7 @@ public class NullUtil {
         return false;
     }
 
-    public static <T>boolean nonNull(T... objects) {
+    public static <T> boolean nonNull(T... objects) {
         for (Object object : objects) {
             if (nonNull(object)) {
                 return true;
@@ -41,7 +41,7 @@ public class NullUtil {
         return false;
     }
 
-    public static <T>boolean isNull(T object) {
+    public static <T> boolean isNull(T object) {
         if (object == null) {
             return true;
         } else if (object instanceof String s) {
@@ -56,7 +56,7 @@ public class NullUtil {
         return false;
     }
 
-    public static <T>boolean nonNull(T object) {
+    public static <T> boolean nonNull(T object) {
         if (object == null) {
             return false;
         } else if (object instanceof String s) {
