@@ -19,6 +19,11 @@ public class SetUtil {
         return null;
     }
 
+    public static <T> Set<T> toSet(T[] arr) {
+        Set<T> set = new HashSet<>(Arrays.asList(arr));
+        return set;
+    }
+    
 
     public static Set<Integer> arrayIntToHashSet(int[] nums) {
         Set<Integer> set = Arrays.stream(nums).boxed().collect(Collectors.toSet());
