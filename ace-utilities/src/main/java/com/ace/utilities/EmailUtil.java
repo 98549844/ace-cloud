@@ -33,6 +33,7 @@ public class EmailUtil {
             log.info(email + " is " + isValid + " Email address");
             // 返回匹配结果
             return matcher.matches();
+            
         }
     }
 
