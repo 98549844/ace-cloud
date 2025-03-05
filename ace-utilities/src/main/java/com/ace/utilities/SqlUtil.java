@@ -57,7 +57,9 @@ public class SqlUtil {
      */
     public static void writeDistinctString(String targetPath, String destPath) throws IOException {
         Set<String> result = getDistinctString(targetPath);
-        //FileUtil.write(destPath, fileName, result, false);
+        String destination = FileUtil.getParent(destPath);
+        String fileName = FileUtil.getNameWithExt(destPath);
+        FileUtil.write(destination, fileName, result, false);
     }
 
 

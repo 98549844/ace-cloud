@@ -678,28 +678,10 @@ public class FileUtil {
     /**
      * 清空原文并写入新内容
      */
-     /*
-        public static boolean rewrite(String filePath, String Content) {
-        boolean flag = false;
-        create(filePath);
-        try {
-            //写入的txt文档的路径
-            PrintWriter pw = new PrintWriter(filePath);
-            //写入的内容
-            pw.write(Content);
-            pw.flush();
-            pw.close();
-            flag = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return flag;
-    }
-    */
-    public static void write(String path, Object object, boolean append) throws IOException {
+    public static void write(String path, Object content, boolean append) throws IOException {
         String filePath = getParent(path) + FileUtil.separator();
         String fileName = getNameWithExt(path);
-        write(filePath, fileName, object, append);
+        write(filePath, fileName, content, append);
     }
 
     /**
@@ -960,13 +942,10 @@ public class FileUtil {
         File file = new File(f);
         if (file.isFile()) {
             return file.getName().split("\\.")[0];
+        } else if (f.contains(".")) {
+            return f.split("\\.")[0];
         }
-        String fName = "";
-        int i = f.lastIndexOf('.');
-        if (i > 0 && i < f.length() - 1) {
-            fName = f.substring(0, i);
-        }
-        return fName;
+        return f;
     }
 
 
