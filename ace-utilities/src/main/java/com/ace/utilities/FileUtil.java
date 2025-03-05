@@ -414,7 +414,7 @@ public class FileUtil {
      * @return xxx.xx
      * @throws IOException
      */
-    public static String getFileNameWithExt(String path) throws IOException {
+    public static String getNameWithExt(String path) throws IOException {
         File file = new File(path);
         if (file.isDirectory() || !file.exists()) {
             throw new IOException("Is directory or file not exist !");
@@ -698,7 +698,7 @@ public class FileUtil {
     */
     public static void write(String path, Object object, boolean append) throws IOException {
         String filePath = getParent(path) + FileUtil.separator();
-        String fileName = getFileNameWithExt(path);
+        String fileName = getNameWithExt(path);
         write(filePath, fileName, object, append);
     }
 
@@ -957,6 +957,10 @@ public class FileUtil {
      * extension.
      */
     public static String getName(String f) {
+        File file = new File(f);
+        if (file.isFile()) {
+            return file.getName().split("\\.")[0];
+        }
         String fName = "";
         int i = f.lastIndexOf('.');
         if (i > 0 && i < f.length() - 1) {
@@ -966,7 +970,7 @@ public class FileUtil {
     }
 
 
-    public static List<String> getNameAndExt(String fileName) {
+    public static String[] getNameAndExt(String fileName) {
         File file = new File(fileName);
         String[] result;
         if (file.isFile()) { //如果是文件
@@ -974,10 +978,7 @@ public class FileUtil {
         } else {
             result = fileName.split("\\.");
         }
-        List<String> list = new ArrayList<>();
-        list.add(result[0]); //文件名
-        list.add(FileUtil.EXT + result[1]); //后缀
-        return list;
+        return result;
     }
 
     /**
@@ -1007,8 +1008,8 @@ public class FileUtil {
             return result;
         }
         for (String s : ls) {
-            List<String> name = getNameAndExt(s);
-            result.add(name.get(0));
+            String[] name = getNameAndExt(s);
+            result.add(name[0]);
         }
         return result;
     }
@@ -1089,7 +1090,7 @@ public class FileUtil {
         File[] files = folder.listFiles();
         for (File f : files) {
             if (f.isFile()) {
-                String type = getExtension(FileUtil.getFileNameWithExt(f.getAbsolutePath()));
+                String type = getExtension(FileUtil.getNameWithExt(f.getAbsolutePath()));
                 if (type.isEmpty()) {
                     type = "-";
                 }
@@ -1173,7 +1174,7 @@ public class FileUtil {
         if (NullUtil.nonNull((Object) ext) && ext.length > 0) {
             log.info("starting searching: {}", path);
             for (String f : fileList) {
-                String type = getExtension(FileUtil.getFileNameWithExt(f));
+                String type = getExtension(FileUtil.getNameWithExt(f));
                 for (String s : ext) {
                     List<String> resultList = resultMap.get(s) == null ? new ArrayList<>() : resultMap.get(s);
                     if (type.equals(s)) {
@@ -1203,7 +1204,7 @@ public class FileUtil {
         log.info("starting searching ... {}", path);
         log.info("searching file size: {}", fileList.size());
         for (String f : fileList) {
-            String name = getName(FileUtil.getFileNameWithExt(f));
+            String name = getName(FileUtil.getNameWithExt(f));
             if (name.toLowerCase().contains(fileName.toLowerCase())) {
                 Console.println(f, Console.BOLD);
             }
@@ -1356,6 +1357,7 @@ public class FileUtil {
                     return -1;
                 } //如果 if 中修改为 返回-1 同时此处修改为返回 1  排序就会是递减
             }
+
             public boolean equals(Object obj) {
                 return true;
             }
@@ -1403,6 +1405,7 @@ public class FileUtil {
                 }
                 //如果 if 中修改为 返回-1 同时此处修改为返回 1  排序就会是递减
             }
+
             public boolean equals(Object obj) {
                 return true;
             }
@@ -1481,7 +1484,7 @@ public class FileUtil {
     }
 
 
-// 获取指定路径下的所有文件夹名称
+    // 获取指定路径下的所有文件夹名称
     public static List<String> getDirsName(String path) {
         // 创建File对象，指定路径
         File f = new File(path);
