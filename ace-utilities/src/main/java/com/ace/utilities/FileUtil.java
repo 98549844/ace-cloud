@@ -965,6 +965,10 @@ public class FileUtil {
         return fName;
     }
 
+    public static String getFileName(String p) {
+        return new File(p).getName();
+    }
+
 
     public static List<String> getNameAndExt(String fileName) {
         File file = new File(fileName);
@@ -976,7 +980,7 @@ public class FileUtil {
         }
         List<String> list = new ArrayList<>();
         list.add(result[0]); //文件名
-        list.add(FileUtil.EXT + result[1]); //后缀
+        list.add(result[1]); //后缀
         return list;
     }
 
