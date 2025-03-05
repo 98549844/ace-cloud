@@ -1405,7 +1405,6 @@ public class FileUtil {
                 }
                 //如果 if 中修改为 返回-1 同时此处修改为返回 1  排序就会是递减
             }
-
             public boolean equals(Object obj) {
                 return true;
             }

@@ -47,9 +47,17 @@ public class SqlUtil {
     /**
      * 写入集合到文件, 并拼入单引号
      */
-    public static void writeDistinctString(String path, String filePath, String fileName) throws IOException {
-        Set<String> result = getDistinctString(path);
-        FileUtil.write(filePath, fileName, result, false);
+    public static void writeDistinctString(String targetPath, String destPath, String fileName) throws IOException {
+        Set<String> result = getDistinctString(targetPath);
+        FileUtil.write(destPath, fileName, result, false);
+    }
+
+    /**
+     * 写入集合到文件, 并拼入单引号
+     */
+    public static void writeDistinctString(String targetPath, String destPath) throws IOException {
+        Set<String> result = getDistinctString(targetPath);
+        //FileUtil.write(destPath, fileName, result, false);
     }
 
 
