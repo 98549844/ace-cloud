@@ -69,10 +69,8 @@ public class SqlUtil {
         for (String s : set) {
             if (!s.startsWith("'") || !s.endsWith("'")) {
                 s = s.replace("'", "");
+                s = s.replace(",", "");
                 s = "'" + s + "'";
-            }
-            if (!s.contains(",")) {
-                s = s + ",";
             }
             result.add(s);
         }

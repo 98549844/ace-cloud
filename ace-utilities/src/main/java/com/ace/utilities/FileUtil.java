@@ -363,7 +363,7 @@ public class FileUtil {
         if (isDir(file)) {
             return file;
         }
-        return new File(file).getParent();
+        return new File(file).getParent()+File.separator;
     }
 
     /**
@@ -416,8 +416,10 @@ public class FileUtil {
      */
     public static String getNameWithExt(String path) throws IOException {
         File file = new File(path);
-        if (file.isDirectory() || !file.exists()) {
-            throw new IOException("Is directory or file not exist !");
+        if (file.isDirectory()) {
+            throw new IOException("Is directory!");
+        } else if (!file.exists()) {
+            file.createNewFile();
         }
         return file.getName();
     }
@@ -678,10 +680,10 @@ public class FileUtil {
     /**
      * 清空原文并写入新内容
      */
-    public static void write(String path, Object content, boolean append) throws IOException {
+    public static void write(String path, Object object, boolean append) throws IOException {
         String filePath = getParent(path) + FileUtil.separator();
         String fileName = getNameWithExt(path);
-        write(filePath, fileName, content, append);
+        write(filePath, fileName, object, append);
     }
 
     /**
@@ -1384,6 +1386,7 @@ public class FileUtil {
                 }
                 //如果 if 中修改为 返回-1 同时此处修改为返回 1  排序就会是递减
             }
+
             public boolean equals(Object obj) {
                 return true;
             }
