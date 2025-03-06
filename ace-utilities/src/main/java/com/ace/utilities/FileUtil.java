@@ -951,6 +951,27 @@ public class FileUtil {
     }
 
 
+    /**
+     * 不包括ext
+     *
+     * @param ls
+     * @return
+     */
+    public static List<String> getNames(List<String> ls) {
+        List<String> result = new ArrayList<>();
+        if (NullUtil.isNull(ls)) {
+            log.warn("List is empty !!!");
+            return result;
+        }
+        for (String s : ls) {
+            String[] name = getNameAndExt(s);
+            result.add(name[0]);
+        }
+        return result;
+    }
+    
+    
+
     public static String[] getNameAndExt(String fileName) {
         File file = new File(fileName);
         String[] result;
@@ -976,24 +997,7 @@ public class FileUtil {
         return map;
     }
 
-    /**
-     * 不包括ext
-     *
-     * @param ls
-     * @return
-     */
-    public static List<String> getNames(List<String> ls) {
-        List<String> result = new ArrayList<>();
-        if (NullUtil.isNull(ls)) {
-            log.warn("List is empty !!!");
-            return result;
-        }
-        for (String s : ls) {
-            String[] name = getNameAndExt(s);
-            result.add(name[0]);
-        }
-        return result;
-    }
+
 
     /**
      * 完整文件路径, 只用于delete文件
