@@ -990,10 +990,11 @@ public class FileUtil {
     public static Map<String, String> getFileMap(String f) {
         File file = new File(f);
         Map<String, String> map = new HashMap<>();
+        String[] fileName = file.getName().split("\\.");
         map.put(FileUtil.PATH, file.getPath());
         map.put(FileUtil.FILENAME_WITH_EXT, file.getName());
-        map.put(FileUtil.FILENAME, file.getName().split("\\.")[0]);
-        map.put(FileUtil.EXT, "." + file.getName().split("\\.")[1]);
+        map.put(FileUtil.FILENAME, fileName[0]);
+        map.put(FileUtil.EXT, "." + fileName[1]);
         return map;
     }
 
