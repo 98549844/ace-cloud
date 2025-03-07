@@ -25,11 +25,8 @@ public class GsonUtil implements JsonSerializer<LocalDateTime> {
         return gson.toJson(object);
     }
 
-    public static String toFormattedJson(List objects) {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new GsonUtil());
-        Gson gson = gsonBuilder.create();
-        return gson.toJson(objects);
+    public static <T> String toFormattedJson(List<T> objects) {
+        return toJson(objects);
     }
 
 

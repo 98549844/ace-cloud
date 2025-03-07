@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 public class EmailUtil {
     static private final Log log = LogFactory.getLog(EmailUtil.class);
 
-    public static boolean validator(String email) {
+    public static boolean isValid(String email) {
         // 判断email是否为空
         if (NullUtil.isNull(email)) {
             // 如果为空，抛出NullPointerException异常
@@ -19,7 +19,7 @@ public class EmailUtil {
         // 判断email是否包含分号
         if (email.contains(";")) {
             // 如果包含分号，调用validator方法，传入email.split(";")作为参数
-            return validator(email.split(";"));
+            return isValid(email.split(";"));
         } else {
             // 定义email地址的正则表达式
             String checkPattern = "^([a-zA-Z0-9_])+@(([a-zA-Z0-9])+\\.)+([a-zA-Z0-9]{2,4})+$";
@@ -36,10 +36,10 @@ public class EmailUtil {
         }
     }
 
-    public static boolean validator(String[] emails) {
+    public static boolean isValid(String[] emails) {
         boolean isValid = false;
         for (String email : emails) {
-            isValid = validator(email);
+            isValid = isValid(email);
             if (!isValid) {
                 break;
             }
@@ -49,8 +49,7 @@ public class EmailUtil {
 
 
     public static void main(String[] args) {
-        boolean isEmail = EmailUtil.validator("sxgkwei@16375.org");
-
+        boolean isEmail = EmailUtil.isValid("sxgkwei@16375.org");
         System.out.println(isEmail);
     }
 

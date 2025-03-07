@@ -115,7 +115,7 @@ public class FastJson2Util {
      * @param type
      * @return
      */
-    public static <T> List toObjectList(String json, Class<T> type) {
+    public static <T> List toList(String json, Class<T> type) {
         JSONArray jsonArray = JSON.parseArray(json);
         return jsonArray.toJavaList(type);
     }
