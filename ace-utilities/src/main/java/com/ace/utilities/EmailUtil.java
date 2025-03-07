@@ -1,14 +1,13 @@
 package com.ace.utilities;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 public class EmailUtil {
-    static private final Log log = LogFactory.getLog(EmailUtil.class);
+    static private final Logger log = LogManager.getLogger(EmailUtil.class);
 
     public static boolean isValid(String email) {
         // 判断email是否为空

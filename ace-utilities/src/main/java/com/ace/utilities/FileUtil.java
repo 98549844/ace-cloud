@@ -5,7 +5,6 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.util.TextUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.checkerframework.checker.units.qual.K;
 import org.mozilla.universalchardet.UniversalDetector;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mock.web.MockMultipartFile;

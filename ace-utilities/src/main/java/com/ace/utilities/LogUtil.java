@@ -1,22 +1,18 @@
 package com.ace.utilities;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class LogUtil {
-
-    private final static Log logger = LogFactory.getLog(LogUtil.class);
     private final static Logger log = LogManager.getLogger(LogUtil.class.getName());
 
     public static void main(String[] args) {
         log.traceEntry();
         log.trace("我是trace");
-        log.info("我是info信息:{}", "ACE-UTIL");
+        log.info("我是info信息:{}", "ace-utilities info");
+        log.warn("我是warn信息:{}", "ace-utilities warn");
         log.error("我是error");
         log.fatal("我是fatal");
         log.debug("我是debug");

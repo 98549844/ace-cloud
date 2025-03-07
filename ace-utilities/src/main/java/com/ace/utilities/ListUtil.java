@@ -2,8 +2,8 @@ package com.ace.utilities;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.hpsf.Decimal;
 
 import java.math.BigInteger;
@@ -13,10 +13,9 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
 @SuppressWarnings("unchecked")
 public class ListUtil {
-    static private final Log log = LogFactory.getLog(ListUtil.class);
+    static private final Logger log = LogManager.getLogger(ListUtil.class);
 
     public final static String LIST_1 = "LIST_1";
     public final static String LIST_2 = "LIST_2";

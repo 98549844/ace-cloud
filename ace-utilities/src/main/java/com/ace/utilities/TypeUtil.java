@@ -1,7 +1,7 @@
 package com.ace.utilities;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 
 public class TypeUtil {
-    static private final Log log = LogFactory.getLog(TypeUtil.class);
+    static private final Logger log = LogManager.getLogger(TypeUtil.class);
 
     public static void main(String[] args) {
         System.out.println(roundUpByDigit(0.2896959, 3));

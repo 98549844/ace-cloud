@@ -2,11 +2,10 @@ package com.ace.utilities;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.*;
-
 /**
  * 反射工具类. 提供调用getter/setter方法, 访问私有变量, 调用私有方法, 获取泛型类型Class, 被AOP过的真实类等工具函数.
  *
@@ -14,14 +13,12 @@ import java.lang.reflect.*;
  */
 @SuppressWarnings("rawtypes")
 public class ReflectionsUtil {
+    static private final Logger log = LogManager.getLogger(ReflectionsUtil.class);
 
     private static final String SETTER_PREFIX = "set";
-
     private static final String GETTER_PREFIX = "get";
-
     private static final String CGLIB_CLASS_SEPARATOR = "$$";
 
-    static private final Log log = LogFactory.getLog(ReflectionsUtil.class);
 
 
     /**

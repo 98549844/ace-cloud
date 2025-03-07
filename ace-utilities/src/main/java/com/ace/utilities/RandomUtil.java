@@ -1,15 +1,14 @@
 package com.ace.utilities;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-
 public class RandomUtil {
-    static private final Log log = LogFactory.getLog(RandomUtil.class);
+    static private final Logger log = LogManager.getLogger(RandomUtil.class);
 
     /**
      * @param start

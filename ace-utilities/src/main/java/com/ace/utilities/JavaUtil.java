@@ -1,15 +1,15 @@
 package com.ace.utilities;
 
 import com.ace.utilities.impl.JdkVersion;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JavaUtil {
-    static private final Log log = LogFactory.getLog(JavaUtil.class);
+    static private final Logger log = LogManager.getLogger(JavaUtil.class);
 
     public static void main(String[] args) throws IOException {
         getCurrentJdkInfo();
@@ -20,9 +20,9 @@ public class JavaUtil {
     public static List<String> getCurrentJdkInfo() throws IOException {
         List<String> jdkInfo = new ArrayList<>();
         String command = "java -version";
-        log.info("Current Java Version On " + OsUtil.getOsName());
+        log.info("Current Java Version On {}", OsUtil.getOsName());
         Process process = Runtime.getRuntime().exec(command);
-        log.info("PID:  " + process.pid());
+        log.info("PID:  {}", process.pid());
         String[] infos = process.info().toString().split(",");
         for (String s : infos) {
             log.info(s.trim());
