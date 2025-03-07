@@ -32,12 +32,24 @@
             <artifactId>spring-web</artifactId>
             <version>${springframework.version}</version>
             <scope>${util.scope}</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-core</artifactId>
+                    <groupId>org.springframework</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>${springframework.version}</version>
             <scope>${util.scope}</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-core</artifactId>
+                    <groupId>org.springframework</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
 
@@ -107,6 +119,30 @@
                     <artifactId>commons-io</artifactId>
                     <groupId>commons-io</groupId>
                 </exclusion>
+                <exclusion>
+                    <artifactId>stax2-api</artifactId>
+                    <groupId>org.codehaus.woodstox</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>gson</artifactId>
+                    <groupId>com.google.code.gson</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>curator-client</artifactId>
+                    <groupId>org.apache.curator</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-compress</artifactId>
+                    <groupId>org.apache.commons</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-codec</artifactId>
+                    <groupId>commons-codec</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>bcprov-jdk18on</artifactId>
+                    <groupId>org.bouncycastle</groupId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -155,6 +191,10 @@
                     <artifactId>log4j-api</artifactId>
                     <groupId>org.apache.logging.log4j</groupId>
                 </exclusion>
+                <exclusion>
+                    <artifactId>commons-codec</artifactId>
+                    <groupId>commons-codec</groupId>
+                </exclusion>
             </exclusions>
         </dependency>
         <!-- 解压zip -->
@@ -172,6 +212,10 @@
                 <exclusion>
                     <artifactId>commons-io</artifactId>
                     <groupId>commons-io</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-codec</artifactId>
+                    <groupId>commons-codec</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -219,6 +263,12 @@
             <groupId>org.xhtmlrenderer</groupId>
             <artifactId>flying-saucer-pdf-itext5</artifactId>
             <version>9.7.2</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>flying-saucer-core</artifactId>
+                    <groupId>org.xhtmlrenderer</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>e-iceblue</groupId>
@@ -229,6 +279,12 @@
             <groupId>com.opencsv</groupId>
             <artifactId>opencsv</artifactId>
             <version>5.10</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-beanutils</artifactId>
+                    <groupId>commons-beanutils</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!--itext7的兼容性比較好-->
@@ -269,6 +325,18 @@
                 <exclusion>
                     <artifactId>log4j-api</artifactId>
                     <groupId>org.apache.logging.log4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>poi</artifactId>
+                    <groupId>org.apache.poi</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-compress</artifactId>
+                    <groupId>org.apache.commons</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-codec</artifactId>
+                    <groupId>commons-codec</groupId>
                 </exclusion>
             </exclusions>
             <!--獨立執行main方法調試時要開放slf4j-->
