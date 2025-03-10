@@ -1,6 +1,10 @@
 package com.ace;
 
 
+import com.ace.utilities.FileUtil;
+
+import java.io.IOException;
+
 /**
  * @Classname: ${NAME}
  * @Date: 21/3/2024 5:08 pm
@@ -12,8 +16,9 @@ package com.ace;
 public class AceUtilities {
 
 
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws IOException {
+        String p = "C:\\Users\\garlam.au\\IdeaProjects\\ace-cloud\\ace-utilities\\src\\main\\java\\com\\ace";
+        FileUtil.count(p);
     }
 
 
